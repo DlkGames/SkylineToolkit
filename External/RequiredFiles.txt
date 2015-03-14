@@ -1,0 +1,7 @@
+Copy the following files into this directory:
+
+[Steam]\SteamApps\common\Cities_Skylines\Cities_Data\Managed\Assembly-CSharp.dll
+[Steam]\SteamApps\common\Cities_Skylines\Cities_Data\Managed\ColossalManaged.dll
+[Steam]\SteamApps\common\Cities_Skylines\Cities_Data\Managed\ICities.dll
+[Steam]\SteamApps\common\Cities_Skylines\Cities_Data\Managed\UnityEngine.dll
+[Steam]\SteamApps\common\Cities_Skylines\Cities_Data\Managed\UnityEngine.UI.dll
