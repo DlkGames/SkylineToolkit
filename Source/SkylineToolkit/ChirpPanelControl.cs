@@ -63,6 +63,11 @@ namespace SkylineToolkit
 
         public static void AddMessage(string message, uint senderId = 0, string senderName = "", bool playSound = true, float timeout = 0.6f, bool silent = false)
         {
+            if (Panel == null)
+            {
+                return;
+            }
+
             ChirperMessage chirperMessage = new ChirperMessage() {
                 senderID = senderId,
                 senderName = senderName,

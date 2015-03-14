@@ -1,10 +1,10 @@
 ﻿using ColossalFramework;
 using ColossalFramework.Plugins;
+using SkylineToolkit.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using ColossalMessageType = ColossalFramework.Plugins.PluginManager.MessageType;
 
 namespace SkylineToolkit
@@ -15,15 +15,18 @@ namespace SkylineToolkit
 
         public static event LogMessageEventHandler LogMessage;
 
-        private static bool useCitiesPluginManager = false;
-        private static bool useCitiesMessageManager = false;
-
         static Log()
         {
-            LogLevel = MessageType.Info;
+            var fileLog = new FileLogger(@"C:\Temp\SkylinesLog.txt");
+
+            LogLevel = MessageType.Verbose;
 
             LogMessage += DebugPanel.LogMessage;
+            LogMessage += fileLog.LogMessage;
             //LogMessage += ChirpPanelControl.LogMessage;
+
+            //SubscribeToMessageManager();
+            SubscribeToPluginManager();
         }
 
         public static MessageType LogLevel { get; set; }
@@ -41,8 +44,6 @@ namespace SkylineToolkit
             {
                 CODebugBase<LogChannel>.Error(LogChannel.Core, ex.GetType().ToString() + " Message: " + ex.Message);
             }
-
-            useCitiesMessageManager = true;
         }
 
         /// <summary>
@@ -52,14 +53,12 @@ namespace SkylineToolkit
         {
             try
             {
-                PluginManager.eventLogMessage += ColossalAddMessage;
+                PluginManager.eventLogMessage += ColossalPluginManagerMessage;
             }
             catch (Exception ex)
             {
                 CODebugBase<LogChannel>.Error(LogChannel.Core, ex.GetType().ToString() + " Message: " + ex.Message);
             }
-
-            useCitiesPluginManager = true;
         }
 
         private static void ColossalChirperMessage(ICities.IChirperMessage message)
@@ -67,9 +66,9 @@ namespace SkylineToolkit
             Message("MessageManager: {0} {1}: {2}", message.senderID, message.senderName, message.text);
         }
 
-        private static void ColossalAddMessage(ColossalMessageType type, string message)
+        private static void ColossalPluginManagerMessage(ColossalMessageType type, string message)
         {
-            OnLogMessage(message, (MessageType)type);
+            Message("PluginManager: {0}", (MessageType)type, message);
         }
 
         public static void Message(string message, params object[] args)

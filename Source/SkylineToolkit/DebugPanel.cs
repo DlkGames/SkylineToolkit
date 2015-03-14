@@ -75,26 +75,20 @@ namespace SkylineToolkit
 
         private static string GetFormattedMessage(string message, MessageType type)
         {
+            DateTime timestamp = DateTime.Now;
+
             switch (type)
             {
                 case MessageType.Error:
-                    return String.Format("[Error] {0}");
                 case MessageType.Warning:
-                    return String.Format("[Warning] {0}");
                 case MessageType.Message:
-                    return String.Format("[Message] {0}");
                 case MessageType.Info:
-                    return String.Format("[Info] {0}");
                 case MessageType.Verbose:
-                    return String.Format("[Verbose] {0}");
                 case MessageType.Debug:
-                    return String.Format("[Debug] {0}");
                 case MessageType.Profile:
-                    return String.Format("[Profile] {0}");
                 case MessageType.Critical:
-                    return String.Format("[Critical] {0}");
                 case MessageType.Exception:
-                    return String.Format("[Exception] {0}");
+                    return String.Format("{0} [{1}] {2}", timestamp, type, message);
                 default:
                     return message;
             }
