@@ -1,4 +1,5 @@
 ﻿using ColossalFramework.UI;
+using SkylineToolkit.UI.Styles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,21 +8,23 @@ using UnityEngine;
 
 namespace SkylineToolkit.UI
 {
-    public class Button : ColossalControl<UIButton>
+    public class Button : ColossalUserControl<UIButton>
     {
-        public Button(string label)
-            : base("btn_" + label)
+        public Button(string name)
+            : this(name, name, new Vector3(0f,0f))
         {
-            this.UIComponent.text = label;
         }
 
-        public Button(string label, float x, float y, float width = 120, float height = 30)
-            : this(label)
+        public Button(string name, string label, Vector3 position, float width = 120, float height = 30)
+            : base(name)
         {
-            this.UIComponent.transformPosition = new Vector3(x, y);
+            this.Position = position;
+            this.Text = label;
 
             this.UIComponent.width = width;
             this.UIComponent.height = height;
+
+            this.SetDefaultStyle();
         }
 
         public bool AutoSize
@@ -213,6 +216,22 @@ namespace SkylineToolkit.UI
         public void Invalidate()
         {
             this.UIComponent.Invalidate();
+        }
+
+        public void SetDefaultStyle()
+        {
+            this.NormalBackgroundSprite = ButtonSprite.ButtonMenu;
+            this.DisabledBackgroundSprite = ButtonSprite.ButtonMenuDisabled;
+            this.HoveredBackgroundSprite = ButtonSprite.ButtonMenuHovered;
+            this.FocusedBackgroundSprite = ButtonSprite.ButtonMenuFocused;
+            this.PressedBackgroundSprite = ButtonSprite.ButtonMenuPressed;
+
+            this.TextColor = new Color32(255, 255, 255, 255);
+            this.DisabledTextColor = new Color32(7, 7, 7, 255);
+            this.FocusedTextColor = new Color32(255, 255, 255, 255);
+            this.HoveredTextColor = new Color32(255, 255, 255, 255); //new Color32(7, 132, 255, 255);
+            this.FocusedTextColor = new Color32(255, 255, 255, 255);
+            this.PressedTextColor = new Color32(255, 255, 255, 255); //new Color32(30, 30, 44, 255);
         }
     }
 }

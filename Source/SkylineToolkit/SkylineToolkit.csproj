@@ -73,6 +73,10 @@
     <Compile Include="UI\Control.cs" />
     <Compile Include="UI\IColossalControl.cs" />
     <Compile Include="UI\IControl.cs" />
+    <Compile Include="UI\MouseButtons.cs" />
+    <Compile Include="UI\MouseEventArgs.cs" />
+    <Compile Include="UI\Panel.cs" />
+    <Compile Include="UI\Styles\ButtonSprite.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
