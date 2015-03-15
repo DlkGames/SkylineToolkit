@@ -13,9 +13,10 @@ namespace SkylineToolkit.PermaMod
     {
         void OnEnable()
         {
-            Button btn = new Button("btn_modOptions", "Mod Options", new Vector3(1.25f, 0.97f), 180, 60);
+            Button btn = new Button("btn_modOptions", "Mod Options", new Vector3(-1.65f, 0.97f), 180, 60);
 
             btn.IsActive = true;
+            btn.AbsolutePosition = new Vector3(10f, 10f);
 
             btn.Click += (sender, e) =>
             {

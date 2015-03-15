@@ -49,6 +49,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bezier2.cs" />
+    <Compile Include="Bezier3.cs" />
+    <Compile Include="QuadraticBezierPath.cs" />
+    <Compile Include="BezierPath.cs" />
     <Compile Include="ChirperMessage.cs" />
     <Compile Include="ChirpPanelControl.cs" />
     <Compile Include="Debug.cs" />
@@ -61,7 +65,15 @@
     <Compile Include="MessageTypeExtensions.cs" />
     <Compile Include="PermaMod\MainMenuModification.cs" />
     <Compile Include="PermaMod\SkylineToolkitPermaMod.cs" />
+    <Compile Include="Procedural\FractalNoise.cs" />
+    <Compile Include="Procedural\Perlin.cs" />
+    <Compile Include="Procedural\PerlinAlt1.cs" />
+    <Compile Include="Procedural\PerlinSimplexNoise.cs" />
+    <Compile Include="Procedural\SimplexNoise.cs" />
+    <Compile Include="Procedural\SmoothRandomness.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QuadraticBezier2.cs" />
+    <Compile Include="QuadraticBezier3.cs" />
     <Compile Include="SkylineToolkitMod.cs" />
     <Compile Include="StLoadingExtension.cs" />
     <Compile Include="Tuple.cs" />
