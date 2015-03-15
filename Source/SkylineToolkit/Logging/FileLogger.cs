@@ -22,7 +22,7 @@ namespace SkylineToolkit.Logging
             this.LogFile = file;
         }
 
-        public void LogMessage(string message, MessageType type)
+        public void LogMessage(string module, string message, MessageType type)
         {
             if (String.IsNullOrEmpty(LogFile))
             {
@@ -33,13 +33,13 @@ namespace SkylineToolkit.Logging
             {
                 StreamWriter writer = new StreamWriter(stream);
 
-                writer.WriteLine(GetFormattedMessage(message, type));
+                writer.WriteLine(GetFormattedMessage(module, message, type));
 
                 writer.Flush();
             }
         }
 
-        private static string GetFormattedMessage(string message, MessageType type)
+        private static string GetFormattedMessage(string module, string message, MessageType type)
         {
             DateTime timestamp = DateTime.Now;
 
@@ -54,7 +54,7 @@ namespace SkylineToolkit.Logging
                 case MessageType.Profile:
                 case MessageType.Critical:
                 case MessageType.Exception:
-                    return String.Format("{0} [{1}] {2}", timestamp, type, message);
+                    return String.Format("{0} [{1}] [{2}] {3}", timestamp, type, module, message);
                 default:
                     return message;
             }

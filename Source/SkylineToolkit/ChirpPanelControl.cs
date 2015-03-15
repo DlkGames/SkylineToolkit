@@ -84,9 +84,9 @@ namespace SkylineToolkit
             Panel.Show(timeout);
         }
 
-        internal static void LogMessage(string message, MessageType type)
+        internal static void LogMessage(string module, string message, MessageType type)
         {
-            AddMessage(message, 0, "Log", false, 0.0f, false);
+            AddMessage(message, 0, module, false, 0.0f, false);
         }
 
         public static void Expand(float timeout = 0.0f)

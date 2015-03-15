@@ -12,7 +12,12 @@ namespace SkylineToolkit.PermaMod
         {
             DontDestroyOnLoad(this);
 
-            Log.Info("Current Level: {0} {1}", Application.loadedLevel, Application.loadedLevelName);
+            Log.Info("PermaMod", "Current Level: {0} {1}", Application.loadedLevel, Application.loadedLevelName);
+
+            if (Debugging.DebugConsole.Instance != null)
+            {
+                Log.Info("PermaMod", "Debug console created. Open with {0}.", Debugging.DebugConsole.Instance.toggleKey);
+            }
         }
 
         void OnLevelWasLoaded(int level)

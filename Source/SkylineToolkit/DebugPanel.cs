@@ -33,11 +33,11 @@ namespace SkylineToolkit
             }
         }
 
-        public static void LogMessage(string message, MessageType type = MessageType.Message)
+        public static void LogMessage(string module, string message, MessageType type = MessageType.Message)
         {
             ColossalMessageType colossalType = type.ToColossalType();
 
-            string formattedMessage = DebugPanel.GetFormattedMessage(message, type);
+            string formattedMessage = DebugPanel.GetFormattedMessage(module, message, type);
 
             try
             {
@@ -73,7 +73,7 @@ namespace SkylineToolkit
             }
         }
 
-        private static string GetFormattedMessage(string message, MessageType type)
+        private static string GetFormattedMessage(string module, string message, MessageType type)
         {
             DateTime timestamp = DateTime.Now;
 
@@ -88,7 +88,7 @@ namespace SkylineToolkit
                 case MessageType.Profile:
                 case MessageType.Critical:
                 case MessageType.Exception:
-                    return String.Format("{0} [{1}] {2}", timestamp, type, message);
+                    return String.Format("{0} [{1}] [{2}] {3}", timestamp, type, module, message);
                 default:
                     return message;
             }

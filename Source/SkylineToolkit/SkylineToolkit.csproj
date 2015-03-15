@@ -51,6 +51,20 @@
   <ItemGroup>
     <Compile Include="Bezier2.cs" />
     <Compile Include="Bezier3.cs" />
+    <Compile Include="Debugging\Commands\AliasCommand.cs" />
+    <Compile Include="Debugging\Commands\CommandContext.cs" />
+    <Compile Include="Debugging\Commands\DebugCommand.cs" />
+    <Compile Include="Debugging\Commands\DelegateCommand.cs" />
+    <Compile Include="Debugging\Commands\HelpCommand.cs" />
+    <Compile Include="Debugging\Commands\ICommandContext.cs" />
+    <Compile Include="Debugging\Commands\IDebugCommand.cs" />
+    <Compile Include="Debugging\DebugConsole.cs" />
+    <Compile Include="Debugging\FpsCounter.cs" />
+    <Compile Include="Debugging\Generic\WatchVar.cs" />
+    <Compile Include="Debugging\IWatchVar.cs" />
+    <Compile Include="Debugging\LogMessage.cs" />
+    <Compile Include="Debugging\LogMessageType.cs" />
+    <Compile Include="Debugging\WatchVar.cs" />
     <Compile Include="QuadraticBezierPath.cs" />
     <Compile Include="BezierPath.cs" />
     <Compile Include="ChirperMessage.cs" />
@@ -90,6 +104,7 @@
     <Compile Include="UI\Panel.cs" />
     <Compile Include="UI\Styles\ButtonSprite.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>mkdir "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)"

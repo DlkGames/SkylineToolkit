@@ -7,6 +7,6 @@ namespace SkylineToolkit.Logging
 {
     public interface ILogger
     {
-        void LogMessage(string message, MessageType type);
+        void LogMessage(string module, string message, MessageType type);
     }
 }
