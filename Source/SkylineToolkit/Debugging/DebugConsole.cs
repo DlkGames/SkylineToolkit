@@ -1,4 +1,5 @@
 ﻿using SkylineToolkit.Debugging.Commands;
+using SkylineToolkit.Debugging.Windows;
 using SkylineToolkit.Logging;
 using System;
 using System.Collections.Generic;
@@ -35,6 +36,10 @@ namespace SkylineToolkit.Debugging
     {
         public static readonly Version Version = new Version(1, 0);
 
+        public event EventHandler ConsoleContentChanged;
+
+        public event EventHandler RectsRecalculated;
+
         #region Public Unity Component Options
         public bool showDebugMenu;
         public bool registerDefaultCommands = true;
@@ -45,6 +50,8 @@ namespace SkylineToolkit.Debugging
         #region Private Fields
         private static DebugConsole _instance;
 
+        private IDictionary<int, string> windowNames = new Dictionary<int, string>();
+        private IDictionary<int, IDebugConsoleWindow> windows = new Dictionary<int, IDebugConsoleWindow>();
         private IDictionary<string, IDebugCommand> commandsTable = new Dictionary<string, IDebugCommand>();
         private IDictionary<string, IWatchVar> watchVarTable = new Dictionary<string, IWatchVar>();
 
@@ -56,8 +63,6 @@ namespace SkylineToolkit.Debugging
         private string commandInputString = String.Empty;
 
         private FpsCounter fpsCounter;
-
-        private StringBuilder displayString = new StringBuilder();
         #endregion
 
         #region GUI Elements
@@ -65,36 +70,20 @@ namespace SkylineToolkit.Debugging
 
         private bool consoleContentChanged = false;
 
-        private Vector2 logScrollPos = Vector2.zero;
-        private Vector2 rawLogScrollPos = Vector2.zero;
-        private Vector2 watchVarsScrollPos = Vector2.zero;
-
         private Vector3 guiScale = Vector3.one;
         private Matrix4x4 restoreMatrix = Matrix4x4.identity;
 
         private bool scaled = false;
 
-        public Rect windowRect = new Rect(30.0f, 30.0f, 380.0f, 450.0f);
+        private Rect windowRect = new Rect(30.0f, 30.0f, 400.0f, 500.0f);
 
         private Rect scrollRect;  // = new Rect(10, 20, 360, 362);
         private Rect inputRect;   // = new Rect(10, 388, 308, 24);
         private Rect enterRect;   // = new Rect(320, 388, 50, 24);
         private Rect toolbarRect; // = new Rect(16, 416, 346, 25);
 
-        private Rect messageLine; // = new Rect(4, 0, 344, 20);
-        private int lineOffset = -4;
-
         private string[] tabs = new string[] { "Log", "Raw Log", "Watch Vars" };
-
-        private Rect nameRect;
-        private Rect valueRect;
-        private Rect innerRect = new Rect(0, 0, 0, 0);
-
-        private int innerHeight = 0;
         private int toolbarIndex = 0;
-        private GUIContent guiContent = new GUIContent();
-        private GUI.WindowFunction[] windowMethods;
-        private GUIStyle labelStyle;
         #endregion
 
         #region Log Message Colors
@@ -107,6 +96,7 @@ namespace SkylineToolkit.Debugging
         #endregion
 
         #region Properties
+
         public bool IsOpen
         {
             get
@@ -139,6 +129,52 @@ namespace SkylineToolkit.Debugging
                 return DebugConsole._instance;
             }
         }
+
+        public IList<DebugConsoleLogMessage> Messages
+        {
+            get
+            {
+                return this.messages;
+            }
+            private set
+            {
+                if (value == null)
+                {
+                    this.messages = new List<DebugConsoleLogMessage>();
+                }
+
+                this.messages = value;
+            }
+        }
+
+        public IDictionary<string, IWatchVar> WatchVars
+        {
+            get
+            {
+                return this.watchVarTable;
+            }
+            private set
+            {
+                this.watchVarTable = value;
+            }
+        }
+
+        public Rect ScrollRect
+        {
+            get
+            {
+                return this.scrollRect;
+            }
+        }
+
+        public Rect WindowRect
+        {
+            get
+            {
+                return this.windowRect;
+            }
+        }
+
         #endregion
 
         private class CommandHistory
@@ -198,6 +234,7 @@ namespace SkylineToolkit.Debugging
         }
 
         #region Unity Engine Callbacks
+
         void Awake()
         {
             DontDestroyOnLoad(this);
@@ -211,11 +248,15 @@ namespace SkylineToolkit.Debugging
             DebugConsole._instance = this;
 
             this.RegisterCoreCommands();
-            
+
             if (this.registerDefaultCommands)
             {
                 this.RegisterDefaultCommands();
             }
+
+            this.AddWindow("Log", new LogWindow());
+            this.AddWindow("Raw Log", new RawLogWindow());
+            this.AddWindow("Watch Vars", new WatchVarsWindow());
         }
 
         void OnEnable()
@@ -228,20 +269,13 @@ namespace SkylineToolkit.Debugging
                 this.guiScale.Set(scale, scale, scale);
             }
 
-            this.windowMethods = new GUI.WindowFunction[] { LogWindow, RawLogWindow, WatchVarWindow };
-
             this.fpsCounter = new FpsCounter();
             StartCoroutine(this.fpsCounter.Update());
 
-            this.nameRect = messageLine;
-            this.valueRect = messageLine;
-
-            //this.RecalculateRects();
             this.scrollRect = new Rect(10, 20, this.windowRect.width - 20, this.windowRect.height - 88);
             this.inputRect = new Rect(10, this.windowRect.height - 62, this.windowRect.width - 72, 24);
             this.enterRect = new Rect(this.windowRect.width - 60, this.windowRect.height - 62, 50, 24);
             this.toolbarRect = new Rect(16, this.windowRect.height - 34, this.windowRect.width - 32, 25);
-            this.messageLine = new Rect(4, 0, this.windowRect.width - 36, 20);
 
             Application.logMessageReceived += HandleLog;
 
@@ -252,24 +286,12 @@ namespace SkylineToolkit.Debugging
 
         void OnDisable()
         {
-            Application.logMessageReceived += HandleLog;
+            Application.logMessageReceived -= HandleLog;
         }
 
         void OnGUI()
         {
             Event e = Event.current;
-
-            if (this.scaled)
-            {
-                this.restoreMatrix = GUI.matrix;
-
-                GUI.matrix = GUI.matrix * Matrix4x4.Scale(guiScale);
-            }
-
-            while (this.messages.Count > this.maxDisplayedMessages)
-            {
-                this.messages.RemoveAt(0);
-            }
 
             if (e.keyCode == toggleKey & e.type == EventType.keyUp)
             {
@@ -281,15 +303,36 @@ namespace SkylineToolkit.Debugging
                 return;
             }
 
-            this.labelStyle = GUI.skin.label;
+            if (this.scaled)
+            {
+                this.restoreMatrix = GUI.matrix;
 
+                GUI.matrix = GUI.matrix * Matrix4x4.Scale(guiScale);
+            }
+
+            this.RemoveMessageOverhead();
             this.RecalculateRects();
 
-            this.innerRect.width = messageLine.width;
+            this.windowRect = GUI.Window(-99999, this.windowRect, this.DrawWindow, String.Format("Debug Console\tFPS: {0:00.0}", this.fpsCounter.Current));
+            GUI.BringWindowToFront(-99999);
 
-            this.windowRect = GUI.Window(-9999, this.windowRect, windowMethods[toolbarIndex], String.Format("Debug Console\tFPS: {0:00.0}", this.fpsCounter.Current));
-            GUI.BringWindowToFront(-9999);
+            HandleUserInput(e);
 
+            if (this.scaled)
+            {
+                GUI.matrix = restoreMatrix;
+            }
+
+            if (this.consoleContentChanged & e.type == EventType.Repaint)
+            {
+                this.OnConsoleContentChanged();
+
+                this.consoleContentChanged = false;
+            }
+        }
+
+        private void HandleUserInput(Event e)
+        {
             if (GUI.GetNameOfFocusedControl() == this.commandInputFieldName)
             {
                 if (e.isKey & e.type == EventType.keyUp)
@@ -314,20 +357,13 @@ namespace SkylineToolkit.Debugging
                     }
                 }
             }
+        }
 
-            if (this.scaled)
+        private void RemoveMessageOverhead()
+        {
+            while (this.messages.Count > this.maxDisplayedMessages)
             {
-                GUI.matrix = restoreMatrix;
-            }
-
-            if (this.consoleContentChanged & e.type == EventType.Repaint)
-            {
-                this.logScrollPos.y = 50000.0f;
-                this.rawLogScrollPos.y = 50000.0f;
-
-                this.GenerateDisplayString();
-
-                this.consoleContentChanged = false;
+                this.messages.RemoveAt(0);
             }
         }
 
@@ -345,6 +381,7 @@ namespace SkylineToolkit.Debugging
 
             this.Log(new DebugConsoleLogMessage(message, (DebugConsoleMessageType)type));
         }
+
         #endregion
 
         #region Public Logging Methods
@@ -367,6 +404,7 @@ namespace SkylineToolkit.Debugging
         #endregion
 
         #region Console API
+
         public static void Execute(string command)
         {
             DebugConsole.Instance.EvalCommand(command);
@@ -396,6 +434,17 @@ namespace SkylineToolkit.Debugging
         {
             DebugConsole.Instance.RemoveWatchVar(name);
         }
+
+        public static void RegisterWindow(string name, IDebugConsoleWindow window)
+        {
+            DebugConsole.Instance.AddWindow(name, window);
+        }
+
+        public static void UnregisterWindow(string name)
+        {
+            DebugConsole.Instance.RemoveWindow(name);
+        }
+
         #endregion
 
         #region Internal API
@@ -518,6 +567,26 @@ namespace SkylineToolkit.Debugging
             }
         }
 
+        internal void AddWindow(string name, IDebugConsoleWindow window)
+        {
+            int windowId = this.windowNames.Count;
+
+            this.windowNames.Add(windowId, name);
+
+            this.windows.Add(windowId, window);
+
+            window.SetupWindow(windowId, this);
+        }
+
+        internal void RemoveWindow(string name)
+        {
+            int windowId = this.windowNames.Where(w => w.Value.Equals(name, StringComparison.InvariantCultureIgnoreCase)).First().Key;
+
+            this.windowNames.Remove(windowId);
+
+            this.windows.Remove(windowId);
+        }
+
         private void RegisterCoreCommands()
         {
             this.coreCommands.Add("clear");
@@ -535,139 +604,17 @@ namespace SkylineToolkit.Debugging
             //this.RegisterCommandCallback("pause", new PauseCommand());
         }
 
-        private string GetDisplayString()
-        {
-            if (this.messages == null)
-            {
-                return String.Empty;
-            }
-
-            return this.displayString.ToString();
-        }
-
-        private void GenerateDisplayString()
-        {
-            this.displayString.Length = 0;
-
-            foreach (DebugConsoleLogMessage msg in this.messages)
-            {
-                this.displayString.AppendLine(msg.ToString());
-            }
-        }
         #endregion
 
         #region Window Methods
-        private void LogWindow(int windowId)
+
+        private void DrawWindow(int windowId)
         {
+            IDebugConsoleWindow window = this.windows[this.toolbarIndex];
+
             GUI.Box(this.scrollRect, String.Empty);
 
-            this.innerRect.height = this.innerHeight < this.scrollRect.height ? this.scrollRect.height : this.innerHeight;
-
-            this.logScrollPos = GUI.BeginScrollView(this.scrollRect, this.logScrollPos, this.innerRect, false, true);
-
-            if (this.messages != null || this.messages.Count > 0)
-            {
-                Color tmpColor = GUI.contentColor;
-
-                this.messageLine.y = 0;
-
-                foreach (DebugConsoleLogMessage msg in this.messages)
-                {
-                    GUI.contentColor = msg.Color;
-
-                    this.guiContent.text = msg.ToGuiString();
-
-                    this.messageLine.height = this.labelStyle.CalcHeight(this.guiContent, this.messageLine.width);
-
-                    GUI.Label(this.messageLine, this.guiContent);
-
-                    this.messageLine.y += this.messageLine.height + this.lineOffset;
-
-                    this.innerHeight = this.messageLine.y > this.scrollRect.height ? (int)this.messageLine.y : (int)this.scrollRect.height;
-                }
-
-                GUI.contentColor = tmpColor;
-            }
-
-            GUI.EndScrollView();
-
-            this.DrawToolbar();
-        }
-
-        private void RawLogWindow(int windowId)
-        {
-            this.guiContent.text = this.GetDisplayString();
-
-            float calcHeight = GUI.skin.textArea.CalcHeight(this.guiContent, this.messageLine.width);
-
-            this.innerRect.height = calcHeight < this.scrollRect.height ? this.scrollRect.height : calcHeight;
-
-            this.rawLogScrollPos = GUI.BeginScrollView(this.scrollRect, this.rawLogScrollPos, this.innerRect, false, true);
-
-            GUI.TextArea(this.innerRect, this.guiContent.text);
-
-            GUI.EndScrollView();
-
-            this.DrawToolbar();
-        }
-
-        private void WatchVarWindow(int windowId)
-        {
-            GUI.Box(this.scrollRect, String.Empty);
-
-            this.innerRect.height = this.innerHeight < this.scrollRect.height ? this.scrollRect.height : this.innerHeight;
-
-            this.watchVarsScrollPos = GUI.BeginScrollView(this.scrollRect, this.watchVarsScrollPos, this.innerRect, false, true);
-
-            this.nameRect.x = this.messageLine.x;
-            this.nameRect.y = this.valueRect.y = 0;
-
-            float totalWidth = this.messageLine.width - this.messageLine.x;
-
-            float nameMin, nameMax, valueMin, valueMax, stepHeight;
-            GUIStyle textAreaStyle = GUI.skin.textArea;
-
-            foreach (var watchvar in this.watchVarTable)
-            {
-                GUIContent nameContent = new GUIContent(String.Format("{0}:", watchvar.Value.Name));
-                GUIContent valueContent = new GUIContent(watchvar.Value.ToString());
-
-                this.labelStyle.CalcMinMaxWidth(nameContent, out nameMin, out nameMax);
-                textAreaStyle.CalcMinMaxWidth(valueContent, out valueMin, out valueMax);
-
-                if (nameMax > totalWidth)
-                {
-                    this.nameRect.width = totalWidth - valueMin;
-                    this.valueRect.width = valueMin;
-                }
-                else if (valueMax + nameMax > totalWidth)
-                {
-                    this.nameRect.width = nameMin;
-                    this.valueRect.width = totalWidth - nameMin;
-                }
-                else
-                {
-                    this.nameRect.width = nameMax;
-                    this.valueRect.width = valueMax;
-                }
-
-                this.nameRect.height = this.labelStyle.CalcHeight(nameContent, this.nameRect.width);
-                this.valueRect.height = textAreaStyle.CalcHeight(valueContent, this.valueRect.width);
-
-                this.valueRect.x = totalWidth - this.valueRect.width + this.nameRect.x;
-
-                GUI.Label(this.nameRect, nameContent);
-                GUI.TextArea(this.valueRect, valueContent.text);
-
-                stepHeight = Mathf.Max(this.nameRect.height, this.valueRect.height) + 4;
-
-                this.nameRect.y += stepHeight;
-                this.valueRect.y += stepHeight;
-
-                this.innerHeight = this.valueRect.y > this.scrollRect.height ? (int)this.valueRect.y : (int)this.scrollRect.height;
-            }
-
-            GUI.EndScrollView();
+            window.DrawWindow(windowId, this);
 
             this.DrawToolbar();
         }
@@ -683,7 +630,7 @@ namespace SkylineToolkit.Debugging
                 this.commandInputString = String.Empty;
             }
 
-            int index = GUI.Toolbar(this.toolbarRect, this.toolbarIndex, tabs);
+            int index = GUI.Toolbar(this.toolbarRect, this.toolbarIndex, this.windowNames.Values.ToArray());
 
             if (index != this.toolbarIndex)
             {
@@ -693,14 +640,36 @@ namespace SkylineToolkit.Debugging
             GUI.DragWindow();
         }
 
-        private void RecalculateRects()
+        public void RecalculateRects()
         {
             this.scrollRect.Set(10, 20, this.windowRect.width - 20, this.windowRect.height - 88);
             this.inputRect.Set(10, this.windowRect.height - 62, this.windowRect.width - 72, 24);
             this.enterRect.Set(this.windowRect.width - 60, this.windowRect.height - 62, 50, 24);
             this.toolbarRect.Set(16, this.windowRect.height - 34, this.windowRect.width - 32, 25);
-            this.messageLine.Set(4, 0, this.windowRect.width - 36, 20);
+
+            this.OnRectsRecalculated();
         }
+
+        #endregion
+
+        #region On Events
+
+        private void OnConsoleContentChanged()
+        {
+            if (this.ConsoleContentChanged != null)
+            {
+                this.ConsoleContentChanged(this, null);
+            }
+        }
+
+        private void OnRectsRecalculated()
+        {
+            if (this.RectsRecalculated != null)
+            {
+                this.RectsRecalculated(this, null);
+            }
+        }
+
         #endregion
     }
 }

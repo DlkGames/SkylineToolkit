@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SkylineToolkit.Debugging
 {
-    internal struct DebugConsoleLogMessage
+    public struct DebugConsoleLogMessage
     {
         private string _text;
         private string _formatted;
