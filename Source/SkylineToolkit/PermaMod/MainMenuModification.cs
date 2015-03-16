@@ -6,22 +6,57 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using System.Reflection;
+using ColossalFramework;
 
 namespace SkylineToolkit.PermaMod
 {
     public class MainMenuModification : MonoBehaviour
     {
+        MainMenu mainMenu;
+
         void OnEnable()
         {
-            Button btn = new Button("btn_modOptions", "Mod Options", new Vector3(-1.65f, 0.97f), 180, 60);
+            mainMenu = UIView.FindObjectOfType<MainMenu>();
+            UIButton modOptionsButton = CreateMenuItem("ModOptions", "MOD OPTIONS", "Options");
+            modOptionsButton.eventClick += ModOptions;
+        }
 
-            btn.IsActive = true;
-            btn.AbsolutePosition = new Vector3(10f, 10f);
+        private void ModOptions(UIComponent component, UIMouseEventParameter eventParam)
+        {
+            Log.Info("Mod options clicked");
+        }
 
-            btn.Click += (sender, e) =>
+        UIButton CreateMenuItem(string name, string text, string afterName)
+        {
+            GameObject gameObject = UITemplateManager.GetAsGameObject("MainMenuButtonTemplate");
+            gameObject.name = name;
+            UIButton button = (UIButton)mainMenu.component.AttachUIComponent(gameObject);
+            button.text = text;
+
+            UIButton[] buttons = mainMenu.GetComponentsInChildren<UIButton>();
+
+            for (int i = buttons.Count() - 2; i >= 0; i--)
             {
-                Log.Info("Open mod options..." + e.Clicks);
-            };
+                if (buttons[i].name == afterName)
+                    break;
+
+                button.MoveBackward();
+            }
+
+            return button;
+        }
+
+        // TODO: Move this to a command?
+        void ListTemplates()
+        {
+            BindingFlags flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static;
+            FieldInfo field = typeof(UITemplateManager).GetField("m_Templates", flags);
+            Dictionary<string, UIComponent> templates = (Dictionary<string, UIComponent>)field.GetValue(Singleton<UITemplateManager>.instance);
+            foreach (var key in templates.Keys)
+            {
+                Log.Info(key);
+            }
         }
     }
 }
