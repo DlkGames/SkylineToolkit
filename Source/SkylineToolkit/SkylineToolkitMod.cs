@@ -69,7 +69,7 @@ namespace SkylineToolkit
             get
             {
                 return "Toolkit for easier Cities: Skylines mod creation. NOTE: Some features of this mod will be enabled even when it's disabled here."
-                    + " If you enable this mod, achivements WON'T get disabled even for other mods.";
+                    + " If you enable this mod, achievements WON'T get disabled even for other mods.";
             }
         }
 
