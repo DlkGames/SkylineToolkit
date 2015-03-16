@@ -59,11 +59,11 @@
     <Compile Include="Debugging\Commands\ICommandContext.cs" />
     <Compile Include="Debugging\Commands\IDebugCommand.cs" />
     <Compile Include="Debugging\DebugConsole.cs" />
+    <Compile Include="Debugging\DebugConsoleLogMessage.cs" />
+    <Compile Include="Debugging\DebugConsoleMessageType.cs" />
     <Compile Include="Debugging\FpsCounter.cs" />
     <Compile Include="Debugging\Generic\WatchVar.cs" />
     <Compile Include="Debugging\IWatchVar.cs" />
-    <Compile Include="Debugging\LogMessage.cs" />
-    <Compile Include="Debugging\LogMessageType.cs" />
     <Compile Include="Debugging\WatchVar.cs" />
     <Compile Include="QuadraticBezierPath.cs" />
     <Compile Include="BezierPath.cs" />
