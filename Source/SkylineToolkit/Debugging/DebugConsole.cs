@@ -4,7 +4,6 @@ using SkylineToolkit.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
 
 /* Note: This is a heavily modified version */

@@ -1,13 +1,9 @@
-﻿using ColossalFramework.UI;
-using SkylineToolkit.UI;
-using SkylineToolkit.UI.Styles;
-using System;
+﻿using ColossalFramework;
+using ColossalFramework.UI;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using UnityEngine;
 using System.Reflection;
-using ColossalFramework;
+using UnityEngine;
 
 namespace SkylineToolkit.PermaMod
 {
@@ -18,7 +14,9 @@ namespace SkylineToolkit.PermaMod
         void OnEnable()
         {
             mainMenu = UIView.FindObjectOfType<MainMenu>();
+
             UIButton modOptionsButton = CreateMenuItem("ModOptions", "MOD OPTIONS", "Options");
+
             modOptionsButton.eventClick += ModOptions;
         }
 

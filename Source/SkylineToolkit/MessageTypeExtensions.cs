@@ -1,8 +1,4 @@
 ﻿using SkylineToolkit.Debugging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using ColossalMessageType = ColossalFramework.Plugins.PluginManager.MessageType;
 
 namespace SkylineToolkit

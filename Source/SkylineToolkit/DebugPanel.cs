@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ICities;
+﻿using ColossalFramework;
 using ColossalFramework.UI;
-using ColossalFramework.Plugins;
-using ColossalFramework;
-
+using System;
 using ColossalMessageType = ColossalFramework.Plugins.PluginManager.MessageType;
 
 namespace SkylineToolkit

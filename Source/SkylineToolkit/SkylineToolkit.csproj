@@ -92,6 +92,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuadraticBezier2.cs" />
     <Compile Include="QuadraticBezier3.cs" />
+    <Compile Include="SkylineGame.cs" />
+    <Compile Include="SkylinePath.cs" />
     <Compile Include="SkylineToolkitMod.cs" />
     <Compile Include="StLoadingExtension.cs" />
     <Compile Include="Tuple.cs" />
