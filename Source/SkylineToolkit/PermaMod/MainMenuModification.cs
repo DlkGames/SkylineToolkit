@@ -1,5 +1,7 @@
 ﻿using ColossalFramework;
 using ColossalFramework.UI;
+using SkylineToolkit.Debugging;
+using SkylineToolkit.Debugging.Commands;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -25,7 +27,7 @@ namespace SkylineToolkit.PermaMod
             Log.Info("Mod options clicked");
         }
 
-        UIButton CreateMenuItem(string name, string text, string afterName)
+        private UIButton CreateMenuItem(string name, string text, string afterName)
         {
             GameObject gameObject = UITemplateManager.GetAsGameObject("MainMenuButtonTemplate");
             gameObject.name = name;
@@ -43,18 +45,6 @@ namespace SkylineToolkit.PermaMod
             }
 
             return button;
-        }
-
-        // TODO: Move this to a command?
-        void ListTemplates()
-        {
-            BindingFlags flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static;
-            FieldInfo field = typeof(UITemplateManager).GetField("m_Templates", flags);
-            Dictionary<string, UIComponent> templates = (Dictionary<string, UIComponent>)field.GetValue(Singleton<UITemplateManager>.instance);
-            foreach (var key in templates.Keys)
-            {
-                Log.Info(key);
-            }
         }
     }
 }

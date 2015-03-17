@@ -36,7 +36,7 @@ namespace SkylineToolkit.Debugging.Commands
                 {
                     IDebugCommand cmd = this.commands[args[0].ToLower()];
 
-                    ctx.SendOutput(String.Format("\tUsage:\t\t{0}\n{1}", cmd.GetUsage(), cmd.GetHelp()));
+                    ctx.SendOutput(String.Format("Usage:\t{0}\n{1}", cmd.GetUsage(), cmd.GetHelp()));
                     return 0;
                 }
 
