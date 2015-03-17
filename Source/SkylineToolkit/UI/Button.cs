@@ -7,6 +7,8 @@ namespace SkylineToolkit.UI
 {
     public class Button : ColossalUserControl<UIButton>
     {
+        private UIButton button;
+
         public Button(string name)
             : this(name, name, new Vector3(0f,0f))
         {
@@ -22,6 +24,11 @@ namespace SkylineToolkit.UI
             this.UIComponent.height = height;
 
             this.SetDefaultStyle();
+        }
+
+        public Button(UIButton button)
+            : base(button)
+        {
         }
 
         public bool AutoSize
