@@ -7,8 +7,6 @@ namespace SkylineToolkit.UI
 {
     public class Button : ColossalUserControl<UIButton>
     {
-        private UIButton button;
-
         public Button(string name)
             : this(name, name, new Vector3(0f,0f))
         {

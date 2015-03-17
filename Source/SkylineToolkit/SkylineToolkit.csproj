@@ -51,13 +51,16 @@
   <ItemGroup>
     <Compile Include="Bezier2.cs" />
     <Compile Include="Bezier3.cs" />
+    <Compile Include="Debugging\CodeRunner.cs" />
     <Compile Include="Debugging\Commands\AliasCommand.cs" />
     <Compile Include="Debugging\Commands\CommandContext.cs" />
     <Compile Include="Debugging\Commands\DebugCommand.cs" />
     <Compile Include="Debugging\Commands\DelegateCommand.cs" />
+    <Compile Include="Debugging\Commands\EvalCommand.cs" />
     <Compile Include="Debugging\Commands\HelpCommand.cs" />
     <Compile Include="Debugging\Commands\ICommandContext.cs" />
     <Compile Include="Debugging\Commands\IDebugCommand.cs" />
+    <Compile Include="Debugging\Debug.cs" />
     <Compile Include="Debugging\DebugConsole.cs" />
     <Compile Include="Debugging\DebugConsoleLogMessage.cs" />
     <Compile Include="Debugging\DebugConsoleMessageType.cs" />

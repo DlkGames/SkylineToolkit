@@ -278,9 +278,9 @@ namespace SkylineToolkit.Debugging
 
             Application.logMessageReceived += HandleLog;
 
-            this.Log(new DebugConsoleLogMessage(String.Format("DLK Games Debug Console v{0}", DebugConsole.Version), DebugConsoleMessageType.System));
-            this.Log(new DebugConsoleLogMessage("Type help for a list of available commands.", DebugConsoleMessageType.System));
-            this.Log(new DebugConsoleLogMessage(String.Empty));
+            this.AddMessage(new DebugConsoleLogMessage(String.Format("DLK Games Debug Console v{0}", DebugConsole.Version), DebugConsoleMessageType.System));
+            this.AddMessage(new DebugConsoleLogMessage("Type help for a list of available commands.", DebugConsoleMessageType.System));
+            this.AddMessage(new DebugConsoleLogMessage(String.Empty));
         }
 
         void OnDisable()
@@ -340,7 +340,7 @@ namespace SkylineToolkit.Debugging
                     {
                         case KeyCode.Return:
                         case KeyCode.KeypadEnter:
-                            this.EvalCommand(this.commandInputString);
+                            this.EvaluateCommand(this.commandInputString);
 
                             this.commandInputString = String.Empty;
                             break;
@@ -378,7 +378,7 @@ namespace SkylineToolkit.Debugging
                 message += "\n" + stackTrace;
             }
 
-            this.Log(new DebugConsoleLogMessage(message, (DebugConsoleMessageType)type));
+            this.AddMessage(new DebugConsoleLogMessage(message, (DebugConsoleMessageType)type));
         }
 
         #endregion
@@ -387,17 +387,17 @@ namespace SkylineToolkit.Debugging
 
         public static void Log(string format, DebugConsoleMessageType messageType, Color displayColor, params object[] args)
         {
-            DebugConsole.Instance.Log(new DebugConsoleLogMessage(String.Format(format, args), messageType, displayColor));
+            DebugConsole.Instance.AddMessage(new DebugConsoleLogMessage(String.Format(format, args), messageType, displayColor));
         }
 
         public static void Log(string message, DebugConsoleMessageType messageType)
         {
-            DebugConsole.Instance.Log(new DebugConsoleLogMessage(message, messageType));
+            DebugConsole.Instance.AddMessage(new DebugConsoleLogMessage(message, messageType));
         }
 
         public void LogMessage(string module, string message, MessageType type)
         {
-            this.Log(new DebugConsoleLogMessage(String.Format("[{0}] {1}", module, message), type.ToDebugConsoleType()));
+            this.AddMessage(new DebugConsoleLogMessage(String.Format("[{0}] {1}", module, message), type.ToDebugConsoleType()));
         }
         
         #endregion
@@ -406,7 +406,7 @@ namespace SkylineToolkit.Debugging
 
         public static void Execute(string command)
         {
-            DebugConsole.Instance.EvalCommand(command);
+            DebugConsole.Instance.EvaluateCommand(command);
         }
 
         public static void Clear()
@@ -448,31 +448,31 @@ namespace SkylineToolkit.Debugging
 
         #region Internal API
 
-        internal void Log(DebugConsoleLogMessage message)
+        internal void AddMessage(DebugConsoleLogMessage message)
         {
             this.messages.Add(message);
 
             this.consoleContentChanged = true;
         }
 
-        internal void EvalCommand(string command)
+        internal void EvaluateCommand(string command)
         {
             command = command.Trim();
 
             if (string.IsNullOrEmpty(command))
             {
-                this.Log(new DebugConsoleLogMessage(String.Empty));
+                this.AddMessage(new DebugConsoleLogMessage(String.Empty));
                 return;
             }
 
             if (command.Equals("!"))
             {
-                this.EvalCommand(this.commandHistory.GetLast());
+                this.EvaluateCommand(this.commandHistory.GetLast());
                 return;
             }
 
             this.commandHistory.Add(command);
-            this.Log(new DebugConsoleLogMessage(command, DebugConsoleMessageType.Input));
+            this.AddMessage(new DebugConsoleLogMessage(command, DebugConsoleMessageType.Input));
 
             IList<string> input = command.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -487,14 +487,14 @@ namespace SkylineToolkit.Debugging
                     this.ClearLog();
                     break;
                 case "echo":
-                    this.Log(new DebugConsoleLogMessage(String.Join(" ", input.ToArray())));
+                    this.AddMessage(new DebugConsoleLogMessage(String.Join(" ", input.ToArray())));
                     break;
                 default:
                     if (this.commandsTable.ContainsKey(cmd))
                     {
                         IDebugCommand dCmd = this.commandsTable[cmd];
 
-                        CommandContext context = new CommandContext(dCmd, input.ToArray(), new char[0]);
+                        CommandContext context = new CommandContext(command, dCmd, input.ToArray(), new char[0]);
 
                         if (!dCmd.CanExecute(context))
                         {
@@ -504,12 +504,12 @@ namespace SkylineToolkit.Debugging
                         int exitCode;
                         if ((exitCode = dCmd.Execute(context, input.ToArray(), new char[0])) != 0)
                         {
-                            this.Log(new DebugConsoleLogMessage(String.Format("Command ended with unproper exit code: {0}", exitCode)));
+                            this.AddMessage(new DebugConsoleLogMessage(String.Format("Command ended with unproper exit code: {0}", exitCode)));
                         }
                     }
                     else
                     {
-                        this.Log(new DebugConsoleLogMessage(String.Format("Unknown Command: {0}", cmd)));
+                        this.AddMessage(new DebugConsoleLogMessage(String.Format("Unknown Command: {0}", cmd)));
                     }
                     break;
             }
@@ -600,6 +600,7 @@ namespace SkylineToolkit.Debugging
 
         private void RegisterDefaultCommands()
         {
+            this.RegisterCommandCallback("eval", new EvalCommand());
             //this.RegisterCommandCallback("pause", new PauseCommand());
         }
 
@@ -625,7 +626,7 @@ namespace SkylineToolkit.Debugging
 
             if (GUI.Button(enterRect, "Enter"))
             {
-                this.EvalCommand(this.commandInputString);
+                this.EvaluateCommand(this.commandInputString);
                 this.commandInputString = String.Empty;
             }
 
