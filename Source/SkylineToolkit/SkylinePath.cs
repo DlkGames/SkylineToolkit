@@ -1,0 +1,141 @@
+﻿using ColossalFramework.IO;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+
+namespace SkylineToolkit
+{
+    public static class SkylinePath
+    {
+        public const string MOD_OPTIONS_DIRNAME = "ModOptions";
+
+        public static string CurrentDirectory
+        {
+            get
+            {
+                return Environment.CurrentDirectory;
+            }
+        }
+
+        public static string Application
+        {
+            get
+            {
+                return DataLocation.applicationBase;
+            }
+        }
+
+        public static string LocalAppData
+        {
+            get
+            {
+                return DataLocation.localApplicationData;
+            }
+        }
+
+        public static string AppData
+        {
+            get
+            {
+                return DataLocation.applicationData;
+            }
+        }
+
+        public static string Documents
+        {
+            get
+            {
+                return DataLocation.documents;
+            }
+        }
+
+        public static string GameContent
+        {
+            get
+            {
+                return DataLocation.gameContentPath;
+            }
+        }
+
+        public static string Addons
+        {
+            get
+            {
+                return DataLocation.addonsPath;
+            }
+        }
+
+        public static string Mods
+        {
+            get
+            {
+                return DataLocation.modsPath;
+            }
+        }
+
+        public static string Assets
+        {
+            get
+            {
+                return DataLocation.assetsPath;
+            }
+        }
+
+        public static string Saves
+        {
+            get
+            {
+                return DataLocation.saveLocation;
+            }
+        }
+
+        public static string Maps
+        {
+            get
+            {
+                return DataLocation.mapLocation;
+            }
+        }
+
+        public static string ModOptions
+        {
+            get
+            {
+                string path = Path.Combine(AppData, MOD_OPTIONS_DIRNAME);
+
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+
+                return path;
+            }
+        }
+
+        public static string Temp
+        {
+            get
+            {
+                return DataLocation.tempFolder;
+            }
+        }
+
+        public static void PrintCurrentPaths()
+        {
+            Log.Info("Paths", "Current Directory: {0}", CurrentDirectory);
+            Log.Info("Paths", "Application: ", Application);
+            Log.Info("Paths", "LocalAppData: ", LocalAppData);
+            Log.Info("Paths", "AppData: ", AppData);
+            Log.Info("Paths", "Documents: ", Documents);
+            Log.Info("Paths", "GameContent: ", GameContent);
+            Log.Info("Paths", "Mods: ", Mods);
+            Log.Info("Paths", "Assets: ", Assets);
+            Log.Info("Paths", "Saves: ", Saves);
+            Log.Info("Paths", "Maps: ", Maps);
+            Log.Info("Paths", "ModOptions: ", ModOptions);
+            Log.Info("Paths", "Temp: ", Temp);
+        }
+    }
+}
