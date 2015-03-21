@@ -17,6 +17,11 @@ namespace SkylineToolkit.UI
         {
         }
 
+        public ColossalTextControl(IColossalControl control)
+            : base(control)
+        {
+        }
+
         #region Colors
 
         public Color32 BottomColor

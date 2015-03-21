@@ -1,10 +1,22 @@
-﻿using System;
+﻿using ColossalFramework.UI;
+using System;
 using UnityEngine;
 
 namespace SkylineToolkit.UI
 {
-    public class MouseEventArgs : EventArgs
+    public class MouseEventArgs : ControlEventArgs
     {
+        public MouseEventArgs(UIMouseEventParameter originalParams)
+            : base(originalParams)
+        {
+            this.Buttons = (MouseButtons)originalParams.buttons;
+            this.Clicks = originalParams.clicks;
+            this.Position = originalParams.position;
+            this.MovementDelta = originalParams.moveDelta;
+            this.Ray = originalParams.ray;
+            this.MousewheelDelta = originalParams.wheelDelta;
+        }
+
         public MouseEventArgs(MouseButtons buttons, int clicks, Ray ray, Vector2 position, Vector2 movementDelta, float mousewheelDelta)
         {
             this.Buttons = buttons;

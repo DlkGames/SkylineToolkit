@@ -32,19 +32,41 @@ namespace SkylineToolkit
             }
         }
 
+        /// <summary>
+        /// Don't use on OSX !
+        /// </summary>
         public static string AppData
         {
             get
             {
-                return DataLocation.applicationData;
+                string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);    
+                string gamePath = Path.Combine(path, Path.Combine(DataLocation.companyName, DataLocation.productName));
+
+                if (!Directory.Exists(gamePath))
+                {
+                    Directory.CreateDirectory(gamePath);
+                }
+
+                return gamePath;
             }
         }
 
+        /// <summary>
+        /// Don't use on OSX !
+        /// </summary>
         public static string Documents
         {
             get
             {
-                return DataLocation.documents;
+                string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                string gamePath = Path.Combine(path, Path.Combine(DataLocation.companyName, DataLocation.productName));
+
+                if (!Directory.Exists(gamePath))
+                {
+                    Directory.CreateDirectory(gamePath);
+                }
+
+                return gamePath;
             }
         }
 

@@ -17,6 +17,11 @@ namespace SkylineToolkit.UI
         {
         }
 
+        public ColossalUserControl(IColossalControl control)
+            : base(control)
+        {
+        }
+
         public bool IsFocusable
         {
             get

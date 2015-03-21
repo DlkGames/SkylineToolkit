@@ -1,7 +1,7 @@
 ﻿
 namespace SkylineToolkit.UI.Styles
 {
-    public static class ButtonSprite
+    public static class ColossalSprite
     {
         public static readonly string None = "None";
         public static readonly string AchievementCheckedFalse = "AchievementCheckedFalse";

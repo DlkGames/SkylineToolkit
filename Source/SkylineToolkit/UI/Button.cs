@@ -7,6 +7,11 @@ namespace SkylineToolkit.UI
 {
     public class Button : ColossalUserControl<UIButton>
     {
+        public Button()
+            : base("Button")
+        {
+        }
+
         public Button(string name)
             : this(name, name, new Vector3(0f,0f))
         {
@@ -26,6 +31,11 @@ namespace SkylineToolkit.UI
 
         public Button(UIButton button)
             : base(button)
+        {
+        }
+
+        public Button(IColossalControl control) 
+            : base(control)
         {
         }
 
@@ -222,11 +232,11 @@ namespace SkylineToolkit.UI
 
         public void SetDefaultStyle()
         {
-            this.NormalBackgroundSprite = ButtonSprite.ButtonMenu;
-            this.DisabledBackgroundSprite = ButtonSprite.ButtonMenuDisabled;
-            this.HoveredBackgroundSprite = ButtonSprite.ButtonMenuHovered;
-            this.FocusedBackgroundSprite = ButtonSprite.ButtonMenuFocused;
-            this.PressedBackgroundSprite = ButtonSprite.ButtonMenuPressed;
+            this.NormalBackgroundSprite = ColossalSprite.ButtonMenu;
+            this.DisabledBackgroundSprite = ColossalSprite.ButtonMenuDisabled;
+            this.HoveredBackgroundSprite = ColossalSprite.ButtonMenuHovered;
+            this.FocusedBackgroundSprite = ColossalSprite.ButtonMenuFocused;
+            this.PressedBackgroundSprite = ColossalSprite.ButtonMenuPressed;
 
             this.TextColor = new Color32(255, 255, 255, 255);
             this.DisabledTextColor = new Color32(7, 7, 7, 255);
