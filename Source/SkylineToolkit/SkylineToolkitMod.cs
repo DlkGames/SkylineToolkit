@@ -83,6 +83,12 @@ namespace SkylineToolkit
 
         private void InitializePermaMod()
         {
+            if (PermaModGameObject != null)
+            {
+                GameObject.DestroyImmediate(PermaModGameObject);
+                PermaModGameObject = null;
+            }
+
             GameObject toolkitObject = new GameObject("___SkylineToolkit");
 
             SkylineToolkitPermaMod component = toolkitObject.AddComponent<SkylineToolkitPermaMod>();
@@ -92,6 +98,12 @@ namespace SkylineToolkit
 
         private void InitializeMainMenuMod()
         {
+            if (MainMenuModGameObject != null)
+            {
+                GameObject.DestroyImmediate(MainMenuModGameObject);
+                MainMenuModGameObject = null;
+            }
+
             GameObject mainMenuObject = new GameObject("___SkylineToolkit_MainMenuMod");
 
             MainMenuModification component = mainMenuObject.AddComponent<MainMenuModification>();
