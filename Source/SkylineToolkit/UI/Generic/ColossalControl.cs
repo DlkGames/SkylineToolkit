@@ -207,7 +207,7 @@ namespace SkylineToolkit.UI.Generic
         /// </remarks>
         /// <typeparam name="TControl">The type of the new control.</typeparam>
         /// <returns>The newly created control.</returns>
-        public new ColossalControl<TControl> AddComponent<TControl>()
+        public ColossalControl<TControl> AddComponent<TControl>()
             where TControl : UIComponent
         {
             TControl component = this.UIComponent.AddUIComponent<TControl>();
@@ -296,7 +296,7 @@ namespace SkylineToolkit.UI.Generic
         /// <typeparam name="TControl">The type of the expected child control.</typeparam>
         /// <param name="filter">A filter used to search a sub control.</param>
         /// <returns>The found child control or null when found nothin.</returns>
-        public new IColossalControl FindColossalChild<TControl>(string filter)
+        public IColossalControl FindColossalChild<TControl>(string filter)
            where TControl : UIComponent
         {
             UIComponent component = this.UIComponent.Find<TControl>(filter);
@@ -310,6 +310,12 @@ namespace SkylineToolkit.UI.Generic
 
         #endregion
 
+        public void RemoveComponent<TControl>(TControl control)
+             where TControl : UIComponent
+        {
+            this.UIComponent.RemoveUIComponent(control);
+        }
+
         public new IColossalControl GetRootContainer()
         {
             return new ColossalControl<UIComponent>(this.UIComponent.GetRootContainer());
@@ -318,6 +324,16 @@ namespace SkylineToolkit.UI.Generic
         public new IColossalControl GetRootCustomContainer()
         {
             return new ColossalControl<UIComponent>(this.UIComponent.GetRootCustomControl());
+        }
+
+        /// <summary>
+        /// Returns the type of the wrapped <see cref="UIComponent"/> from a ColossalControl wrapper.
+        /// </summary>
+        /// <param name="control">The SkylineToolkit UI Wrapper from which to receive the wrapped type.</param>
+        /// <returns>The type of the wrapped <see cref="UIComponent"/>.</returns>
+        protected static Type GetUIComponentType(IColossalControl control)
+        {
+            return GetUIComponentType(control.GetType());
         }
 
         /// <summary>
@@ -364,6 +380,7 @@ namespace SkylineToolkit.UI.Generic
 
             return componentType;
         }
+        
         #endregion
     }
 }

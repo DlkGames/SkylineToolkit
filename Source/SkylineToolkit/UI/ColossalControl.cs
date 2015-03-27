@@ -140,8 +140,6 @@ namespace SkylineToolkit.UI
 
         public ColossalControl(UIComponent component)
         {
-            this.GameObject = component.gameObject;
-
             this.UIComponent = component;
 
             this.SubscribeEvents();
@@ -156,8 +154,6 @@ namespace SkylineToolkit.UI
 
         public ColossalControl(IColossalControl control)
         {
-            this.GameObject = control.GameObject;
-
             this.UIComponent = control.UIComponent;
 
             this.SubscribeEvents();
@@ -197,6 +193,8 @@ namespace SkylineToolkit.UI
             protected set
             {
                 colossalUIComponent = value;
+
+                this.GameObject = value.gameObject;
             }
         }
 
@@ -1021,23 +1019,6 @@ namespace SkylineToolkit.UI
         }
 
         /// <summary>
-        /// Creates a new control of given type <typeparamref name="TControl"/> and attaches it as a child control.
-        /// </summary>
-        /// <remarks>
-        /// This uses the control classes from original Colossal UI for instantiating the new control but wraps it 
-        /// automatically with the control classes from SkylineToolkit.
-        /// </remarks>
-        /// <typeparam name="TControl">The type of the new control.</typeparam>
-        /// <returns>The newly created control.</returns>
-        public ColossalControl AddComponent<TControl>()
-            where TControl : UIComponent
-        {
-            TControl component = this.UIComponent.AddUIComponent<TControl>();
-
-            return new ColossalControl(component);
-        }
-
-        /// <summary>
         /// Attaches an already existing control as a sub control. Moves the existing control as a child below this control.
         /// </summary>
         /// <typeparam name="TControl">The type of the existing control.</typeparam>
@@ -1095,23 +1076,6 @@ namespace SkylineToolkit.UI
             {
                 return null;
             }
-
-            return new ColossalControl(component);
-        }
-
-        /// <summary>
-        /// Finds a child control matching the given filter and control type.
-        /// </summary>
-        /// <remarks>
-        /// The found <see cref="UIComponent"/>, if there's one, gets automatically wrapped up into a SkylineToolkit control wrapper.
-        /// </remarks>
-        /// <typeparam name="TControl">The type of the expected child control.</typeparam>
-        /// <param name="filter">A filter used to search a sub control.</param>
-        /// <returns>The found child control or null when found nothin.</returns>
-        public IColossalControl FindColossalChild<TControl>(string filter)
-           where TControl : UIComponent
-        {
-            UIComponent component = this.UIComponent.Find<TControl>(filter);
 
             return new ColossalControl(component);
         }
@@ -1454,12 +1418,6 @@ namespace SkylineToolkit.UI
             where TControl : IColossalControl
         {
             this.UIComponent.RemoveUIComponent(control.UIComponent);
-        }
-
-        public void RemoveComponent<TControl>(TControl control)
-             where TControl : UIComponent
-        {
-            this.UIComponent.RemoveUIComponent(control);
         }
 
         public virtual void ResetLayout()
