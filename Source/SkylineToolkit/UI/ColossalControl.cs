@@ -1093,13 +1093,34 @@ namespace SkylineToolkit.UI
         /// <remarks>
         /// This wraps the given UI <paramref name="component"/> with the SkylineToolkit control wrapper.
         /// </remarks>
-        /// <param name="component"></param>
+        /// <param name="component">The existing UIComponent which should becoma a child control.</param>
         /// <returns>The attached child control.</returns>
         public IColossalControl AttachControl(UIComponent component)
         {
+            component = this.UIComponent.AttachUIComponent(component.gameObject);
+
             Type constructedType = typeof(ColossalControl<>).MakeGenericType(component.GetType());
 
             IColossalControl colossalControl = (IColossalControl)Activator.CreateInstance(constructedType, new object[] { component });
+
+            return colossalControl;
+        }
+
+        /// <summary>
+        /// Attaches an already existing UI component from a given <paramref name="gameObject"/> as a sub control. Moves the existing control as a child below this control.
+        /// </summary>
+        /// <remarks>
+        /// This wraps the given UI <paramref name="gameObject"/> with the SkylineToolkit control wrapper.
+        /// </remarks>
+        /// <param name="gameObject">The gameobject holding the UIComponent which should become a child control.</param>
+        /// <returns>The attached child control.</returns>
+        public IColossalControl AttachControl(GameObject gameObject)
+        {
+            UIComponent component = this.UIComponent.AttachUIComponent(gameObject);
+
+            Type constructedType = typeof(ColossalControl<>).MakeGenericType(gameObject.GetType());
+
+            IColossalControl colossalControl = (IColossalControl)Activator.CreateInstance(constructedType, new object[] { gameObject });
 
             return colossalControl;
         }

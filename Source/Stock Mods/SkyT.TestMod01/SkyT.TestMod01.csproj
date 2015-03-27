@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ColossalManaged">
+      <HintPath>..\..\..\External\ColossalManaged.dll</HintPath>
+    </Reference>
     <Reference Include="ICities">
       <HintPath>..\..\..\External\ICities.dll</HintPath>
     </Reference>
