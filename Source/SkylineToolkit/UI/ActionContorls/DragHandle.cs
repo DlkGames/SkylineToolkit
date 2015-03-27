@@ -7,10 +7,10 @@ using UnityEngine;
 
 namespace SkylineToolkit.UI.ActionContorls
 {
-    public class DragHandle : ColossalControl<UIDragHandle>
+    public class DragHandle : ColossalControl
     {
         public DragHandle()
-            : base("Button")
+            : base("Button", typeof(UIDragHandle))
         {
         }
 
@@ -20,7 +20,7 @@ namespace SkylineToolkit.UI.ActionContorls
         }
 
         public DragHandle(string name, string label, Vector3 position, Vector2 size)
-            : base(name)
+            : base(name, typeof(UIDragHandle))
         {
             this.Position = position;
             this.Size = size;
@@ -34,6 +34,18 @@ namespace SkylineToolkit.UI.ActionContorls
         public DragHandle(IColossalControl control) 
             : base(control)
         {
+        }
+
+        public new UIDragHandle UIComponent
+        {
+            get
+            {
+                return (UIDragHandle)base.UIComponent;
+            }
+            set
+            {
+                base.UIComponent = value;
+            }
         }
 
         public bool ConstrainToScreen

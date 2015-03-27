@@ -105,12 +105,14 @@
     <Compile Include="Tuple.cs" />
     <Compile Include="UI\ActionContorls\DragHandle.cs" />
     <Compile Include="UI\AlignmentAnchor.cs" />
+    <Compile Include="UI\ColossalTextControl.cs" />
+    <Compile Include="UI\ColossalUserControl.cs" />
     <Compile Include="UI\Control.cs" />
     <Compile Include="UI\Button.cs" />
     <Compile Include="UI\ButtonState.cs" />
     <Compile Include="UI\ColossalControl.cs" />
-    <Compile Include="UI\ColossalTextControl.cs" />
-    <Compile Include="UI\ColossalUserControl.cs" />
+    <Compile Include="UI\Generic\ColossalTextControl.cs" />
+    <Compile Include="UI\Generic\ColossalUserControl.cs" />
     <Compile Include="UI\BaseControl.cs" />
     <Compile Include="UI\ClippingDirections.cs" />
     <Compile Include="UI\ControlEventArgs.cs" />
@@ -120,6 +122,7 @@
     <Compile Include="UI\CustomControls\WindowControl.cs" />
     <Compile Include="UI\FocusEventArgs.cs" />
     <Compile Include="UI\FocusEventHandler.cs" />
+    <Compile Include="UI\Generic\ColossalControl.cs" />
     <Compile Include="UI\HitPointInfo.cs" />
     <Compile Include="UI\IColossalControl.cs" />
     <Compile Include="UI\IControl.cs" />
@@ -143,9 +146,7 @@
     <Compile Include="UI\UIComponentExtensions.cs" />
     <Compile Include="UI\Window.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="UI\Generic\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>mkdir "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)"

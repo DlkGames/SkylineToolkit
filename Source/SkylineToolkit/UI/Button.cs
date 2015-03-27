@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace SkylineToolkit.UI
 {
-    public class Button : ColossalUserControl<UIButton>
+    public class Button : ColossalUserControl
     {
         public Button()
-            : base("Button")
+            : base("Button", typeof(UIButton))
         {
         }
 
@@ -18,7 +18,7 @@ namespace SkylineToolkit.UI
         }
 
         public Button(string name, string label, Vector3 position, float width = 120, float height = 30)
-            : base(name)
+            : base(name, typeof(UIButton))
         {
             this.Position = position;
             this.Text = label;
@@ -37,6 +37,18 @@ namespace SkylineToolkit.UI
         public Button(IColossalControl control) 
             : base(control)
         {
+        }
+
+        public new UIButton UIComponent
+        {
+            get
+            {
+                return (UIButton)base.UIComponent;
+            }
+            set
+            {
+                base.UIComponent = value;
+            }
         }
 
         public bool AutoSize
@@ -217,7 +229,7 @@ namespace SkylineToolkit.UI
         {
             get
             {
-                return new ColossalControl<UIComponent>(this.UIComponent.group);
+                return new ColossalControl(this.UIComponent.group);
             }
             set
             {
