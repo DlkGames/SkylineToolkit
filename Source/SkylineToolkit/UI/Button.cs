@@ -225,11 +225,6 @@ namespace SkylineToolkit.UI
             }
         }
 
-        public void Invalidate()
-        {
-            this.UIComponent.Invalidate();
-        }
-
         public void SetDefaultStyle()
         {
             this.NormalBackgroundSprite = ColossalSprite.ButtonMenu;

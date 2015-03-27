@@ -5,7 +5,11 @@ using System.Text;
 
 namespace SkylineToolkit.UI
 {
-    public class Control : BaseControl
+    public enum LayoutOrigin
     {
+        TopLeft,
+        BottomLeft,
+        TopRight,
+        BottomRight
     }
 }

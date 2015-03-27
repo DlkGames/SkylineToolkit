@@ -1,5 +1,6 @@
 ﻿using ColossalFramework.UI;
 using SkylineToolkit.UI;
+using SkylineToolkit.UI.Styles;
 using System.Linq;
 using UnityEngine;
 
@@ -22,6 +23,15 @@ namespace SkylineToolkit.PermaMod
         private void btn_ModOptions_Click(object sender, MouseEventArgs e)
         {
             Log.Info("Mod options clicked");
+
+            Panel panel = new Panel("test_panel");
+
+            panel.IsActive = true;
+
+            //GameObject go = UITemplateManager.GetAsGameObject(ColossalTemplate.ScrollablePanelTemplate);
+            //go.name = "test_scrollable_panel";
+
+            //ColossalControl<UIComponent>.ColossalUIView.AttachUIComponent(go);
         }
 
         private Button CreateMenuItem(string name, string label, string insertAfterName)

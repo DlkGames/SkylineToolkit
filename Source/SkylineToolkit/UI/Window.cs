@@ -1,18 +1,23 @@
 ﻿using ColossalFramework.UI;
+using SkylineToolkit.UI.CustomControls;
 using UnityEngine;
 
 namespace SkylineToolkit.UI
 {
-    public class Window : Panel
+    public class Window : BaseControl
     {
-        public Window(string name, Rect rect)
-            : base(name, rect)
-        {
-        }
+        private WindowControl control;
 
-        public Window(UIPanel panel)
-            : base(panel)
+        public WindowControl Control
         {
+            get
+            {
+                return this.control;
+            }
+            protected set
+            {
+                this.control = value;
+            }
         }
     }
 }

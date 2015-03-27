@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SkylineToolkit.UI.Styles
 {
-    public static class ColossalTemplates
+    public static class ColossalTemplate
     {
         public static readonly string PolicyTemplate = "PolicyTemplate";
         public static readonly string TaxesItem = "TaxesItem";

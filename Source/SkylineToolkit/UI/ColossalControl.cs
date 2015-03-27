@@ -1292,12 +1292,12 @@ namespace SkylineToolkit.UI
 
         public void FitHorizontallyTo(IColossalControl control)
         {
-            this.UIComponent.FitTo(control.UIComponent, LayoutDirection.Horizontal);
+            this.UIComponent.FitTo(control.UIComponent, ColossalFramework.UI.LayoutDirection.Horizontal);
         }
 
         public void FitVerticallyTo(IColossalControl control)
         {
-            this.UIComponent.FitTo(control.UIComponent, LayoutDirection.Vertical);
+            this.UIComponent.FitTo(control.UIComponent, ColossalFramework.UI.LayoutDirection.Vertical);
         }
 
         public bool GetIsClippedFromParent(out ClippingDirections directions)

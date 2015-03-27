@@ -34,18 +34,6 @@ namespace SkylineToolkit.UI
             }
         }
 
-        public int TabIndex
-        {
-            get
-            {
-                return this.UIComponent.tabIndex;
-            }
-            set
-            {
-                this.UIComponent.tabIndex = value;
-            }
-        }
-
         #region Sprites
 
         public string DisabledBackgroundSprite
@@ -198,7 +186,7 @@ namespace SkylineToolkit.UI
             }
         }
 
-        public Vector2 MinimumSize
+        public Vector2 CalculatedMinimumSize
         {
             get
             {

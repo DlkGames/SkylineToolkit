@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SkylineToolkit.UI
+namespace SkylineToolkit.UI.CustomControls
 {
-    public class Control : BaseControl
+    public interface ICustomControl
     {
     }
 }

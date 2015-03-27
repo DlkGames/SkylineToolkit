@@ -6,6 +6,15 @@ namespace SkylineToolkit
 {
     public class SkylineToolkitMod : IUserMod
     {
+        public const string PERMAMOD_NAME = "___SkylineToolkit";
+
+        public const string MAINMENUMOD_NAME = "___SkylineToolkit_MainMenuMod";
+
+        /// <summary>
+        /// Do not change this value until you know what you're doing!
+        /// </summary>
+        public static bool overwriteExistingMods = true;
+
         private static GameObject permaModGameObject;
 
         private static GameObject mainMenuModGameObject;
@@ -89,7 +98,22 @@ namespace SkylineToolkit
                 PermaModGameObject = null;
             }
 
-            GameObject toolkitObject = new GameObject("___SkylineToolkit");
+            GameObject toolkitObject = GameObject.Find(PERMAMOD_NAME);
+
+            if (toolkitObject != null)
+            {
+                if (overwriteExistingMods)
+                {
+                    GameObject.DestroyImmediate(toolkitObject);
+                }
+                else
+                {
+                    PermaModGameObject = toolkitObject;
+                    return;
+                }
+            }
+
+            toolkitObject = new GameObject(PERMAMOD_NAME);
 
             SkylineToolkitPermaMod component = toolkitObject.AddComponent<SkylineToolkitPermaMod>();
 
@@ -104,7 +128,22 @@ namespace SkylineToolkit
                 MainMenuModGameObject = null;
             }
 
-            GameObject mainMenuObject = new GameObject("___SkylineToolkit_MainMenuMod");
+            GameObject mainMenuObject = GameObject.Find(MAINMENUMOD_NAME);
+
+            if (mainMenuObject != null)
+            {
+                if (overwriteExistingMods)
+                {
+                    GameObject.DestroyImmediate(mainMenuObject);
+                }
+                else
+                {
+                    MainMenuModGameObject = mainMenuObject;
+                    return;
+                }
+            }
+
+            mainMenuObject = new GameObject(MAINMENUMOD_NAME);
 
             MainMenuModification component = mainMenuObject.AddComponent<MainMenuModification>();
 

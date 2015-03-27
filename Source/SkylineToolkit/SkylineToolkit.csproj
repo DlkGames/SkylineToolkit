@@ -103,16 +103,21 @@
     <Compile Include="SkylineToolkitMod.cs" />
     <Compile Include="StLoadingExtension.cs" />
     <Compile Include="Tuple.cs" />
+    <Compile Include="UI\ActionContorls\DragHandle.cs" />
     <Compile Include="UI\AlignmentAnchor.cs" />
+    <Compile Include="UI\Control.cs" />
     <Compile Include="UI\Button.cs" />
     <Compile Include="UI\ButtonState.cs" />
     <Compile Include="UI\ColossalControl.cs" />
     <Compile Include="UI\ColossalTextControl.cs" />
     <Compile Include="UI\ColossalUserControl.cs" />
-    <Compile Include="UI\Control.cs" />
+    <Compile Include="UI\BaseControl.cs" />
     <Compile Include="UI\ClippingDirections.cs" />
     <Compile Include="UI\ControlEventArgs.cs" />
     <Compile Include="UI\CursorInfo.cs" />
+    <Compile Include="UI\CustomControls\CustomControl.cs" />
+    <Compile Include="UI\CustomControls\ICustomControl.cs" />
+    <Compile Include="UI\CustomControls\WindowControl.cs" />
     <Compile Include="UI\FocusEventArgs.cs" />
     <Compile Include="UI\FocusEventHandler.cs" />
     <Compile Include="UI\HitPointInfo.cs" />
@@ -120,21 +125,27 @@
     <Compile Include="UI\IControl.cs" />
     <Compile Include="UI\KeyboardEventArgs.cs" />
     <Compile Include="UI\KeyboardEventHandler.cs" />
+    <Compile Include="UI\LayoutDirection.cs" />
+    <Compile Include="UI\LayoutOrigin.cs" />
     <Compile Include="UI\MouseButtons.cs" />
     <Compile Include="UI\MouseEventArgs.cs" />
     <Compile Include="UI\MouseEventHandler.cs" />
     <Compile Include="UI\Panel.cs" />
     <Compile Include="UI\PivotPoint.cs" />
     <Compile Include="UI\PositionAnchor.cs" />
+    <Compile Include="UI\SpriteFlipping.cs" />
     <Compile Include="UI\Styles\ColossalSprite.cs" />
     <None Include="UI\Temp\SceneExplorer.cs" />
-    <Compile Include="UI\Styles\ColossalTemplates.cs" />
+    <Compile Include="UI\Styles\ColossalTemplate.cs" />
     <Compile Include="UI\TooltipAnchor.cs" />
     <Compile Include="UI\TooltipEventArgs.cs" />
     <Compile Include="UI\TooltipEventHandler.cs" />
+    <Compile Include="UI\UIComponentExtensions.cs" />
     <Compile Include="UI\Window.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="UI\Generic\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>mkdir "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)"
