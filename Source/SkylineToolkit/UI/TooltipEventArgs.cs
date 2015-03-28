@@ -7,7 +7,7 @@ namespace SkylineToolkit.UI
         public TooltipEventArgs(UITooltipEventParameter originalParams)
             : base(originalParams)
         {
-            this.TooltipControl = ColossalControl<UIComponent>.FromUIComponent(originalParams.tooltip);
+            this.TooltipControl = ColossalControl.FromUIComponent(originalParams.tooltip);
         }
 
         public TooltipEventArgs(IColossalControl tooltipControl)

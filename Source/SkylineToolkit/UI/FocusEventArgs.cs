@@ -7,8 +7,8 @@ namespace SkylineToolkit.UI
         public FocusEventArgs(UIFocusEventParameter originalParams)
             : base(originalParams)
         {
-            this.FocusedControl = ColossalControl<UIComponent>.FromUIComponent(originalParams.gotFocus);
-            this.LostFocusControl = ColossalControl<UIComponent>.FromUIComponent(originalParams.lostFocus);
+            this.FocusedControl = ColossalControl.FromUIComponent(originalParams.gotFocus);
+            this.LostFocusControl = ColossalControl.FromUIComponent(originalParams.lostFocus);
         }
 
         public FocusEventArgs(IColossalControl focusedControl, IColossalControl lostFocusControl)

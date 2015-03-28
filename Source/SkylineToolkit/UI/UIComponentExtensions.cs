@@ -1,4 +1,5 @@
 ﻿using ColossalFramework.UI;
+using SkylineToolkit.UI.Generic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +9,9 @@ namespace SkylineToolkit.UI
 {
     public static class UIComponentExtensions
     {
-        public static IColossalControl ToSkylineToolkitControl(this UIComponent component)
+        public static ColossalControl ToSkylineToolkitControl(this UIComponent component)
         {
-            return ColossalControl<UIComponent>.FromUIComponent(component);
+            return ColossalControl.FromUIComponent(component);
         }
 
         public static ColossalControl<T> ToSkylineToolkitControl<T>(this UIComponent component)

@@ -2,40 +2,24 @@
 using System;
 using UnityEngine;
 
-namespace SkylineToolkit.UI
+namespace SkylineToolkit.UI.Generic
 {
-    public class ColossalTextControl : ColossalControl
+    public class ColossalTextControl<T> : ColossalControl<T>
+        where T : UITextComponent
     {
-        public ColossalTextControl(UITextComponent component)
+        public ColossalTextControl(T component)
             : base(component)
         {
         }
 
         public ColossalTextControl(string name)
-            : base(name, typeof(UITextComponent))
-        {
-        }
-
-        public ColossalTextControl(string name, Type componentType)
-            : base(name, componentType)
+            : base(name)
         {
         }
 
         public ColossalTextControl(IColossalControl control)
             : base(control)
         {
-        }
-
-        public new UITextComponent UIComponent
-        {
-            get
-            {
-                return (UITextComponent)base.UIComponent;
-            }
-            set
-            {
-                base.UIComponent = value;
-            }
         }
 
         #region Colors

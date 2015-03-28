@@ -2,40 +2,24 @@
 using System;
 using UnityEngine;
 
-namespace SkylineToolkit.UI
+namespace SkylineToolkit.UI.Generic
 {
-    public class ColossalUserControl : ColossalTextControl
+    public class ColossalUserControl<T> : ColossalTextControl<T>
+        where T : UIInteractiveComponent
     {
-        public ColossalUserControl(UIInteractiveComponent component)
+        public ColossalUserControl(T component)
             : base(component)
         {
         }
 
-        public ColossalUserControl(string name )
-            : base(name, typeof(UIInteractiveComponent))
-        {
-        }
-
-        public ColossalUserControl(string name, Type componentType)
-            : base(name, componentType)
+        public ColossalUserControl(string name)
+            : base(name)
         {
         }
 
         public ColossalUserControl(IColossalControl control)
             : base(control)
         {
-        }
-
-        public new UIInteractiveComponent UIComponent
-        {
-            get
-            {
-                return (UIInteractiveComponent)base.UIComponent;
-            }
-            set
-            {
-                base.UIComponent = value;
-            }
         }
 
         public bool IsFocusable

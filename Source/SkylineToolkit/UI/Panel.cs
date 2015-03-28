@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace SkylineToolkit.UI
 {
-    public class Panel : ColossalControl<UIPanel>
+    public class Panel : ColossalControl
     {
         public Panel()
-            : base("Panel")
+            : base("Panel", typeof(UIPanel))
         {
             SetDefaultStyle();
         }
@@ -17,7 +17,7 @@ namespace SkylineToolkit.UI
         }
 
         public Panel(string name, string label, Vector3 position, Vector2 size)
-            : base(name)
+            : base(name, typeof(UIPanel))
         {
             this.Position = position;
             this.Size = size;
@@ -33,6 +33,18 @@ namespace SkylineToolkit.UI
         public Panel(IColossalControl control)
             : base(control)
         {
+        }
+
+        public new UIPanel UIComponent
+        {
+            get
+            {
+                return (UIPanel)base.UIComponent;
+            }
+            set
+            {
+                base.UIComponent = value;
+            }
         }
 
         public bool AutoFitChildrenHorizontally
