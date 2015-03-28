@@ -12,7 +12,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("SkylineToolkit")]
 [assembly: AssemblyCopyright("Copyright © DarkLiKally 2015")]
 [assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
+[assembly: AssemblyCulture("neutral")]
 
 // Durch Festlegen von ComVisible auf "false" werden die Typen in dieser Assembly unsichtbar 
 // für COM-Komponenten.  Wenn Sie auf einen Typ in dieser Assembly von 
@@ -32,6 +32,11 @@ using System.Runtime.InteropServices;
 // Sie können alle Werte angeben oder die standardmäßigen Build- und Revisionsnummern 
 // übernehmen, indem Sie "*" eingeben:
 // [assembly: AssemblyVersion("1.0.*")]
+#if DEBUG
 [assembly: AssemblyVersion("1.0.*")]
+#else
+// Fix for http://www.reddit.com/r/CitiesSkylinesModding/comments/2zeiwx/how_i_broke_everyones_savegame_and_fixed_them/
+[assembly: AssemblyVersion("1.0.0.15")]
+[assembly: AssemblyFileVersion("1.0.0.15")]
+#endif
 //[assembly: AssemblyFileVersion("1.0.*")]
-[assembly: NeutralResourcesLanguageAttribute("en")]
