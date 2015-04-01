@@ -1,12 +1,13 @@
 ﻿using ColossalFramework.UI;
 using SkylineToolkit.UI;
+using SkylineToolkit.UI.CustomControls;
 using SkylineToolkit.UI.Styles;
 using System.Linq;
 using UnityEngine;
 
 namespace SkylineToolkit.PermaMod
 {
-    public class MainMenuModification : MonoBehaviour
+    public sealed class MainMenuModification : MonoBehaviour
     {
         MainMenu mainMenu;
         Button modOptionsButton;
@@ -15,19 +16,35 @@ namespace SkylineToolkit.PermaMod
         {
             mainMenu = UIView.FindObjectOfType<MainMenu>();
 
-            modOptionsButton = CreateMenuItem("btn_ModOptions", "MOD OPTIONS", "Options");
+            if (GameObject.Find("btn_ModOptions") == null)
+            {
+                modOptionsButton = CreateMenuItem("btn_ModOptions", "MOD OPTIONS", "Options");
+            }
+            else
+            {
+                modOptionsButton = Button.FromUIComponent<Button>(GameObject.Find("btn_ModOptions").GetComponent<UIButton>());
+            }
 
             modOptionsButton.Click += btn_ModOptions_Click;
         }
 
+        void OnDisable()
+        {
+            if (modOptionsButton == null)
+            {
+                return;
+            }
+
+            if (modOptionsButton.Parent != null)
+            {
+                modOptionsButton.Parent.RemoveControl<Button>(modOptionsButton);
+            }
+        }
+
         private void btn_ModOptions_Click(object sender, MouseEventArgs e)
         {
-            Log.Info("Mod options clicked");
-
-            Panel panel = new Panel("test_panel");
-
-            panel.IsActive = true;
-
+            ModOptionsController.ShowOptionsWindow();
+            
             //GameObject go = UITemplateManager.GetAsGameObject(ColossalTemplate.ScrollablePanelTemplate);
             //go.name = "test_scrollable_panel";
 

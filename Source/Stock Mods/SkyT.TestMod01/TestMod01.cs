@@ -24,9 +24,9 @@ namespace SkyT.TestMod01
             {
 
 
-                Panel panel = new Panel("test_panel");
+                //Panel panel = new Panel("test_panel");
 
-                panel.IsActive = true;
+                //panel.IsActive = true;
 
                 return "TEST MOD 01";
             }

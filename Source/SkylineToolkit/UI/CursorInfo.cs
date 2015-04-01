@@ -10,20 +10,22 @@ namespace SkylineToolkit.UI
 
         public ColossalFramework.CursorInfo ToColossalCursorInfo()
         {
-            return new ColossalFramework.CursorInfo()
-            {
-                m_texture = this.Texture,
-                m_hotspot = this.HotSpot
-            };
+            ColossalFramework.CursorInfo info = ScriptableObject.CreateInstance<ColossalFramework.CursorInfo>();
+            
+            info.m_texture = this.Texture;
+            info.m_hotspot = this.HotSpot;
+
+            return info;
         }
 
         public static CursorInfo FromColossalCursorInfo(ColossalFramework.CursorInfo info)
         {
-            return new CursorInfo()
-            {
-                Texture = info.m_texture,
-                HotSpot = info.m_hotspot
-            };
+            CursorInfo cInfo = ScriptableObject.CreateInstance<CursorInfo>();
+
+            cInfo.Texture = info.m_texture;
+            cInfo.HotSpot = info.m_hotspot;
+
+            return cInfo;
         }
     }
 }

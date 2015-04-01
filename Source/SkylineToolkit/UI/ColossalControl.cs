@@ -870,7 +870,7 @@ namespace SkylineToolkit.UI
         public static TControl FromUIComponent<TControl>(UIComponent component)
             where TControl : ColossalControl
         {
-            ColossalControl control = (TControl)FromUIComponent(component);
+            ColossalControl control = FromUIComponent(component);
 
             return (TControl)Activator.CreateInstance(typeof(TControl), new object[] { control });
         }
@@ -1022,7 +1022,7 @@ namespace SkylineToolkit.UI
         /// <param name="control">The existing control which should become a child control.</param>
         /// <returns>The attached child control.</returns>
         public TControl AttachControl<TControl>(TControl control)
-            where TControl : IColossalControl, new()
+            where TControl : IColossalControl
         {
             this.UIComponent.AttachUIComponent(control.UIComponent.gameObject);
 

@@ -1,5 +1,6 @@
 ﻿using ColossalFramework;
 using ColossalFramework.Plugins;
+using SkylineToolkit.Debugging;
 using SkylineToolkit.Logging;
 using System;
 using ColossalMessageType = ColossalFramework.Plugins.PluginManager.MessageType;
@@ -25,6 +26,7 @@ namespace SkylineToolkit
 
             //SubscribeToMessageManager();
             SubscribeToPluginManager();
+            HookToUnityDebug();
         }
 
         public static MessageType LogLevel { get; set; }
@@ -32,7 +34,7 @@ namespace SkylineToolkit
         /// <summary>
         /// Note: MessageManager sends it's messages to chirper. So the log will receive all messages, which are shown by Chirper.
         /// </summary>
-        internal static void SubscribeToMessageManager()
+        private static void SubscribeToMessageManager()
         {
             try
             {
@@ -47,11 +49,23 @@ namespace SkylineToolkit
         /// <summary>
         /// Note: Log will receive error messages from the PluginManager.
         /// </summary>
-        internal static void SubscribeToPluginManager()
+        private static void SubscribeToPluginManager()
         {
             try
             {
                 PluginManager.eventLogMessage += ColossalPluginManagerMessage;
+            }
+            catch (Exception ex)
+            {
+                CODebugBase<LogChannel>.Error(LogChannel.Core, ex.GetType().ToString() + " Message: " + ex.Message);
+            }
+        }
+
+        private static void HookToUnityDebug()
+        {
+            try
+            {
+                UnityDebug.Enable();
             }
             catch (Exception ex)
             {
@@ -69,7 +83,11 @@ namespace SkylineToolkit
             Message("PluginManager: {0}", (MessageType)type, message);
         }
 
+        #region Logging
+
         #region Without module
+
+        #region Format
 
         public static void Message(string message, params object[] args)
         {
@@ -96,11 +114,6 @@ namespace SkylineToolkit
             Message(message, MessageType.Error, args);
         }
 
-        public static void Exception(Exception ex)
-        {
-            Message(ex.ToString(), MessageType.Exception);
-        }
-
         public static void Info(string message, params object[] args)
         {
             Message(message, MessageType.Info, args);
@@ -123,11 +136,74 @@ namespace SkylineToolkit
 
         #endregion
 
+        #region Without format
+
+        public static void Message(object obj)
+        {
+            Message(obj.ToString(), MessageType.Message);
+        }
+
+        public static void Message(object obj, MessageType type = MessageType.Message)
+        {
+            OnLogMessage("Global", obj.ToString(), type);
+        }
+
+        public static void Critical(object obj)
+        {
+            Message(obj.ToString(), MessageType.Critical);
+        }
+
+        public static void Debug(object obj)
+        {
+            Message(obj.ToString(), MessageType.Debug);
+        }
+
+        public static void Error(object obj)
+        {
+            Message(obj.ToString(), MessageType.Error);
+        }
+
+        public static void Exception(Exception ex)
+        {
+            if (ex == null)
+            {
+                return;
+            }
+
+            Message(ex.ToString(), MessageType.Exception);
+        }
+
+        public static void Info(object obj)
+        {
+            Message(obj.ToString(), MessageType.Info);
+        }
+
+        public static void Profile(object obj)
+        {
+            Message(obj.ToString(), MessageType.Profile);
+        }
+
+        public static void Verbose(object obj)
+        {
+            Message(obj.ToString(), MessageType.Verbose);
+        }
+
+        public static void Warning(object obj)
+        {
+            Message(obj.ToString(), MessageType.Warning);
+        }
+
+        #endregion
+
+        #endregion
+
         #region With module
+
+        #region Format
 
         public static void Message(string module, string message, params object[] args)
         {
-            Message(message, MessageType.Message, args);
+            Message(module, message, MessageType.Message, args);
         }
 
         public static void Message(string module, string message, MessageType type = MessageType.Message, params object[] args)
@@ -148,11 +224,6 @@ namespace SkylineToolkit
         public static void Error(string module, string message, params object[] args)
         {
             Message(module, message, MessageType.Error, args);
-        }
-
-        public static void Exception(string module, Exception ex)
-        {
-            Message(ex.ToString(), MessageType.Exception);
         }
 
         public static void Info(string module, string message, params object[] args)
@@ -177,8 +248,76 @@ namespace SkylineToolkit
 
         #endregion
 
+        #region Without format
+
+        public static void Message(string module, object obj)
+        {
+            Message(module, obj.ToString(), MessageType.Message);
+        }
+
+        public static void Message(string module, object obj, MessageType type = MessageType.Message)
+        {
+            OnLogMessage(module, obj.ToString(), type);
+        }
+
+        public static void Critical(string module, object obj)
+        {
+            Message(module, obj.ToString(), MessageType.Critical);
+        }
+
+        public static void Debug(string module, object obj)
+        {
+            Message(module, obj.ToString(), MessageType.Debug);
+        }
+
+        public static void Error(string module, object obj)
+        {
+            Message(module, obj.ToString(), MessageType.Error);
+        }
+
+        public static void Exception(string module, Exception ex)
+        {
+            if (ex == null)
+            {
+                return;
+            }
+
+            Message(ex.ToString(), MessageType.Exception);
+        }
+
+        public static void Info(string module, object obj)
+        {
+            Message(module, obj.ToString(), MessageType.Info);
+        }
+
+        public static void Profile(string module, object obj)
+        {
+            Message(module, obj.ToString(), MessageType.Profile);
+        }
+
+        public static void Verbose(string module, object obj)
+        {
+            Message(module, obj.ToString(), MessageType.Verbose);
+        }
+
+        public static void Warning(string module, object obj)
+        {
+            Message(module, obj.ToString(), MessageType.Warning);
+        }
+
+        #endregion
+
+        #endregion
+
+        #endregion
+
         private static void OnLogMessage(string module, string message, MessageType type)
         {
+            if (message == null)
+            {
+                return;
+            }
+
             if (LogMessage != null)
             {
                 if (type <= LogLevel)

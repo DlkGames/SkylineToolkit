@@ -22,6 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -64,17 +65,21 @@
     <Compile Include="Debugging\DebugConsole.cs" />
     <Compile Include="Debugging\DebugConsoleLogMessage.cs" />
     <Compile Include="Debugging\DebugConsoleMessageType.cs" />
+    <Compile Include="Debugging\Detours.cs" />
     <Compile Include="Debugging\FpsCounter.cs" />
     <Compile Include="Debugging\Generic\WatchVar.cs" />
     <Compile Include="Debugging\IWatchVar.cs" />
+    <Compile Include="Debugging\UnityDebug.cs" />
     <Compile Include="Debugging\WatchVar.cs" />
     <Compile Include="Debugging\Windows\IDebugConsoleWindow.cs" />
     <Compile Include="Debugging\Windows\LogWindow.cs" />
     <Compile Include="Debugging\Windows\RawLogWindow.cs" />
     <Compile Include="Debugging\Windows\WatchVarsWindow.cs" />
+    <Compile Include="Events\CancellableEventArgs.cs" />
     <Compile Include="Events\PropChangedEventArgs.cs" />
     <Compile Include="Events\PropChangedEventHandler.cs" />
     <Compile Include="Events\SkylineEventArgs.cs" />
+    <Compile Include="PermaMod\ModOptionsController.cs" />
     <Compile Include="QuadraticBezierPath.cs" />
     <Compile Include="BezierPath.cs" />
     <Compile Include="ChirperMessage.cs" />
@@ -141,13 +146,12 @@
     <Compile Include="UI\PositionAnchor.cs" />
     <Compile Include="UI\SpriteFlipping.cs" />
     <Compile Include="UI\Styles\ColossalSprite.cs" />
-    <None Include="UI\Temp\SceneExplorer.cs" />
+    <Compile Include="UI\Window.cs" />
     <Compile Include="UI\Styles\ColossalTemplate.cs" />
     <Compile Include="UI\TooltipAnchor.cs" />
     <Compile Include="UI\TooltipEventArgs.cs" />
     <Compile Include="UI\TooltipEventHandler.cs" />
     <Compile Include="UI\UIComponentExtensions.cs" />
-    <Compile Include="UI\Window.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

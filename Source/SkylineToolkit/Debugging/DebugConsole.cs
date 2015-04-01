@@ -33,6 +33,8 @@ namespace SkylineToolkit.Debugging
     /// </summary>
     public class DebugConsole : MonoBehaviour, ILogger
     {
+        public const string DEBUG_CONSOLE_NAME = "___DebugConsole___";
+
         public static readonly Version Version = new Version(1, 0);
 
         public event EventHandler ConsoleContentChanged;
@@ -121,7 +123,7 @@ namespace SkylineToolkit.Debugging
                         return DebugConsole._instance;
                     }
 
-                    GameObject console = new GameObject("___DebugConsole___");
+                    GameObject console = new GameObject(DEBUG_CONSOLE_NAME);
                     DebugConsole._instance = console.AddComponent<DebugConsole>();
                 }
 

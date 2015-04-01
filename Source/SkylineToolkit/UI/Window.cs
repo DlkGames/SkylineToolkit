@@ -1,23 +1,23 @@
-﻿using ColossalFramework.UI;
-using SkylineToolkit.UI.CustomControls;
+﻿using SkylineToolkit.UI.CustomControls;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using UnityEngine;
 
 namespace SkylineToolkit.UI
 {
-    public class Window : BaseControl
+    public static class Window
     {
-        private WindowControl control;
-
-        public WindowControl Control
+        public static WindowControl Create(string name)
         {
-            get
-            {
-                return this.control;
-            }
-            protected set
-            {
-                this.control = value;
-            }
+            GameObject go = new GameObject(name);
+
+            go.transform.parent = ColossalControl.ColossalUIView.transform;
+
+            WindowControl window = go.AddComponent<WindowControl>();
+
+            return window;
         }
     }
 }

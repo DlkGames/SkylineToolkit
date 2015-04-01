@@ -25,10 +25,10 @@ namespace SkylineToolkit.UI
             SetDefaultStyle();
         }
 
-        //public Panel(UIPanel panel)
-        //    : base(panel)
-        //{
-        //}
+        public Panel(UIPanel panel)
+            : base(panel)
+        {
+        }
 
         public Panel(IColossalControl control)
             : base(control)

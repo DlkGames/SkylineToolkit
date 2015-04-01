@@ -1,33 +1,34 @@
 ﻿using ICities;
 using SkylineToolkit.PermaMod;
+using System;
 using UnityEngine;
 
 namespace SkylineToolkit
 {
     public class SkylineToolkitMod : IUserMod
     {
-        public const string PERMAMOD_NAME = "___SkylineToolkit";
-
-        public const string MAINMENUMOD_NAME = "___SkylineToolkit_MainMenuMod";
+        public const string SKYLINETOOLKIT_NAME = "___SkylineToolkit___";
 
         /// <summary>
         /// Do not change this value until you know what you're doing!
         /// </summary>
         public static bool overwriteExistingMods = true;
 
-        private static GameObject permaModGameObject;
+        private static bool isInitialized = false;
+
+        private static GameObject toolkitGameObject;
 
         private static GameObject mainMenuModGameObject;
 
-        public static GameObject PermaModGameObject
+        public static GameObject ToolkitGameObject
         {
             get
             {
-                return permaModGameObject;
+                return toolkitGameObject;
             }
             private set
             {
-                permaModGameObject = value;
+                toolkitGameObject = value;
             }
         }
 
@@ -35,24 +36,25 @@ namespace SkylineToolkit
         {
             get
             {
-                if (PermaModGameObject == null)
+                if (ToolkitGameObject == null)
                 {
                     return null;
                 }
 
-                return PermaModGameObject.GetComponent<SkylineToolkitPermaMod>();
+                return ToolkitGameObject.GetComponent<SkylineToolkitPermaMod>();
             }
         }
 
-        public static GameObject MainMenuModGameObject
+        public static ModOptionsController ModOptionsControllerComponent
         {
             get
             {
-                return mainMenuModGameObject;
-            }
-            private set
-            {
-                mainMenuModGameObject = value;
+                if (ToolkitGameObject == null)
+                {
+                    return null;
+                }
+
+                return ToolkitGameObject.GetComponent<ModOptionsController>();
             }
         }
 
@@ -60,12 +62,20 @@ namespace SkylineToolkit
         {
             get
             {
-                if (MainMenuModGameObject == null)
+                if (ToolkitGameObject == null)
                 {
                     return null;
                 }
 
-                return MainMenuModGameObject.GetComponent<MainMenuModification>();
+                return ToolkitGameObject.GetComponent<MainMenuModification>();
+            }
+        }
+
+        public static bool IsInitialized
+        {
+            get
+            {
+                return isInitialized;
             }
         }
 
@@ -83,22 +93,30 @@ namespace SkylineToolkit
             get
             {
                 // The following method calls are hooks to initialize our permanent mod and main menu modification
-                InitializePermaMod();
-                InitializeMainMenuMod();
+                if (!isInitialized)
+                {
+                    EnsureGameObject();
+
+                    InitializePermaMod();
+                    InitializeModOptionsController();
+                    InitializeMainMenuMod();
+
+                    isInitialized = true;
+                }
 
                 return "SkylineToolkit";
             }
         }
 
-        private void InitializePermaMod()
+        private void EnsureGameObject()
         {
-            if (PermaModGameObject != null)
+            if (ToolkitGameObject != null)
             {
-                GameObject.DestroyImmediate(PermaModGameObject);
-                PermaModGameObject = null;
+                GameObject.DestroyImmediate(ToolkitGameObject);
+                ToolkitGameObject = null;
             }
 
-            GameObject toolkitObject = GameObject.Find(PERMAMOD_NAME);
+            GameObject toolkitObject = GameObject.Find(SKYLINETOOLKIT_NAME);
 
             if (toolkitObject != null)
             {
@@ -108,46 +126,44 @@ namespace SkylineToolkit
                 }
                 else
                 {
-                    PermaModGameObject = toolkitObject;
+                    ToolkitGameObject = toolkitObject;
                     return;
                 }
             }
 
-            toolkitObject = new GameObject(PERMAMOD_NAME);
+            toolkitObject = new GameObject(SKYLINETOOLKIT_NAME);
 
-            SkylineToolkitPermaMod component = toolkitObject.AddComponent<SkylineToolkitPermaMod>();
+            ToolkitGameObject = toolkitObject;
+        }
 
-            PermaModGameObject = toolkitObject;
+        private void InitializePermaMod()
+        {
+            if (ToolkitGameObject == null)
+            {
+                EnsureGameObject();
+            }
+
+            ToolkitGameObject.AddComponent<SkylineToolkitPermaMod>();
+        }
+
+        private void InitializeModOptionsController()
+        {
+            if (ToolkitGameObject == null)
+            {
+                EnsureGameObject();
+            }
+
+            ToolkitGameObject.AddComponent<ModOptionsController>();
         }
 
         private void InitializeMainMenuMod()
         {
-            if (MainMenuModGameObject != null)
+            if (ToolkitGameObject == null)
             {
-                GameObject.DestroyImmediate(MainMenuModGameObject);
-                MainMenuModGameObject = null;
+                EnsureGameObject();
             }
 
-            GameObject mainMenuObject = GameObject.Find(MAINMENUMOD_NAME);
-
-            if (mainMenuObject != null)
-            {
-                if (overwriteExistingMods)
-                {
-                    GameObject.DestroyImmediate(mainMenuObject);
-                }
-                else
-                {
-                    MainMenuModGameObject = mainMenuObject;
-                    return;
-                }
-            }
-
-            mainMenuObject = new GameObject(MAINMENUMOD_NAME);
-
-            MainMenuModification component = mainMenuObject.AddComponent<MainMenuModification>();
-
-            MainMenuModGameObject = mainMenuObject;
+            ToolkitGameObject.AddComponent<MainMenuModification>();
         }
     }
 }

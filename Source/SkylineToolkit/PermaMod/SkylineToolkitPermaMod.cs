@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace SkylineToolkit.PermaMod
 {
-    public class SkylineToolkitPermaMod : MonoBehaviour
+    public sealed class SkylineToolkitPermaMod : MonoBehaviour
     {
         void Awake()
         {
@@ -38,7 +38,8 @@ namespace SkylineToolkit.PermaMod
 
             DebugConsole.RegisterCommand("list-ui-templates", command);
         }
-
+        
+        // TODO: Move to other class / own class?
         private int ListUITemplates(ICommandContext context, string[] args, char[] flags)
         {
             Dictionary<string, UIComponent> templates;

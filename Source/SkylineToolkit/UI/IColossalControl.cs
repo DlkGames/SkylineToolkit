@@ -308,7 +308,7 @@ namespace SkylineToolkit.UI
         /// <typeparam name="TControl">The type of the existing control.</typeparam>
         /// <param name="control">The existing control which should become a child control.</param>
         /// <returns>The attached child control.</returns>
-        TControl AttachControl<TControl>(TControl control) where TControl : IColossalControl, new();
+        TControl AttachControl<TControl>(TControl control) where TControl : IColossalControl;
 
         /// <summary>
         /// Finds a child control matching the given filter.

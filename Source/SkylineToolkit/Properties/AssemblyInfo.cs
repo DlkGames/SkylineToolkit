@@ -12,7 +12,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("SkylineToolkit")]
 [assembly: AssemblyCopyright("Copyright © DarkLiKally 2015")]
 [assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("neutral")]
+[assembly: AssemblyCulture("")]
 
 // Durch Festlegen von ComVisible auf "false" werden die Typen in dieser Assembly unsichtbar 
 // für COM-Komponenten.  Wenn Sie auf einen Typ in dieser Assembly von 
