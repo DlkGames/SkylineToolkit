@@ -36,16 +36,16 @@ namespace SkylineToolkit.UI
         {
         }
 
-        public TextField(string name, string label, Vector3 position)
-            : this(name, label, position, new Vector2(200, 40))
+        public TextField(string name, string text, Vector3 position)
+            : this(name, text, position, new Vector2(200, 40))
         {
         }
 
-        public TextField(string name, string label, Vector3 position, Vector2 size)
+        public TextField(string name, string text, Vector3 position, Vector2 size)
             : base(name, typeof(UITextField))
         {
             this.Position = position;
-            this.Text = label;
+            this.Text = text;
 
             this.UIComponent.size = size;
 

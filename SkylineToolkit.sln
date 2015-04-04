@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkylineToolkit", "Source\SkylineToolkit\SkylineToolkit.csproj", "{0265A965-E457-4835-A59D-2187041DA4A5}"
 EndProject
@@ -11,20 +11,33 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 Toolkit", "01 Toolkit", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkyT.TestMod01", "Source\Stock Mods\SkyT.TestMod01\SkyT.TestMod01.csproj", "{B948AC40-E4D1-470A-A363-A7BF5B5FB8E6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DlkGames.Unity.TestableUnity", "Source\DlkGames.Unity.TestableUnity\DlkGames.Unity.TestableUnity.csproj", "{BCB4B37D-3D4A-476E-B6A9-944FFC1C63A4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		NoUnityBuild|Any CPU = NoUnityBuild|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{0265A965-E457-4835-A59D-2187041DA4A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0265A965-E457-4835-A59D-2187041DA4A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0265A965-E457-4835-A59D-2187041DA4A5}.NoUnityBuild|Any CPU.ActiveCfg = Release|Any CPU
+		{0265A965-E457-4835-A59D-2187041DA4A5}.NoUnityBuild|Any CPU.Build.0 = Release|Any CPU
 		{0265A965-E457-4835-A59D-2187041DA4A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0265A965-E457-4835-A59D-2187041DA4A5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B948AC40-E4D1-470A-A363-A7BF5B5FB8E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B948AC40-E4D1-470A-A363-A7BF5B5FB8E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B948AC40-E4D1-470A-A363-A7BF5B5FB8E6}.NoUnityBuild|Any CPU.ActiveCfg = Release|Any CPU
+		{B948AC40-E4D1-470A-A363-A7BF5B5FB8E6}.NoUnityBuild|Any CPU.Build.0 = Release|Any CPU
 		{B948AC40-E4D1-470A-A363-A7BF5B5FB8E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B948AC40-E4D1-470A-A363-A7BF5B5FB8E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCB4B37D-3D4A-476E-B6A9-944FFC1C63A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCB4B37D-3D4A-476E-B6A9-944FFC1C63A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCB4B37D-3D4A-476E-B6A9-944FFC1C63A4}.NoUnityBuild|Any CPU.ActiveCfg = NoUnityBuild|Any CPU
+		{BCB4B37D-3D4A-476E-B6A9-944FFC1C63A4}.NoUnityBuild|Any CPU.Build.0 = NoUnityBuild|Any CPU
+		{BCB4B37D-3D4A-476E-B6A9-944FFC1C63A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCB4B37D-3D4A-476E-B6A9-944FFC1C63A4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -32,5 +45,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{0265A965-E457-4835-A59D-2187041DA4A5} = {7CBEC7B5-EF69-4192-AEBD-E39123407599}
 		{B948AC40-E4D1-470A-A363-A7BF5B5FB8E6} = {2D6D97CD-D41D-4A9B-9D15-6FC9AE09C63F}
+		{BCB4B37D-3D4A-476E-B6A9-944FFC1C63A4} = {7CBEC7B5-EF69-4192-AEBD-E39123407599}
 	EndGlobalSection
 EndGlobal

@@ -167,6 +167,7 @@
     <Compile Include="UI\SkyAML\Elements\Vector3Element.cs" />
     <Compile Include="UI\SpriteFlipping.cs" />
     <Compile Include="UI\Styles\ColossalSprite.cs" />
+    <Compile Include="UI\Tabs.cs" />
     <Compile Include="UI\TextField.cs" />
     <Compile Include="UI\Window.cs" />
     <Compile Include="UI\Styles\ColossalTemplate.cs" />
