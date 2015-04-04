@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace SkylineToolkit.UI.CustomControls
 {
-    public class WindowControl : CustomControl, IDisposable
+    public class WindowControl : CustomControl
     {
         private Panel windowPanel;
 
@@ -236,6 +236,8 @@ namespace SkylineToolkit.UI.CustomControls
 
             CreateResizeHandle();
 
+            SubscribeEvents();
+
             windowPanel.IsActive = true;
         }
 
@@ -304,7 +306,6 @@ namespace SkylineToolkit.UI.CustomControls
             closeButton.ZOrder = 2;
             closeButton.IsActive = true;
             closeButton.RelativePosition = new Vector3(this.windowPanel.Width - 36, 4);
-            closeButton.Click += closeButton_Click;
         }
 
         protected virtual void CreateResizeHandle()
@@ -331,10 +332,24 @@ namespace SkylineToolkit.UI.CustomControls
             resizeButton.IsEnabled = this.isResizable;
             resizeButton.RelativePosition = new Vector3(windowPanel.Width - 28, windowPanel.Height - 28);
             resizeButton.ZOrder = 2;
+        }
+
+        protected void SubscribeEvents()
+        {
+            closeButton.Click += closeButton_Click;
 
             resizeButton.MouseDown += resizeButton_MouseDown;
             resizeButton.MouseUp += resizeButton_MouseUp;
             resizeButton.MouseMove += resizeButton_MouseMove;
+        }
+
+        protected void UnsubscribeEvents()
+        {
+            closeButton.Click -= closeButton_Click;
+
+            resizeButton.MouseDown -= resizeButton_MouseDown;
+            resizeButton.MouseUp -= resizeButton_MouseUp;
+            resizeButton.MouseMove -= resizeButton_MouseMove;
         }
 
         #region Event handlers
@@ -518,14 +533,47 @@ namespace SkylineToolkit.UI.CustomControls
         }
 
         #endregion
+        
+        ~WindowControl()
+        {
+            this.Dispose(true);
+        }
 
         #region IDisposable
 
-        public void Dispose()
+        protected void DisposeComponents()
         {
-            this.Hide();
+            windowPanel.Dispose();
+            dragHandle.Dispose();
+            captionComponent.Dispose();
+            labelComponent.Dispose();
+            closeButton.Dispose();
+            resizeButton.Dispose();
+        }
 
-            GameObject.DestroyImmediate(this.windowPanel.GameObject);
+        public override void Dispose()
+        {
+            this.Dispose(true);
+        }
+
+        bool disposed = false;
+
+        public void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                this.Hide();
+
+                if (disposing)
+                {
+                    this.UnsubscribeEvents();
+                    this.DisposeComponents();
+
+                    GameObject.DestroyImmediate(this.windowPanel.GameObject);
+
+                    disposed = true;
+                }
+            }
         }
 
         #endregion

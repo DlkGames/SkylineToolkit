@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace SkylineToolkit.UI.CustomControls
 {
-    public interface ICustomControl
+    public interface ICustomControl : IDisposableControl
     {
     }
 }

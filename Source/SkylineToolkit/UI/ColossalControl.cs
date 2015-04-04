@@ -8,7 +8,18 @@ using UnityEngine;
 
 namespace SkylineToolkit.UI
 {
-    public class ColossalControl : Control, IColossalControl, IComparable<IColossalControl>
+    /// <summary>
+    /// Basic wrapper for all <see cref="UIComponent"/> objects.
+    /// </summary>
+    /// <remarks>
+    /// Note: You should always dispose ColossalControls if you don't need them anymore because the wrapper registers
+    /// itself to all of the events of the wrapped object. This causes massive memory leaks if not needed control wrappers
+    /// are active. You can savely keep the wrappers active and stored if your UI persists for the whole game lifetime.
+    /// 
+    /// You can use the <see cref="UIDisposingManager"/> to register all your <see cref="IColossalControl"/> wrappers and
+    /// <see cref="CustomControls.ICustomControl"/>s for disposion if you dispose the UIDisposingManager.
+    /// </remarks>
+    public class ColossalControl : Control, IColossalControl, IComparable<IColossalControl>, IDisposable
     {
         public static readonly int[] TriangleIndices = new int[6] { 0, 1, 3, 3, 1, 2 };
 
@@ -971,6 +982,57 @@ namespace SkylineToolkit.UI
             this.UIComponent.eventIsEnabledChanged += OnIsEnabledChanged;
             this.UIComponent.eventVisibilityChanged += OnVisibilityChanged;
             this.UIComponent.eventTabIndexChanged += OnTabIndexChanged;
+        }
+
+        protected virtual void UnsubscribeEvents()
+        {
+            this.UIComponent.eventClick -= OnClick;
+            this.UIComponent.eventDisabledClick -= OnDisabledClick;
+            this.UIComponent.eventDoubleClick -= OnDoubleClick;
+            this.UIComponent.eventMouseDown -= OnMouseDown;
+            this.UIComponent.eventMouseUp -= OnMouseUp;
+            this.UIComponent.eventMouseWheel -= OnMouseWheel;
+            this.UIComponent.eventMouseEnter -= OnMouseEnter;
+            this.UIComponent.eventMouseLeave -= OnMouseLeave;
+            this.UIComponent.eventMouseHover -= OnMouseHover;
+            this.UIComponent.eventMouseMove -= OnMouseMove;
+            this.UIComponent.eventDragStart -= OnDragStart;
+            this.UIComponent.eventDragEnd -= OnDragEnd;
+            this.UIComponent.eventDragEnter -= OnDragEnter;
+            this.UIComponent.eventDragLeave -= OnDragLeave;
+            this.UIComponent.eventDragOver -= OnDragOver;
+            this.UIComponent.eventDragDrop -= OnDragDrop;
+            this.UIComponent.eventTooltipEnter -= OnTooltipEnter;
+            this.UIComponent.eventTooltipLeave -= OnTooltipLeave;
+
+            this.UIComponent.eventKeyDown -= OnKeyDown;
+            this.UIComponent.eventKeyUp -= OnKeyUp;
+            this.UIComponent.eventKeyPress -= OnKeyPress;
+
+            this.UIComponent.eventComponentAdded -= OnChildControlAdded;
+            this.UIComponent.eventComponentRemoved -= OnChildControlRemoved;
+
+            this.UIComponent.eventAnchorChanged -= OnAnchorChanged;
+            this.UIComponent.eventFitChildren -= OnFitChildren;
+            this.UIComponent.eventPositionChanged -= OnPositionChanged;
+            this.UIComponent.eventSizeChanged -= OnSizeChanged;
+
+            this.UIComponent.eventColorChanged -= OnColorChanged;
+            this.UIComponent.eventDisabledColorChanged -= OnDisabledColorChanged;
+            this.UIComponent.eventOpacityChanged -= OnOpacityChanged;
+            this.UIComponent.eventPivotChanged -= OnPivotChanged;
+            this.UIComponent.eventTooltipShow -= OnTooltipShow;
+            this.UIComponent.eventTooltipHide -= OnTooltipHide;
+            this.UIComponent.eventTooltipTextChanged -= OnTooltipTextChanged;
+            this.UIComponent.eventZOrderChanged -= OnZOrderChanged;
+
+            this.UIComponent.eventEnterFocus -= OnFocus;
+            this.UIComponent.eventGotFocus -= OnFocused;
+            this.UIComponent.eventLeaveFocus -= OnUnfocus;
+            this.UIComponent.eventLostFocus -= OnUnfocused;
+            this.UIComponent.eventIsEnabledChanged -= OnIsEnabledChanged;
+            this.UIComponent.eventVisibilityChanged -= OnVisibilityChanged;
+            this.UIComponent.eventTabIndexChanged -= OnTabIndexChanged;
         }
 
         protected virtual void SetDefaultStyle()
@@ -2019,6 +2081,35 @@ namespace SkylineToolkit.UI
         public int CompareTo(IColossalControl other)
         {
             return this.UIComponent.CompareTo(other.UIComponent);
+        }
+
+        #endregion
+
+        ~ColossalControl()
+        {
+            this.Dispose(true);
+        }
+
+        #region IDisposable
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+        }
+
+        bool disposed = false;
+
+        public void Dispose(bool disposing)
+        {
+            if(!disposed)
+            {
+                if (disposing)
+                {
+                    this.UnsubscribeEvents();
+                }
+
+                disposed = true;
+            }
         }
 
         #endregion

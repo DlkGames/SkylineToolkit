@@ -4,7 +4,7 @@ using System;
 using UnityEngine;
 namespace SkylineToolkit.UI
 {
-    public interface IColossalControl : IControl
+    public interface IColossalControl : IControl, IDisposableControl
     {
         #region Events
 

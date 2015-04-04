@@ -494,6 +494,17 @@ namespace SkylineToolkit.UI
             this.UIComponent.eventTextCancelled += OnTextCancelled;
         }
 
+        protected override void UnsubscribeEvents()
+        {
+            base.UnsubscribeEvents();
+
+            this.UIComponent.eventReadOnlyChanged -= OnReadOnlyChanged;
+            this.UIComponent.eventPasswordCharacterChanged -= OnPasswordCharacterChanged;
+            this.UIComponent.eventTextChanged -= OnTextChanged;
+            this.UIComponent.eventTextSubmitted -= OnTextSubmitted;
+            this.UIComponent.eventTextCancelled -= OnTextCancelled;
+        }
+
         protected override void SetDefaultStyle()
         {
             base.SetDefaultStyle();

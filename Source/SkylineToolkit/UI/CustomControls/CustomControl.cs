@@ -7,7 +7,13 @@ using UnityEngine;
 
 namespace SkylineToolkit.UI.CustomControls
 {
-    public class CustomControl : MonoBehaviour, ICustomControl
+    public abstract class CustomControl : MonoBehaviour, ICustomControl
     {
+        public abstract void Dispose();
+
+        protected void OnDestroy()
+        {
+            this.Dispose();
+        }
     }
 }
