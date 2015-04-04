@@ -63,10 +63,12 @@
     <Compile Include="Debugging\Commands\HelpCommand.cs" />
     <Compile Include="Debugging\Commands\ICommandContext.cs" />
     <Compile Include="Debugging\Commands\IDebugCommand.cs" />
+    <Compile Include="Debugging\Controls\DebuggerWindow.cs" />
     <Compile Include="Debugging\Debug.cs" />
     <Compile Include="Debugging\DebugConsole.cs" />
     <Compile Include="Debugging\DebugConsoleLogMessage.cs" />
     <Compile Include="Debugging\DebugConsoleMessageType.cs" />
+    <Compile Include="Debugging\Debugger.cs" />
     <Compile Include="Debugging\Detours.cs" />
     <Compile Include="Debugging\FpsCounter.cs" />
     <Compile Include="Debugging\Generic\WatchVar.cs" />
@@ -165,6 +167,7 @@
     <Compile Include="UI\SkyAML\Elements\Vector3Element.cs" />
     <Compile Include="UI\SpriteFlipping.cs" />
     <Compile Include="UI\Styles\ColossalSprite.cs" />
+    <Compile Include="UI\TextField.cs" />
     <Compile Include="UI\Window.cs" />
     <Compile Include="UI\Styles\ColossalTemplate.cs" />
     <Compile Include="UI\TooltipAnchor.cs" />

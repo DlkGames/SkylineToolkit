@@ -1,4 +1,5 @@
 ﻿using ICities;
+using SkylineToolkit.Debugging;
 using SkylineToolkit.PermaMod;
 using System;
 using UnityEngine;
@@ -108,6 +109,8 @@ namespace SkylineToolkit
             {
                 return;
             }
+
+            Debugger.Initialize();
 
             try
             {

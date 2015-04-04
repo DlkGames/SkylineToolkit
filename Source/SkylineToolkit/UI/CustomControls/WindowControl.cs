@@ -53,10 +53,6 @@ namespace SkylineToolkit.UI.CustomControls
 
         #endregion
 
-        private WindowControl()
-        {
-        }
-
         #region Properties
 
         #region Controls

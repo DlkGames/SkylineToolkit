@@ -44,7 +44,7 @@ namespace SkylineToolkit.Debugging
         #region Public Unity Component Options
         public bool showDebugMenu;
         public bool registerDefaultCommands = true;
-        public KeyCode toggleKey = KeyCode.F10;
+        public KeyCode toggleKey = KeyCode.F11;
         public int maxDisplayedMessages = 100;
         #endregion
 
