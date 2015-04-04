@@ -37,7 +37,21 @@ namespace SkylineToolkit.PermaMod
                 instance = this;
             }
 
-            InitializeOptionsWindow();
+            // Hook into LoadingManager... we have to restore our window on new levels TODO needs another workaround
+            ColossalFramework.Singleton<LoadingManager>.instance.m_levelLoaded += LoadingManager_LevelLoaded;
+
+            if (optionsWindow == null)
+            {
+                CreateOptionsWindow();
+            }
+        }
+
+        void LoadingManager_LevelLoaded(SimulationManager.UpdateMode updateMode)
+        {
+            if (optionsWindow == null)
+            {
+                CreateOptionsWindow();
+            }
         }
 
         void OnEnable()
@@ -50,7 +64,7 @@ namespace SkylineToolkit.PermaMod
 
         }
 
-        private void InitializeOptionsWindow()
+        private void CreateOptionsWindow()
         {
             Log.Debug("ModOptions", "Creating mod options window");
 

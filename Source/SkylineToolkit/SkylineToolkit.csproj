@@ -125,7 +125,8 @@
     <Compile Include="UI\Button.cs" />
     <Compile Include="UI\ButtonState.cs" />
     <Compile Include="UI\ColossalControl.cs" />
-    <Compile Include="UI\CustomControls\Tabs.cs" />
+    <Compile Include="UI\CustomControls\IControlsContainer.cs" />
+    <Compile Include="UI\CustomControls\TabsControl.cs" />
     <Compile Include="UI\DragDropEventHandler.cs" />
     <Compile Include="UI\DragDropState.cs" />
     <Compile Include="UI\DragEventArgs.cs" />
@@ -147,6 +148,7 @@
     <Compile Include="UI\HorizontalAlignment.cs" />
     <Compile Include="UI\IColossalControl.cs" />
     <Compile Include="UI\IControl.cs" />
+    <Compile Include="UI\IDisposableControl.cs" />
     <Compile Include="UI\KeyboardEventArgs.cs" />
     <Compile Include="UI\KeyboardEventHandler.cs" />
     <Compile Include="UI\LayoutDirection.cs" />
@@ -174,8 +176,11 @@
     <Compile Include="UI\SpriteFlipping.cs" />
     <Compile Include="UI\Styles\ColossalSprite.cs" />
     <Compile Include="UI\TabContainer.cs" />
+    <Compile Include="UI\Tabs.cs" />
     <Compile Include="UI\TabStrip.cs" />
+    <Compile Include="UI\TextArea.cs" />
     <Compile Include="UI\TextField.cs" />
+    <Compile Include="UI\UIDiposingManager.cs" />
     <Compile Include="UI\VerticalAlignment.cs" />
     <Compile Include="UI\Window.cs" />
     <Compile Include="UI\Styles\ColossalTemplate.cs" />

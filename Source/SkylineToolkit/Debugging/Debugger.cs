@@ -94,6 +94,8 @@ namespace SkylineToolkit.Debugging
 
         void Awake()
         {
+            DontDestroyOnLoad(this);
+
             if (isInitialized)
             {
                 try
@@ -112,7 +114,21 @@ namespace SkylineToolkit.Debugging
 
             this.fpsCounter = new Debugging.FpsCounter();
 
-            CreateDebuggerWindow();
+            // Hook into LoadingManager... we have to restore our window on new levels TODO needs another workaround
+            ColossalFramework.Singleton<LoadingManager>.instance.m_levelLoaded += LoadingManager_LevelLoaded;
+
+            if (window == null)
+            {
+                CreateDebuggerWindow();
+            }
+        }
+
+        void LoadingManager_LevelLoaded(SimulationManager.UpdateMode updateMode)
+        {
+            if (window == null)
+            {
+                CreateDebuggerWindow();
+            }
         }
 
         void OnEnable()
@@ -154,6 +170,8 @@ namespace SkylineToolkit.Debugging
 
             this.window = window;
             window.Debugger = this;
+
+            GameObject.DontDestroyOnLoad(window);
         }
 
         #endregion

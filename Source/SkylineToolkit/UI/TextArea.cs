@@ -8,7 +8,11 @@ using UnityEngine;
 
 namespace SkylineToolkit.UI
 {
-    public class TextField : ColossalUserControl
+    /// <summary>
+    /// TODO TextArea
+    /// NOTE This is not usable at the moment, it has only the functionality of the normal TextField
+    /// </summary>
+    public class TextArea : ColossalUserControl
     {
         #region Events
 
@@ -26,23 +30,23 @@ namespace SkylineToolkit.UI
 
         #region Constructors
 
-        public TextField()
-            : base("TextField", typeof(UITextField))
+        public TextArea()
+            : base("TextField", typeof(UITextArea))
         {
         }
 
-        public TextField(string name)
+        public TextArea(string name)
             : this(name, name, new Vector3(0f,0f))
         {
         }
 
-        public TextField(string name, string text, Vector3 position)
+        public TextArea(string name, string text, Vector3 position)
             : this(name, text, position, new Vector2(200, 29))
         {
         }
 
-        public TextField(string name, string text, Vector3 position, Vector2 size)
-            : base(name, typeof(UITextField))
+        public TextArea(string name, string text, Vector3 position, Vector2 size)
+            : base(name, typeof(UITextArea))
         {
             this.Position = position;
             this.Text = text;
@@ -50,12 +54,12 @@ namespace SkylineToolkit.UI
             this.UIComponent.size = size;
         }
 
-        public TextField(UITextField textField, bool subschribeEvents = false)
-            : base(textField, subschribeEvents)
+        public TextArea(UITextArea textArea, bool subschribeEvents = false)
+            : base(textArea, subschribeEvents)
         {
         }
 
-        public TextField(IColossalControl control, bool subschribeEvents = false) 
+        public TextArea(IColossalControl control, bool subschribeEvents = false) 
             : base(control, subschribeEvents)
         {
         }
@@ -66,11 +70,11 @@ namespace SkylineToolkit.UI
 
         #region Component
 
-        public new UITextField UIComponent
+        public new UITextArea UIComponent
         {
             get
             {
-                return (UITextField)base.UIComponent;
+                return (UITextArea)base.UIComponent;
             }
             set
             {
@@ -179,18 +183,6 @@ namespace SkylineToolkit.UI
 
         #region Content
 
-        public bool IsPassword
-        {
-            get
-            {
-                return this.UIComponent.isPasswordField;
-            }
-            set
-            {
-                this.UIComponent.isPasswordField = value;
-            }
-        }
-
         public bool IsNumeric
         {
             get
@@ -291,18 +283,6 @@ namespace SkylineToolkit.UI
             set
             {
                 this.UIComponent.padding = value;
-            }
-        }
-
-        public string PasswordCharacter
-        {
-            get
-            {
-                return this.UIComponent.passwordCharacter;
-            }
-            set
-            {
-                this.UIComponent.passwordCharacter = value;
             }
         }
 
@@ -488,7 +468,6 @@ namespace SkylineToolkit.UI
             base.SubscribeEvents();
 
             this.UIComponent.eventReadOnlyChanged += OnReadOnlyChanged;
-            this.UIComponent.eventPasswordCharacterChanged += OnPasswordCharacterChanged;
             this.UIComponent.eventTextChanged += OnTextChanged;
             this.UIComponent.eventTextSubmitted += OnTextSubmitted;
             this.UIComponent.eventTextCancelled += OnTextCancelled;
@@ -499,7 +478,6 @@ namespace SkylineToolkit.UI
             base.UnsubscribeEvents();
 
             this.UIComponent.eventReadOnlyChanged -= OnReadOnlyChanged;
-            this.UIComponent.eventPasswordCharacterChanged -= OnPasswordCharacterChanged;
             this.UIComponent.eventTextChanged -= OnTextChanged;
             this.UIComponent.eventTextSubmitted -= OnTextSubmitted;
             this.UIComponent.eventTextCancelled -= OnTextCancelled;
@@ -520,7 +498,6 @@ namespace SkylineToolkit.UI
             this.OutlineColor = new Color32(0, 0, 0, 255);
             this.OutlineSize = 1;
             this.Padding = new RectOffset(10, 10, 4, 4);
-            this.PasswordCharacter = "*";
             this.SelectionBackgroundColor = new Color32(0, 171, 234, 255);
             this.SelectionSprite = "EmptySprite";
             this.TextColor = new Color32(174, 197, 211, 255);
@@ -541,16 +518,6 @@ namespace SkylineToolkit.UI
                 PropChangedEventArgs<bool> args = new PropChangedEventArgs<bool>("IsReadOnly", e);
 
                 this.IsReadOnlyChanged(this, args);
-            }
-        }
-
-        protected void OnPasswordCharacterChanged(UIComponent component, string e)
-        {
-            if (this.PasswordCharacterChanged != null)
-            {
-                PropChangedEventArgs<string> args = new PropChangedEventArgs<string>("PasswordCharacter", e);
-
-                this.PasswordCharacterChanged(this, args);
             }
         }
 

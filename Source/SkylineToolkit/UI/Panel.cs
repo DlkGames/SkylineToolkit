@@ -24,13 +24,13 @@ namespace SkylineToolkit.UI
             this.Size = size;
         }
 
-        public Panel(UIPanel panel)
-            : base(panel)
+        public Panel(UIPanel panel, bool subschribeEvents = false)
+            : base(panel, subschribeEvents)
         {
         }
 
-        public Panel(IColossalControl control)
-            : base(control)
+        public Panel(IColossalControl control, bool subschribeEvents = false)
+            : base(control, subschribeEvents)
         {
         }
 

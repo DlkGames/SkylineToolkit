@@ -26,13 +26,13 @@ namespace SkylineToolkit.UI.ActionContorls
             this.Size = size;
         }
 
-        public DragHandle(UIDragHandle button)
-            : base(button)
+        public DragHandle(UIDragHandle handle, bool subschribeEvents = false)
+            : base(handle, subschribeEvents)
         {
         }
 
-        public DragHandle(IColossalControl control) 
-            : base(control)
+        public DragHandle(IColossalControl control, bool subschribeEvents = false) 
+            : base(control, subschribeEvents)
         {
         }
 

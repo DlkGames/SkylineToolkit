@@ -6,11 +6,6 @@ namespace SkylineToolkit.UI
 {
     public class ColossalTextControl : ColossalControl
     {
-        public ColossalTextControl(UITextComponent component)
-            : base(component)
-        {
-        }
-
         public ColossalTextControl(string name)
             : base(name, typeof(UITextComponent))
         {
@@ -21,8 +16,13 @@ namespace SkylineToolkit.UI
         {
         }
 
-        public ColossalTextControl(IColossalControl control)
-            : base(control)
+        public ColossalTextControl(IColossalControl control, bool subscribeEvents = false)
+            : base(control, subscribeEvents)
+        {
+        }
+
+        public ColossalTextControl(UITextComponent component, bool subscribeEvents = false)
+            : base(component, subscribeEvents)
         {
         }
 

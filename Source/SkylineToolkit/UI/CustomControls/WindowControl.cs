@@ -200,6 +200,7 @@ namespace SkylineToolkit.UI.CustomControls
                 return;
             }
 
+            this.StopResizing();
             this.windowPanel.Hide();
             this.isVisible = false;
 
@@ -450,6 +451,11 @@ namespace SkylineToolkit.UI.CustomControls
 
         protected virtual void StopResizing()
         {
+            if (!isResizing)
+            {
+                return;
+            }
+
             Log.Verbose("Stop resizing window");
 
             isResizing = false;
@@ -558,7 +564,7 @@ namespace SkylineToolkit.UI.CustomControls
 
         bool disposed = false;
 
-        public void Dispose(bool disposing)
+        public virtual void Dispose(bool disposing)
         {
             if (!disposed)
             {

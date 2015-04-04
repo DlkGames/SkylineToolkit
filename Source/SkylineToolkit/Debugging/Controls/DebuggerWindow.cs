@@ -24,7 +24,11 @@ namespace SkylineToolkit.Debugging.Controls
 
         protected override void Awake()
         {
+            DontDestroyOnLoad(this);
+
             base.Awake();
+
+            this.WindowPanel.UIComponent.hideFlags = HideFlags.DontSave;
 
             SetupGUI();
         }
@@ -53,6 +57,14 @@ namespace SkylineToolkit.Debugging.Controls
             testButton.Width = 140;
 
             this.WindowPanel.AttachControl(testButton);
+
+            TabsControl tabs = Tabs.Create("DebuggerTabs", new Vector2(400, 200), new Vector3(100, 200));
+
+            tabs.Strip.AddTab("Tab 1");
+            tabs.Strip.AddTab("Tab 2");
+            tabs.Strip.AddTab("Tab 3");
+
+            tabs.AttachTo(WindowPanel);
         }
     }
 }

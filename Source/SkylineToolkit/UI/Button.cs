@@ -32,13 +32,13 @@ namespace SkylineToolkit.UI
             this.Text = label;
         }
 
-        public Button(UIButton button)
-            : base(button)
+        public Button(UIButton button, bool subscribeEvents = false)
+            : base(button, subscribeEvents)
         {
         }
 
-        public Button(IColossalControl control) 
-            : base(control)
+        public Button(IColossalControl control, bool subscribeEvents = false) 
+            : base(control, subscribeEvents)
         {
         }
 

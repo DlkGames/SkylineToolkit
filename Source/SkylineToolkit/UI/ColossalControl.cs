@@ -12,12 +12,19 @@ namespace SkylineToolkit.UI
     /// Basic wrapper for all <see cref="UIComponent"/> objects.
     /// </summary>
     /// <remarks>
+    /// <para>
     /// Note: You should always dispose ColossalControls if you don't need them anymore because the wrapper registers
     /// itself to all of the events of the wrapped object. This causes massive memory leaks if not needed control wrappers
     /// are active. You can savely keep the wrappers active and stored if your UI persists for the whole game lifetime.
     /// 
     /// You can use the <see cref="UIDisposingManager"/> to register all your <see cref="IColossalControl"/> wrappers and
     /// <see cref="CustomControls.ICustomControl"/>s for disposion if you dispose the UIDisposingManager.
+    /// </para>
+    /// <para>
+    /// If wrapping an existing <see cref="UIComponent"/> the wrapper won't subscribe to the component events. If you need
+    /// the events, just subscribe to them by invoking <see cref="SubscribeToEvents"/>. Altenratively the events can be
+    /// subscribed using the corresponding constructur parameter.
+    /// </para>
     /// </remarks>
     public class ColossalControl : Control, IColossalControl, IComparable<IColossalControl>, IDisposable
     {
@@ -26,6 +33,8 @@ namespace SkylineToolkit.UI
         private static UIView uiView;
 
         private UIComponent colossalUIComponent;
+
+        private bool subscribedEvents = false;
 
         #region Events
 
@@ -147,27 +156,36 @@ namespace SkylineToolkit.UI
         {
         }
 
-        public ColossalControl(UIComponent component)
+        public ColossalControl(UIComponent component, bool subscribeEvents = false)
         {
             this.UIComponent = component;
 
-            this.SubscribeEvents();
+            if (subscribeEvents)
+            {
+                SubscribeToEvents();
+            }
         }
 
-        public ColossalControl(string name, Type componentType)
+        public ColossalControl(string name, Type componentType, bool subscribeEvents = true)
         {
             this.InitializeComponent(name, componentType);
 
-            this.SubscribeEvents();
+            if (subscribeEvents)
+            {
+                SubscribeToEvents();
+            }
 
             this.SetDefaultStyle();
         }
 
-        public ColossalControl(IColossalControl control)
+        public ColossalControl(IColossalControl control, bool subscribeEvents = false)
         {
             this.UIComponent = control.UIComponent;
 
-            this.SubscribeEvents();
+            if (subscribeEvents)
+            {
+                SubscribeToEvents();
+            }
         }
 
         #endregion
@@ -928,6 +946,30 @@ namespace SkylineToolkit.UI
             this.GameObject.transform.parent = ColossalUIView.transform;
 
             this.UIComponent = (UIComponent)this.GameObject.GetComponent(componentType);
+        }
+
+        public void SubscribeToEvents()
+        {
+            if (subscribedEvents)
+            {
+                return;
+            }
+
+            this.SubscribeEvents();
+
+            subscribedEvents = true;
+        }
+
+        public void UnsubscribeFromEvents()
+        {
+            if (!subscribedEvents)
+            {
+                return;
+            }
+
+            this.UnsubscribeEvents();
+
+            subscribedEvents = false;
         }
 
         /// <summary>

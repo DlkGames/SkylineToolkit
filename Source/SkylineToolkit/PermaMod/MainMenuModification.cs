@@ -79,7 +79,7 @@ namespace SkylineToolkit.PermaMod
 
             Log.Debug("MainMenu", "Created main menu button {0} with label {1} after button {2}", name, label, insertAfterName);
 
-            return new Button(button);
+            return new Button(button, true);
         }
     }
 }
