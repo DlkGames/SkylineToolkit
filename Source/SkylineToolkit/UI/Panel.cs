@@ -5,10 +5,11 @@ namespace SkylineToolkit.UI
 {
     public class Panel : ColossalControl
     {
+        #region Constructors
+
         public Panel()
             : base("Panel", typeof(UIPanel))
         {
-            SetDefaultStyle();
         }
 
         public Panel(string name)
@@ -21,8 +22,6 @@ namespace SkylineToolkit.UI
         {
             this.Position = position;
             this.Size = size;
-
-            SetDefaultStyle();
         }
 
         public Panel(UIPanel panel)
@@ -35,6 +34,12 @@ namespace SkylineToolkit.UI
         {
         }
 
+        #endregion
+
+        #region Properties
+
+        #region Component
+
         public new UIPanel UIComponent
         {
             get
@@ -46,6 +51,8 @@ namespace SkylineToolkit.UI
                 base.UIComponent = value;
             }
         }
+
+        #endregion
 
         public bool AutoFitChildrenHorizontally
         {
@@ -178,14 +185,22 @@ namespace SkylineToolkit.UI
             }
         }
 
+        #endregion
+
+        #region Methods
+
         public void Reset()
         {
             this.UIComponent.Reset();
         }
 
-        public void SetDefaultStyle()
+        protected override void SetDefaultStyle()
         {
+            base.SetDefaultStyle();
+
             this.BackgroundSprite = "MenuPanel";
         }
+
+        #endregion
     }
 }

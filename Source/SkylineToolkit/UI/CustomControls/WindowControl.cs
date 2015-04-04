@@ -167,17 +167,17 @@ namespace SkylineToolkit.UI.CustomControls
 
         #endregion
 
-        void Awake()
+        protected virtual void Awake()
         {
             InitializeWindow();
         }
 
-        void OnEnable()
+        protected virtual void OnEnable()
         {
             isResizing = false;
         }
 
-        void OnDisable()
+        protected virtual void OnDisable()
         {
             this.Hide();
 

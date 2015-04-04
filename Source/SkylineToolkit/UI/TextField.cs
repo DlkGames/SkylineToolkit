@@ -14,7 +14,7 @@ namespace SkylineToolkit.UI
 
         public event PropChangedEventHandler<bool> IsReadOnlyChanged;
 
-        public event PropChangedEventHandler<string> PasswordHintChanged;
+        public event PropChangedEventHandler<string> PasswordCharacterChanged;
 
         public event PropChangedEventHandler<string> TextChanged;
 
@@ -37,7 +37,7 @@ namespace SkylineToolkit.UI
         }
 
         public TextField(string name, string text, Vector3 position)
-            : this(name, text, position, new Vector2(200, 40))
+            : this(name, text, position, new Vector2(200, 29))
         {
         }
 
@@ -48,8 +48,6 @@ namespace SkylineToolkit.UI
             this.Text = text;
 
             this.UIComponent.size = size;
-
-            this.SetDefaultStyle();
         }
 
         public TextField(UITextField textField)
@@ -128,30 +126,6 @@ namespace SkylineToolkit.UI
         #endregion
 
         #region State
-
-        public float CursorBlinkTime
-        {
-            get
-            {
-                return this.UIComponent.cursorBlinkTime;
-            }
-            set
-            {
-                this.UIComponent.cursorBlinkTime = value;
-            }
-        }
-
-        public int CursorWidth
-        {
-            get
-            {
-                return this.UIComponent.cursorWidth;
-            }
-            set
-            {
-                this.UIComponent.cursorWidth = value;
-            }
-        }
 
         public bool IsReadOnly
         {
@@ -268,7 +242,7 @@ namespace SkylineToolkit.UI
             }
         }
 
-        public string Text
+        public new string Text
         {
             get
             {
@@ -284,6 +258,30 @@ namespace SkylineToolkit.UI
 
         #region Appearance
 
+        public float CursorBlinkTime
+        {
+            get
+            {
+                return this.UIComponent.cursorBlinkTime;
+            }
+            set
+            {
+                this.UIComponent.cursorBlinkTime = value;
+            }
+        }
+
+        public int CursorWidth
+        {
+            get
+            {
+                return this.UIComponent.cursorWidth;
+            }
+            set
+            {
+                this.UIComponent.cursorWidth = value;
+            }
+        }
+
         public RectOffset Padding
         {
             get
@@ -296,7 +294,7 @@ namespace SkylineToolkit.UI
             }
         }
 
-        public string PasswordHint
+        public string PasswordCharacter
         {
             get
             {
@@ -485,9 +483,40 @@ namespace SkylineToolkit.UI
 
         #endregion
 
-        private void SetDefaultStyle()
+        protected override void SubscribeEvents()
         {
-            throw new NotImplementedException();
+            base.SubscribeEvents();
+
+            this.UIComponent.eventReadOnlyChanged += OnReadOnlyChanged;
+            this.UIComponent.eventPasswordCharacterChanged += OnPasswordCharacterChanged;
+            this.UIComponent.eventTextChanged += OnTextChanged;
+            this.UIComponent.eventTextSubmitted += OnTextSubmitted;
+            this.UIComponent.eventTextCancelled += OnTextCancelled;
+        }
+
+        protected override void SetDefaultStyle()
+        {
+            base.SetDefaultStyle();
+
+            this.Color = new Color32(58, 88, 104, 255);
+            this.CursorBlinkTime = 0.45f;
+            this.CursorWidth = 1;
+            this.DisabledColor = new Color32(254, 254, 254, 255);
+            this.DisabledTextColor = new Color32(254, 254, 254, 255);
+            this.HorizontalAlignment = HorizontalAlignment.Left;
+            this.MaxLength = 255;
+            this.NormalBackgroundSprite = "TextFieldPanel";
+            this.OutlineColor = new Color32(0, 0, 0, 255);
+            this.OutlineSize = 1;
+            this.Padding = new RectOffset(10, 10, 4, 4);
+            this.PasswordCharacter = "*";
+            this.SelectionBackgroundColor = new Color32(0, 171, 234, 255);
+            this.SelectionSprite = "EmptySprite";
+            this.TextColor = new Color32(174, 197, 211, 255);
+            this.TextScale = 1.125f;
+            this.UseBuiltinKeyNavigation = true;
+            this.VerticalAlignment = VerticalAlignment.Middle;
+            this.ZOrder = 10;
         }
 
         #endregion
@@ -504,13 +533,13 @@ namespace SkylineToolkit.UI
             }
         }
 
-        protected void OnPasswordHintChanged(UIComponent component, string e)
+        protected void OnPasswordCharacterChanged(UIComponent component, string e)
         {
-            if (this.PasswordHintChanged != null)
+            if (this.PasswordCharacterChanged != null)
             {
-                PropChangedEventArgs<string> args = new PropChangedEventArgs<string>("PasswordHint", e);
+                PropChangedEventArgs<string> args = new PropChangedEventArgs<string>("PasswordCharacter", e);
 
-                this.PasswordHintChanged(this, args);
+                this.PasswordCharacterChanged(this, args);
             }
         }
 

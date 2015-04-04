@@ -81,7 +81,9 @@
     <Compile Include="Debugging\Windows\WatchVarsWindow.cs" />
     <Compile Include="Events\CancellableEventArgs.cs" />
     <Compile Include="Events\PropChangedEventArgs.cs" />
+    <Compile Include="Events\ItemAddedEventHandler.cs" />
     <Compile Include="Events\PropChangedEventHandler.cs" />
+    <Compile Include="Events\ItemAddedEventArgs.cs" />
     <Compile Include="Events\SkylineEventArgs.cs" />
     <Compile Include="PermaMod\ModOptionsController.cs" />
     <Compile Include="QuadraticBezierPath.cs" />
@@ -115,12 +117,15 @@
     <Compile Include="UI\ActionContorls\DragHandle.cs" />
     <Compile Include="UI\AlignmentAnchor.cs" />
     <Compile Include="UI\ChildControlEventHandler.cs" />
+    <Compile Include="UI\ColossalFramework.UI\UITextArea.cs" />
+    <Compile Include="UI\ColossalFramework.UI\UndoData.cs" />
     <Compile Include="UI\ColossalTextControl.cs" />
     <Compile Include="UI\ColossalUserControl.cs" />
     <Compile Include="UI\Control.cs" />
     <Compile Include="UI\Button.cs" />
     <Compile Include="UI\ButtonState.cs" />
     <Compile Include="UI\ColossalControl.cs" />
+    <Compile Include="UI\CustomControls\Tabs.cs" />
     <Compile Include="UI\DragDropEventHandler.cs" />
     <Compile Include="UI\DragDropState.cs" />
     <Compile Include="UI\DragEventArgs.cs" />
@@ -139,6 +144,7 @@
     <Compile Include="UI\Generic\ColossalControl.cs" />
     <Compile Include="UI\Generic\IColossalControl.cs" />
     <Compile Include="UI\HitPointInfo.cs" />
+    <Compile Include="UI\HorizontalAlignment.cs" />
     <Compile Include="UI\IColossalControl.cs" />
     <Compile Include="UI\IControl.cs" />
     <Compile Include="UI\KeyboardEventArgs.cs" />
@@ -167,8 +173,10 @@
     <Compile Include="UI\SkyAML\Elements\Vector3Element.cs" />
     <Compile Include="UI\SpriteFlipping.cs" />
     <Compile Include="UI\Styles\ColossalSprite.cs" />
-    <Compile Include="UI\Tabs.cs" />
+    <Compile Include="UI\TabContainer.cs" />
+    <Compile Include="UI\TabStrip.cs" />
     <Compile Include="UI\TextField.cs" />
+    <Compile Include="UI\VerticalAlignment.cs" />
     <Compile Include="UI\Window.cs" />
     <Compile Include="UI\Styles\ColossalTemplate.cs" />
     <Compile Include="UI\TooltipAnchor.cs" />

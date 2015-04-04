@@ -10,6 +10,8 @@ namespace SkylineToolkit.UI
 {
     public class ColossalControl : Control, IColossalControl, IComparable<IColossalControl>
     {
+        public static readonly int[] TriangleIndices = new int[6] { 0, 1, 3, 3, 1, 2 };
+
         private static UIView uiView;
 
         private UIComponent colossalUIComponent;
@@ -146,6 +148,8 @@ namespace SkylineToolkit.UI
             this.InitializeComponent(name, componentType);
 
             this.SubscribeEvents();
+
+            this.SetDefaultStyle();
         }
 
         public ColossalControl(IColossalControl control)
@@ -282,7 +286,7 @@ namespace SkylineToolkit.UI
             }
         }
 
-        public Vector3 Position
+        public Vector3 TransformPosition
         {
             get
             {
@@ -291,6 +295,18 @@ namespace SkylineToolkit.UI
             set
             {
                 this.UIComponent.transformPosition = value;
+            }
+        }
+
+        public Vector3 Position
+        {
+            get
+            {
+                return this.RelativePosition;
+            }
+            set
+            {
+                this.RelativePosition = value;
             }
         }
 
@@ -955,6 +971,13 @@ namespace SkylineToolkit.UI
             this.UIComponent.eventIsEnabledChanged += OnIsEnabledChanged;
             this.UIComponent.eventVisibilityChanged += OnVisibilityChanged;
             this.UIComponent.eventTabIndexChanged += OnTabIndexChanged;
+        }
+
+        protected virtual void SetDefaultStyle()
+        {
+            this.IsAutoSize = false;
+            this.IsTooltipOnTop = true;
+            this.UseBuiltinKeyNavigation = true;
         }
 
         /// <summary>

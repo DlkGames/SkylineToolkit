@@ -19,16 +19,17 @@ namespace SkylineToolkit.UI
         {
         }
 
-        public Button(string name, string label, Vector3 position, float width = 120, float height = 30)
+        public Button(string name, string label, Vector3 position)
+            : this(name, label, position, new Vector2(120, 34))
+        {
+        }
+
+        public Button(string name, string label, Vector3 position, Vector2 size)
             : base(name, typeof(UIButton))
         {
             this.Position = position;
+            this.Size = size;
             this.Text = label;
-
-            this.UIComponent.width = width;
-            this.UIComponent.height = height;
-
-            this.SetDefaultStyle();
         }
 
         public Button(UIButton button)
@@ -189,18 +190,6 @@ namespace SkylineToolkit.UI
 
         #region State
 
-        public bool AutoSize
-        {
-            get
-            {
-                return this.UIComponent.autoSize;
-            }
-            set
-            {
-                this.UIComponent.autoSize = value;
-            }
-        }
-
         public ButtonState State
         {
             get
@@ -251,22 +240,86 @@ namespace SkylineToolkit.UI
 
         #endregion
 
+        public HorizontalAlignment HorizontalTextAlignment
+        {
+            get
+            {
+                return (UI.HorizontalAlignment)this.UIComponent.textHorizontalAlignment;
+            }
+            set
+            {
+                this.UIComponent.textHorizontalAlignment = (UIHorizontalAlignment)value;
+            }
+        }
+
+        public VerticalAlignment VerticalTextAlignment
+        {
+            get
+            {
+                return (UI.VerticalAlignment)this.UIComponent.textVerticalAlignment;
+            }
+            set
+            {
+                this.UIComponent.textVerticalAlignment = (UIVerticalAlignment)value;
+            }
+        }
+
+        public RectOffset Padding
+        {
+            get
+            {
+                return this.UIComponent.textPadding;
+            }
+            set
+            {
+                this.UIComponent.textPadding = value;
+            }
+        }
+
+        public RectOffset SpritePadding
+        {
+            get
+            {
+                return this.UIComponent.spritePadding;
+            }
+            set
+            {
+                this.UIComponent.spritePadding = value;
+            }
+        }
+
         #endregion
 
-        public void SetDefaultStyle()
-        {
-            this.NormalBackgroundSprite = ColossalSprite.ButtonMenu;
-            this.DisabledBackgroundSprite = ColossalSprite.ButtonMenuDisabled;
-            this.HoveredBackgroundSprite = ColossalSprite.ButtonMenuHovered;
-            this.FocusedBackgroundSprite = ColossalSprite.ButtonMenuFocused;
-            this.PressedBackgroundSprite = ColossalSprite.ButtonMenuPressed;
+        #region Methods
 
+        protected override void SetDefaultStyle()
+        {
+            base.SetDefaultStyle();
+
+            this.DisabledBackgroundSprite = ColossalSprite.ButtonMenuDisabled;
+            this.DisabledBottomColor = new Color32(255, 255, 255, 255);
+            this.DisabledColor = new Color32(153, 153, 153, 255);
+            this.DisabledTextColor = new Color32(46, 46, 46, 255);
+            this.FocusedBackgroundSprite = ColossalSprite.ButtonMenuFocused; // TODO Focused style
+            this.FocusedColor = new Color32(254, 254, 254, 255);
+            this.FocusedTextColor = new Color32(255, 255, 255, 255);
+            this.HoveredBackgroundSprite = ColossalSprite.ButtonMenuHovered;
+            this.HoveredColor = new Color32(254, 254, 254, 255);
+            this.HoveredTextColor = new Color32(7, 132, 255, 255);
+            this.NormalBackgroundSprite = ColossalSprite.ButtonMenu;
+            this.BottomColor = new Color32(254, 254, 254, 255);
+            this.Color = new Color32(254, 254, 254, 255);
             this.TextColor = new Color32(255, 255, 255, 255);
-            this.DisabledTextColor = new Color32(7, 7, 7, 255);
-            this.FocusedTextColor = new Color32(255, 255, 255, 255);
-            this.HoveredTextColor = new Color32(255, 255, 255, 255); //new Color32(7, 132, 255, 255);
-            this.FocusedTextColor = new Color32(255, 255, 255, 255);
-            this.PressedTextColor = new Color32(255, 255, 255, 255); //new Color32(30, 30, 44, 255);
+            this.PressedBackgroundSprite = ColossalSprite.ButtonMenuPressed;
+            this.PressedColor = new Color32(254, 254, 254, 255);
+            this.PressedTextColor = new Color32(30, 30, 44, 255);
+            this.IsPlayingAudioEvents = true;
+            this.HorizontalTextAlignment = HorizontalAlignment.Center;
+            this.TextScale = 1.0f;
+            this.VerticalTextAlignment = VerticalAlignment.Middle;
+            this.ZOrder = 9;
         }
+
+        #endregion
     }
 }

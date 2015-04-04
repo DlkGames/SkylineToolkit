@@ -209,5 +209,29 @@ namespace SkylineToolkit.UI
                 return this.UIComponent.CalculateMinimumSize();
             }
         }
+
+        public HorizontalAlignment HorizontalAlignment
+        {
+            get
+            {
+                return (UI.HorizontalAlignment)this.UIComponent.horizontalAlignment;
+            }
+            set
+            {
+                this.UIComponent.horizontalAlignment = (UIHorizontalAlignment)value;
+            }
+        }
+
+        public VerticalAlignment VerticalAlignment
+        {
+            get
+            {
+                return (UI.VerticalAlignment)this.UIComponent.verticalAlignment;
+            }
+            set
+            {
+                this.UIComponent.verticalAlignment = (UIVerticalAlignment)value;
+            }
+        }
     }
 }
