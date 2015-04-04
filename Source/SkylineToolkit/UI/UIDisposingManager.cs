@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SkylineToolkit.UI
 {
-    public class UIDiposingManager : IDisposable
+    public class UIDisposingManager : IDisposable
     {
         private IList<IDisposableControl> controls = new List<IDisposableControl>();
 

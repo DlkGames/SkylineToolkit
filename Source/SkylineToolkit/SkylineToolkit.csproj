@@ -180,7 +180,7 @@
     <Compile Include="UI\TabStrip.cs" />
     <Compile Include="UI\TextArea.cs" />
     <Compile Include="UI\TextField.cs" />
-    <Compile Include="UI\UIDiposingManager.cs" />
+    <Compile Include="UI\UIDisposingManager.cs" />
     <Compile Include="UI\VerticalAlignment.cs" />
     <Compile Include="UI\Window.cs" />
     <Compile Include="UI\Styles\ColossalTemplate.cs" />
