@@ -45,6 +45,10 @@ namespace SkylineToolkit.UI.CustomControls
 
         public event EventHandler Opened;
 
+        public event EventHandler Resize;
+
+        public event EventHandler Resizing;
+
         public event EventHandler SizeChanged;
 
         #endregion
@@ -230,14 +234,7 @@ namespace SkylineToolkit.UI.CustomControls
 
         protected virtual void InitializeWindow()
         {
-            windowPanel = new Panel(this.gameObject.AddComponent<UIPanel>());
-            windowPanel.Anchor = PositionAnchor.CenterHorizontal | PositionAnchor.CenterVertical;
-            windowPanel.IsInteractive = true;
-            windowPanel.CanGetFocus = true;
-            windowPanel.Pivot = PivotPoint.TopLeft;
-            windowPanel.BackgroundSprite = "MenuPanel";
-            windowPanel.MinimumSize = new Vector2(300, 200);
-            windowPanel.MaximumSize = new Vector2(8000, 8000);
+            CreateWindowPanel();
 
             CreateTitlebar();
 
@@ -246,7 +243,19 @@ namespace SkylineToolkit.UI.CustomControls
             windowPanel.IsActive = true;
         }
 
-        private void CreateTitlebar()
+        protected virtual void CreateWindowPanel()
+        {
+            windowPanel = new Panel(this.gameObject.AddComponent<UIPanel>());
+            windowPanel.Anchor = PositionAnchor.CenterHorizontal | PositionAnchor.CenterVertical;
+            windowPanel.IsInteractive = true;
+            windowPanel.CanGetFocus = true;
+            windowPanel.Pivot = PivotPoint.TopLeft;
+            windowPanel.BackgroundSprite = "MenuPanel";
+            windowPanel.MinimumSize = new Vector2(300, 200);
+            windowPanel.MaximumSize = new Vector2(8000, 8000);
+        }
+
+        protected virtual void CreateTitlebar()
         {
             captionComponent = new ColossalControl<UISlicedSprite>("Caption");
             windowPanel.AttachControl(captionComponent);
@@ -302,7 +311,7 @@ namespace SkylineToolkit.UI.CustomControls
             closeButton.Click += closeButton_Click;
         }
 
-        private void CreateResizeHandle()
+        protected virtual void CreateResizeHandle()
         {
             resizeButton = new Button("Resize");
             windowPanel.AttachControl(resizeButton);
@@ -332,12 +341,35 @@ namespace SkylineToolkit.UI.CustomControls
             resizeButton.MouseMove += resizeButton_MouseMove;
         }
 
+        #region Event handlers
+
         private void closeButton_Click(object sender, MouseEventArgs e)
         {
             this.Hide();
         }
 
         private void resizeButton_MouseDown(object sender, MouseEventArgs e)
+        {
+            StartResizing(e);
+        }
+
+        private void resizeButton_MouseMove(object sender, MouseEventArgs e)
+        {
+            DoResizing(e);
+        }
+
+        private void resizeButton_MouseUp(object sender, MouseEventArgs e)
+        {
+            StopResizing();
+        }
+
+        #endregion
+
+        #region Methods
+
+        #region Resizing
+
+        protected virtual void StartResizing(MouseEventArgs e)
         {
             Log.Verbose("Start resizing window");
 
@@ -360,31 +392,17 @@ namespace SkylineToolkit.UI.CustomControls
             this.cachedLastPosition = ray.origin + ray.direction * enter;
 
             e.Handled = true;
+
+            this.OnResize();
         }
 
-        private void resizeButton_MouseUp(object sender, MouseEventArgs e)
-        {
-            StopResizing();
-        }
-
-        void resizeButton_MouseMove(object sender, MouseEventArgs e)
+        protected virtual void DoResizing(MouseEventArgs e)
         {
             if (isResizing)
             {
                 if (e.CheckButtonsPressed(MouseButtons.Left))
                 {
                     e.Handled = true;
-
-                    //---- Old Solution - Not synchronized to mouse
-                    //Vector2 newSize = this.windowPanel.Size + new Vector2(e.MovementDelta.x, e.MovementDelta.y * -1);
-
-                    //if (newSize.x < this.windowPanel.MinimumSize.x) newSize.x = this.windowPanel.MinimumSize.x;
-                    //else if (newSize.x > this.windowPanel.MaximumSize.x) newSize.x = this.windowPanel.MaximumSize.x;
-                    //if (newSize.y < this.windowPanel.MinimumSize.y) newSize.y = this.windowPanel.MinimumSize.y;
-                    //else if (newSize.y > this.windowPanel.MaximumSize.y) newSize.y = this.windowPanel.MaximumSize.y;
-
-                    //this.windowPanel.Size = newSize;
-                    //----
 
                     Ray ray = e.Ray;
                     float enter = 0.0f;
@@ -409,6 +427,8 @@ namespace SkylineToolkit.UI.CustomControls
                     windowPanel.Size = newSize;
 
                     this.cachedLastPosition = mousePositionW;
+
+                    this.OnResizing();
                 }
                 else
                 {
@@ -417,7 +437,7 @@ namespace SkylineToolkit.UI.CustomControls
             }
         }
 
-        private void StopResizing()
+        protected virtual void StopResizing()
         {
             Log.Verbose("Stop resizing window");
 
@@ -426,7 +446,13 @@ namespace SkylineToolkit.UI.CustomControls
             windowPanel.AbsolutePosition = this.cachedPosition;
 
             windowPanel.MakePixelPerfect();
+
+            this.OnSizeChanged();
         }
+
+        #endregion
+
+        #endregion
 
         #region On events
 
@@ -462,6 +488,31 @@ namespace SkylineToolkit.UI.CustomControls
             }
         }
 
+        /// <summary>
+        /// TODO: EventArgs
+        /// </summary>
+        protected virtual void OnResize()
+        {
+            if (this.Resize != null)
+            {
+                this.Resize(this, null);
+            }
+        }
+
+        /// <summary>
+        /// TODO: EventArgs
+        /// </summary>
+        protected virtual void OnResizing()
+        {
+            if (this.Resizing != null)
+            {
+                this.Resizing(this, null);
+            }
+        }
+
+        /// <summary>
+        /// TODO: EventArgs
+        /// </summary>
         protected virtual void OnSizeChanged()
         {
             if (this.SizeChanged != null)

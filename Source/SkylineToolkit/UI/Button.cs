@@ -7,6 +7,8 @@ namespace SkylineToolkit.UI
 {
     public class Button : ColossalUserControl
     {
+        #region Constructors
+
         public Button()
             : base("Button", typeof(UIButton))
         {
@@ -39,6 +41,12 @@ namespace SkylineToolkit.UI
         {
         }
 
+        #endregion
+
+        #region Properties
+
+        #region Component
+
         public new UIButton UIComponent
         {
             get
@@ -51,17 +59,7 @@ namespace SkylineToolkit.UI
             }
         }
 
-        public bool AutoSize
-        {
-            get
-            {
-                return this.UIComponent.autoSize;
-            }
-            set
-            {
-                this.UIComponent.autoSize = value;
-            }
-        }
+        #endregion
 
         #region Colors
 
@@ -189,6 +187,20 @@ namespace SkylineToolkit.UI
 
         #endregion
 
+        #region State
+
+        public bool AutoSize
+        {
+            get
+            {
+                return this.UIComponent.autoSize;
+            }
+            set
+            {
+                this.UIComponent.autoSize = value;
+            }
+        }
+
         public ButtonState State
         {
             get
@@ -236,6 +248,10 @@ namespace SkylineToolkit.UI
                 this.UIComponent.group = value.UIComponent;
             }
         }
+
+        #endregion
+
+        #endregion
 
         public void SetDefaultStyle()
         {
