@@ -38,17 +38,17 @@ namespace SkylineToolkit.UI
 
         public event MouseEventHandler MouseMove;
 
-        public event MouseEventHandler DragStart;
+        public event DragDropEventHandler DragStart;
 
-        public event MouseEventHandler DragEnd;
+        public event DragDropEventHandler DragEnd;
 
-        public event MouseEventHandler DragEnter;
+        public event DragDropEventHandler DragEnter;
 
-        public event MouseEventHandler DragLeave;
+        public event DragDropEventHandler DragLeave;
 
-        public event MouseEventHandler DragOver;
+        public event DragDropEventHandler DragOver;
 
-        public event MouseEventHandler DragDrop;
+        public event DragDropEventHandler DragDrop;
 
         public event MouseEventHandler TooltipEnter;
 
@@ -900,8 +900,6 @@ namespace SkylineToolkit.UI
 
             this.GameObject.transform.parent = ColossalUIView.transform;
 
-            this.IsActive = false;
-
             this.UIComponent = (UIComponent)this.GameObject.GetComponent(componentType);
         }
 
@@ -911,7 +909,52 @@ namespace SkylineToolkit.UI
         protected virtual void SubscribeEvents()
         {
             this.UIComponent.eventClick += OnClick;
+            this.UIComponent.eventDisabledClick += OnDisabledClick;
+            this.UIComponent.eventDoubleClick += OnDoubleClick;
+            this.UIComponent.eventMouseDown += OnMouseDown;
+            this.UIComponent.eventMouseUp += OnMouseUp;
+            this.UIComponent.eventMouseWheel += OnMouseWheel;
+            this.UIComponent.eventMouseEnter += OnMouseEnter;
+            this.UIComponent.eventMouseLeave += OnMouseLeave;
+            this.UIComponent.eventMouseHover += OnMouseHover;
+            this.UIComponent.eventMouseMove += OnMouseMove;
+            this.UIComponent.eventDragStart += OnDragStart;
+            this.UIComponent.eventDragEnd += OnDragEnd;
+            this.UIComponent.eventDragEnter += OnDragEnter;
+            this.UIComponent.eventDragLeave += OnDragLeave;
+            this.UIComponent.eventDragOver += OnDragOver;
+            this.UIComponent.eventDragDrop += OnDragDrop;
+            this.UIComponent.eventTooltipEnter += OnTooltipEnter;
+            this.UIComponent.eventTooltipLeave += OnTooltipLeave;
+            
+            this.UIComponent.eventKeyDown += OnKeyDown;
+            this.UIComponent.eventKeyUp += OnKeyUp;
+            this.UIComponent.eventKeyPress += OnKeyPress;
+
+            this.UIComponent.eventComponentAdded += OnChildControlAdded;
+            this.UIComponent.eventComponentRemoved += OnChildControlRemoved;
+
             this.UIComponent.eventAnchorChanged += OnAnchorChanged;
+            this.UIComponent.eventFitChildren += OnFitChildren;
+            this.UIComponent.eventPositionChanged += OnPositionChanged;
+            this.UIComponent.eventSizeChanged += OnSizeChanged;
+
+            this.UIComponent.eventColorChanged += OnColorChanged;
+            this.UIComponent.eventDisabledColorChanged += OnDisabledColorChanged;
+            this.UIComponent.eventOpacityChanged += OnOpacityChanged;
+            this.UIComponent.eventPivotChanged += OnPivotChanged;
+            this.UIComponent.eventTooltipShow += OnTooltipShow;
+            this.UIComponent.eventTooltipHide += OnTooltipHide;
+            this.UIComponent.eventTooltipTextChanged += OnTooltipTextChanged;
+            this.UIComponent.eventZOrderChanged += OnZOrderChanged;
+
+            this.UIComponent.eventEnterFocus += OnFocus;
+            this.UIComponent.eventGotFocus += OnFocused;
+            this.UIComponent.eventLeaveFocus += OnUnfocus;
+            this.UIComponent.eventLostFocus += OnUnfocused;
+            this.UIComponent.eventIsEnabledChanged += OnIsEnabledChanged;
+            this.UIComponent.eventVisibilityChanged += OnVisibilityChanged;
+            this.UIComponent.eventTabIndexChanged += OnTabIndexChanged;
         }
 
         /// <summary>
@@ -1313,7 +1356,7 @@ namespace SkylineToolkit.UI
         /// <returns>The found <see cref="UIView"/>.</returns>
         public UIView GetUIView()
         {
-            return this.GetUIView();
+            return this.UIComponent.GetUIView();
         }
 
         public virtual void Invalidate()
@@ -1375,7 +1418,7 @@ namespace SkylineToolkit.UI
             this.UIComponent.PerformLayout();
         }
 
-        protected float PixelsToUnits()
+        public float PixelsToUnits()
         {
             return this.CallUIComponentMethod<float>("PixelsToUnits");
         }
@@ -1598,61 +1641,61 @@ namespace SkylineToolkit.UI
             }
         }
 
-        protected void OnDragStart(UIComponent component, UIMouseEventParameter e)
+        protected void OnDragStart(UIComponent component, UIDragEventParameter e)
         {
             if (this.DragStart != null)
             {
-                MouseEventArgs args = new MouseEventArgs(e);
+                DragEventArgs args = new DragEventArgs(e);
 
                 this.DragStart(this, args);
             }
         }
 
-        protected void OnDragEnd(UIComponent component, UIMouseEventParameter e)
+        protected void OnDragEnd(UIComponent component, UIDragEventParameter e)
         {
             if (this.DragEnd != null)
             {
-                MouseEventArgs args = new MouseEventArgs(e);
+                DragEventArgs args = new DragEventArgs(e);
 
                 this.DragEnd(this, args);
             }
         }
 
-        protected void OnDragEnter(UIComponent component, UIMouseEventParameter e)
+        protected void OnDragEnter(UIComponent component, UIDragEventParameter e)
         {
             if (this.DragEnter != null)
             {
-                MouseEventArgs args = new MouseEventArgs(e);
+                DragEventArgs args = new DragEventArgs(e);
 
                 this.DragEnter(this, args);
             }
         }
 
-        protected void OnDragLeave(UIComponent component, UIMouseEventParameter e)
+        protected void OnDragLeave(UIComponent component, UIDragEventParameter e)
         {
             if (this.DragLeave != null)
             {
-                MouseEventArgs args = new MouseEventArgs(e);
+                DragEventArgs args = new DragEventArgs(e);
 
                 this.DragLeave(this, args);
             }
         }
 
-        protected void OnDragOver(UIComponent component, UIMouseEventParameter e)
+        protected void OnDragOver(UIComponent component, UIDragEventParameter e)
         {
             if (this.DragOver != null)
             {
-                MouseEventArgs args = new MouseEventArgs(e);
+                DragEventArgs args = new DragEventArgs(e);
 
                 this.DragOver(this, args);
             }
         }
 
-        protected void OnDragDrop(UIComponent component, UIMouseEventParameter e)
+        protected void OnDragDrop(UIComponent component, UIDragEventParameter e)
         {
             if (this.DragDrop != null)
             {
-                MouseEventArgs args = new MouseEventArgs(e);
+                DragEventArgs args = new DragEventArgs(e);
 
                 this.DragDrop(this, args);
             }
@@ -1808,11 +1851,11 @@ namespace SkylineToolkit.UI
             }
         }
 
-        protected void OnPivotChanged(UIComponent component, PivotPoint e)
+        protected void OnPivotChanged(UIComponent component, UIPivotPoint e)
         {
             if (this.PivotChanged != null)
             {
-                PropChangedEventArgs<PivotPoint> args = new PropChangedEventArgs<PivotPoint>("Pivot", e);
+                PropChangedEventArgs<PivotPoint> args = new PropChangedEventArgs<PivotPoint>("Pivot", (PivotPoint)e);
                 
                 this.PivotChanged(this, args);
             }

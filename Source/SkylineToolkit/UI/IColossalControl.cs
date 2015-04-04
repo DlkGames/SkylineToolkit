@@ -30,17 +30,17 @@ namespace SkylineToolkit.UI
 
         event MouseEventHandler MouseMove;
 
-        event MouseEventHandler DragStart;
+        event DragDropEventHandler DragStart;
 
-        event MouseEventHandler DragEnd;
+        event DragDropEventHandler DragEnd;
 
-        event MouseEventHandler DragEnter;
+        event DragDropEventHandler DragEnter;
 
-        event MouseEventHandler DragLeave;
+        event DragDropEventHandler DragLeave;
 
-        event MouseEventHandler DragOver;
+        event DragDropEventHandler DragOver;
 
-        event MouseEventHandler DragDrop;
+        event DragDropEventHandler DragDrop;
 
         event MouseEventHandler TooltipEnter;
 
@@ -440,6 +440,8 @@ namespace SkylineToolkit.UI
 
         void PerformLayout();
 
+        float PixelsToUnits();
+            
         bool Raycast(Ray ray);
 
         bool Raycast(Ray ray, out Vector3 hitPoint);

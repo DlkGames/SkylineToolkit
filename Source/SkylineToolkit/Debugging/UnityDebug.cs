@@ -35,13 +35,13 @@ namespace SkylineToolkit.Debugging
             }
             catch (Exception ex)
             {
-                Log.Warning("Unable to hook into Unity's debug methods. Log entries created using unity Debug.Log* methods won't get caught by SkylineToolkit.");
+                Log.Warning("UnityDebug", "Unable to hook into Unity's debug methods. Log entries created using unity Debug.Log* methods won't get caught by SkylineToolkit.");
                 Log.Exception(ex);
 
                 isEnabled = false;
             }
 
-            Log.Info("Hooked into Unity's debug methods. Redirecting all messages logged by unity Debug.Log* methods to SkylineToolkit.");
+            Log.Info("UnityDebug", "Hooked into Unity's debug methods. Redirecting all messages logged by unity Debug.Log* methods to SkylineToolkit.");
             isEnabled = true;
         }
 
@@ -54,7 +54,7 @@ namespace SkylineToolkit.Debugging
 
             UnhookMethods();
 
-            Log.Info("Removed redirection hooks from Unity's debug methods.");
+            Log.Info("UnityDebug", "Removed redirection hooks from Unity's debug methods.");
             isEnabled = false;
         }
 
@@ -107,7 +107,7 @@ namespace SkylineToolkit.Debugging
                 typeof(UnityEngine.Debug).GetMethod("LogException", new[] { typeof(Exception) }), logExceptionMethod);
         }
 
-        public static void LogHookHook(object obj)
+        public static void LogHook(object obj)
         {
             Log.Info("UnityEngine.Debug", obj);
         }

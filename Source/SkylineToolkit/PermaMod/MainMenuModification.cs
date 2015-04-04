@@ -14,6 +14,8 @@ namespace SkylineToolkit.PermaMod
 
         void OnEnable()
         {
+            Log.Debug("MainMenu", "Enabled main menu modification");
+
             mainMenu = UIView.FindObjectOfType<MainMenu>();
 
             if (GameObject.Find("btn_ModOptions") == null)
@@ -30,6 +32,8 @@ namespace SkylineToolkit.PermaMod
 
         void OnDisable()
         {
+            Log.Debug("MainMenu", "Disabled main menu modification");
+
             if (modOptionsButton == null)
             {
                 return;
@@ -43,6 +47,8 @@ namespace SkylineToolkit.PermaMod
 
         private void btn_ModOptions_Click(object sender, MouseEventArgs e)
         {
+            Log.Debug("MainMenu", "Showing mod options window.");
+
             ModOptionsController.ShowOptionsWindow();
             
             //GameObject go = UITemplateManager.GetAsGameObject(ColossalTemplate.ScrollablePanelTemplate);
@@ -70,6 +76,8 @@ namespace SkylineToolkit.PermaMod
 
                 button.MoveBackward();
             }
+
+            Log.Debug("MainMenu", "Created main menu button {0} with label {1} after button {2}", name, label, insertAfterName);
 
             return new Button(button);
         }

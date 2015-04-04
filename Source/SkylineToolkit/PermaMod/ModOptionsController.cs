@@ -52,9 +52,12 @@ namespace SkylineToolkit.PermaMod
 
         private void InitializeOptionsWindow()
         {
-            optionsWindow = Window.Create("(SkyT) Mod Options");
-            optionsWindow.Hide();
+            Log.Debug("ModOptions", "Creating mod options window");
 
+            optionsWindow = Window.Create("(SkyT) Mod Options", false);
+            optionsWindow.IsVisible = false;
+
+            optionsWindow.IsResizable = true;
             optionsWindow.Title = "Mod Options";
             optionsWindow.Close += optionsWindow_Close;
 
@@ -84,6 +87,11 @@ namespace SkylineToolkit.PermaMod
         public static void ShowOptionsWindow()
         {
             instance.ShowWindow();
+        }
+
+        public static void HideOptionsWindow()
+        {
+            instance.HideWindow();
         }
     }
 }

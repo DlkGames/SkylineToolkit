@@ -23,6 +23,20 @@ namespace SkylineToolkit.UI.CustomControls
 
         private Button closeButton;
 
+        private Button resizeButton;
+
+        private bool isVisible = true;
+
+        private bool isResizable = false;
+
+        private bool isResizing = false;
+
+        private Vector3 cachedPosition;
+        private Vector3 cachedLastPosition;
+        private PositionAnchor cachedAnchor;
+
+        #region Events
+
         public event EventHandler<CancellableEventArgs> Close;
 
         public event EventHandler Closed;
@@ -31,17 +45,13 @@ namespace SkylineToolkit.UI.CustomControls
 
         public event EventHandler Opened;
 
+        public event EventHandler SizeChanged;
+
+        #endregion
+
         private WindowControl()
         {
         }
-
-        public Panel WindowPanel
-        {
-            get { return windowPanel; }
-            set { windowPanel = value; }
-        }
-
-        public bool IsVisible { get;  protected set; }
 
         #region Properties
 
@@ -50,25 +60,26 @@ namespace SkylineToolkit.UI.CustomControls
         public DragHandle DragHandle
         {
             get { return dragHandle; }
-            set { dragHandle = value; }
         }
 
         public ColossalControl<UILabel> LabelComponent
         {
             get { return labelComponent; }
-            set { labelComponent = value; }
         }
 
         public ColossalControl<UISlicedSprite> CaptionComponent
         {
             get { return captionComponent; }
-            set { captionComponent = value; }
         }
 
         public Button CloseButton
         {
             get { return closeButton; }
-            set { closeButton = value; }
+        }
+
+        public Button ResizeButton
+        {
+            get { return resizeButton; }
         }
 
         #endregion
@@ -87,42 +98,99 @@ namespace SkylineToolkit.UI.CustomControls
 
         public Vector2 Position
         {
-            get
-            {
-                return this.windowPanel.Position;
-            }
-            set
-            {
-                this.windowPanel.Position = value;
-            }
+            get { return this.windowPanel.RelativePosition; }
+            set { this.windowPanel.RelativePosition = value; }
         }
 
         public Vector2 Size
         {
+            get { return this.windowPanel.Size; }
+            set { this.windowPanel.Size = value; }
+        }
+
+        public Vector2 MinimumSize
+        {
+            get { return this.windowPanel.MinimumSize; }
+            set { this.windowPanel.MinimumSize = value; }
+        }
+
+        public Vector2 MaximumSize
+        {
+            get { return this.windowPanel.MaximumSize; }
+            set { this.windowPanel.MaximumSize = value; }
+        }
+
+        public PositionAnchor Anchor
+        {
+            get { return this.windowPanel.Anchor; }
+            set { this.windowPanel.Anchor = value; }
+        }
+
+        public Panel WindowPanel
+        {
+            get { return windowPanel; }
+            set { windowPanel = value; }
+        }
+
+        public bool IsVisible
+        {
             get
             {
-                return this.windowPanel.Size;
+                return this.isVisible;
             }
             set
             {
-                this.windowPanel.Size = value;
+                if (value)
+                {
+                    this.Show();
+                }
+                else
+                {
+                    this.Hide();
+                }
+            }
+        }
+
+        public bool IsResizable
+        {
+            get { return isResizable; }
+            set 
+            { 
+                isResizable = value;
+
+                if (resizeButton != null)
+                {
+                    resizeButton.IsEnabled = value;
+                }
             }
         }
 
         #endregion
 
+        void Awake()
+        {
+            InitializeWindow();
+        }
+
         void OnEnable()
         {
-            this.InitializeWindow();
+            isResizing = false;
         }
 
         void OnDisable()
         {
             this.Hide();
+
+            isResizing = false;
         }
 
         public virtual void Hide()
         {
+            if (!isVisible)
+            {
+                return;
+            }
+
             CancellableEventArgs args = new CancellableEventArgs();
 
             this.OnClose(args);
@@ -133,13 +201,18 @@ namespace SkylineToolkit.UI.CustomControls
             }
 
             this.windowPanel.Hide();
-            this.IsVisible = false;
+            this.isVisible = false;
 
             this.OnClosed();
         }
 
         public virtual void Show()
         {
+            if (this.isVisible)
+            {
+                return;
+            }
+
             CancellableEventArgs args = new CancellableEventArgs();
 
             this.OnOpen(args);
@@ -150,7 +223,7 @@ namespace SkylineToolkit.UI.CustomControls
             }
 
             this.windowPanel.Show();
-            this.IsVisible = true;
+            this.isVisible = true;
 
             this.OnOpened();
         }
@@ -158,13 +231,17 @@ namespace SkylineToolkit.UI.CustomControls
         protected virtual void InitializeWindow()
         {
             windowPanel = new Panel(this.gameObject.AddComponent<UIPanel>());
-            windowPanel.Anchor = PositionAnchor.None;
+            windowPanel.Anchor = PositionAnchor.CenterHorizontal | PositionAnchor.CenterVertical;
             windowPanel.IsInteractive = true;
             windowPanel.CanGetFocus = true;
             windowPanel.Pivot = PivotPoint.TopLeft;
             windowPanel.BackgroundSprite = "MenuPanel";
+            windowPanel.MinimumSize = new Vector2(300, 200);
+            windowPanel.MaximumSize = new Vector2(8000, 8000);
 
             CreateTitlebar();
+
+            CreateResizeHandle();
 
             windowPanel.IsActive = true;
         }
@@ -214,6 +291,8 @@ namespace SkylineToolkit.UI.CustomControls
             closeButton.HoveredBackgroundSprite = "buttonclosehover";
             closeButton.PressedColor = new Color32(254, 254, 254, 255);
             closeButton.PressedBackgroundSprite = "buttonclosepressed";
+            closeButton.FocusedColor = new Color32(254, 254, 254, 255);
+            closeButton.FocusedBackgroundSprite = "buttonclose";
             closeButton.OutlineColor = new Color32(0, 0, 0, 255);
             closeButton.Pivot = PivotPoint.TopLeft;
             closeButton.Anchor = PositionAnchor.Top | PositionAnchor.Right;
@@ -223,10 +302,130 @@ namespace SkylineToolkit.UI.CustomControls
             closeButton.Click += closeButton_Click;
         }
 
+        private void CreateResizeHandle()
+        {
+            resizeButton = new Button("Resize");
+            windowPanel.AttachControl(resizeButton);
+            resizeButton.Text = String.Empty;
+            resizeButton.IsTooltipOnTop = true;
+            resizeButton.CharacterSpacing = 0;
+            resizeButton.Color = new Color32(254, 254, 254, 255);
+            resizeButton.Width = 24;
+            resizeButton.Height = 24;
+            resizeButton.NormalBackgroundSprite = "buttonresize";
+            resizeButton.HoveredColor = new Color32(254, 254, 254, 255);
+            resizeButton.HoveredBackgroundSprite = "buttonresize";
+            resizeButton.PressedColor = new Color32(254, 254, 254, 255);
+            resizeButton.PressedBackgroundSprite = "buttonclose";
+            resizeButton.FocusedColor = new Color32(254, 254, 254, 255);
+            resizeButton.FocusedBackgroundSprite = "buttonresize";
+            resizeButton.OutlineColor = new Color32(0, 0, 0, 255);
+            resizeButton.Pivot = PivotPoint.TopLeft;
+            resizeButton.Anchor = PositionAnchor.Bottom | PositionAnchor.Right;
+            resizeButton.IsActive = true;
+            resizeButton.IsEnabled = this.isResizable;
+            resizeButton.RelativePosition = new Vector3(windowPanel.Width - 28, windowPanel.Height - 28);
+            resizeButton.ZOrder = 2;
+
+            resizeButton.MouseDown += resizeButton_MouseDown;
+            resizeButton.MouseUp += resizeButton_MouseUp;
+            resizeButton.MouseMove += resizeButton_MouseMove;
+        }
 
         private void closeButton_Click(object sender, MouseEventArgs e)
         {
             this.Hide();
+        }
+
+        private void resizeButton_MouseDown(object sender, MouseEventArgs e)
+        {
+            Log.Verbose("Start resizing window");
+
+            windowPanel.BringToFront();
+
+            isResizing = true;
+
+            this.cachedAnchor = this.windowPanel.Anchor;
+            this.cachedPosition = this.windowPanel.AbsolutePosition;
+            this.windowPanel.Anchor = PositionAnchor.Top | PositionAnchor.Left;
+
+
+            e.Handled = true;
+
+            Ray ray = e.Ray;
+            float enter = 0.0f;
+            Plane detectionPlane = new Plane(windowPanel.GameObject.transform.TransformDirection(Vector3.back), windowPanel.GameObject.transform.position);
+            detectionPlane.Raycast(ray, out enter);
+
+            this.cachedLastPosition = ray.origin + ray.direction * enter;
+
+            e.Handled = true;
+        }
+
+        private void resizeButton_MouseUp(object sender, MouseEventArgs e)
+        {
+            StopResizing();
+        }
+
+        void resizeButton_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (isResizing)
+            {
+                if (e.CheckButtonsPressed(MouseButtons.Left))
+                {
+                    e.Handled = true;
+
+                    //---- Old Solution - Not synchronized to mouse
+                    //Vector2 newSize = this.windowPanel.Size + new Vector2(e.MovementDelta.x, e.MovementDelta.y * -1);
+
+                    //if (newSize.x < this.windowPanel.MinimumSize.x) newSize.x = this.windowPanel.MinimumSize.x;
+                    //else if (newSize.x > this.windowPanel.MaximumSize.x) newSize.x = this.windowPanel.MaximumSize.x;
+                    //if (newSize.y < this.windowPanel.MinimumSize.y) newSize.y = this.windowPanel.MinimumSize.y;
+                    //else if (newSize.y > this.windowPanel.MaximumSize.y) newSize.y = this.windowPanel.MaximumSize.y;
+
+                    //this.windowPanel.Size = newSize;
+                    //----
+
+                    Ray ray = e.Ray;
+                    float enter = 0.0f;
+
+                    Plane detectionPlane = new Plane(windowPanel.GetUIView().uiCamera.transform.TransformDirection(Vector3.back), this.cachedLastPosition);
+                    detectionPlane.Raycast(ray, out enter);
+
+                    Vector3 mousePositionW = VectorExtensions.Quantize(ray.origin + ray.direction * enter, windowPanel.PixelsToUnits());
+
+                    Vector3 transformVecToTopLeftW = UIPivotExtensions.TransformToUpperLeft((UIPivotPoint)windowPanel.Pivot, windowPanel.Size, windowPanel.ArbitaryPivotOffset);
+
+                    Vector3 point1S = windowPanel.GameObject.transform.position + transformVecToTopLeftW;
+
+                    Vector2 newSize = (mousePositionW - point1S) / windowPanel.PixelsToUnits();
+                    newSize = new Vector2(newSize.x, -newSize.y);
+
+                    if (newSize.x < this.windowPanel.MinimumSize.x) newSize.x = this.windowPanel.MinimumSize.x;
+                    else if (newSize.x > this.windowPanel.MaximumSize.x) newSize.x = this.windowPanel.MaximumSize.x;
+                    if (newSize.y < this.windowPanel.MinimumSize.y) newSize.y = this.windowPanel.MinimumSize.y;
+                    else if (newSize.y > this.windowPanel.MaximumSize.y) newSize.y = this.windowPanel.MaximumSize.y;
+
+                    windowPanel.Size = newSize;
+
+                    this.cachedLastPosition = mousePositionW;
+                }
+                else
+                {
+                    StopResizing();
+                }
+            }
+        }
+
+        private void StopResizing()
+        {
+            Log.Verbose("Stop resizing window");
+
+            isResizing = false;
+            windowPanel.Anchor = this.cachedAnchor;
+            windowPanel.AbsolutePosition = this.cachedPosition;
+
+            windowPanel.MakePixelPerfect();
         }
 
         #region On events
@@ -260,6 +459,14 @@ namespace SkylineToolkit.UI.CustomControls
             if (this.Opened != null)
             {
                 this.Opened(this, null);
+            }
+        }
+
+        protected virtual void OnSizeChanged()
+        {
+            if (this.SizeChanged != null)
+            {
+                this.SizeChanged(this, null);
             }
         }
 

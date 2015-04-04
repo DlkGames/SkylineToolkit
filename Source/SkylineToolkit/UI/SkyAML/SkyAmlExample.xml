@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SkyAml xmlns="..." ViewModel="MyWindowViewModel">
+  <Window Title="My window">
+    <Window.Properties>
+      <Position X="400" Y="200" Z="0"/>
+      <Scale X="800" Y="600"/>
+    </Window.Properties>
+
+    <Button Name="btn1" Label="My Button" Click="btn1_Click">
+      <Button.Properties>
+        <Position X="20" Y="30" Z="0"/>
+        <Scale X="120" Y="40"/>
+      </Button.Properties>
+    </Button>
+
+  </Window>
+</SkyAml>

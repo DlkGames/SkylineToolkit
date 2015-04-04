@@ -45,6 +45,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="UnityEngine">
       <HintPath>..\..\External\UnityEngine.dll</HintPath>
     </Reference>
@@ -117,6 +119,9 @@
     <Compile Include="UI\Button.cs" />
     <Compile Include="UI\ButtonState.cs" />
     <Compile Include="UI\ColossalControl.cs" />
+    <Compile Include="UI\DragDropEventHandler.cs" />
+    <Compile Include="UI\DragDropState.cs" />
+    <Compile Include="UI\DragEventArgs.cs" />
     <Compile Include="UI\FitChildrenEventHandler.cs" />
     <Compile Include="UI\Generic\ColossalTextControl.cs" />
     <Compile Include="UI\Generic\ColossalUserControl.cs" />
@@ -144,6 +149,20 @@
     <Compile Include="UI\Panel.cs" />
     <Compile Include="UI\PivotPoint.cs" />
     <Compile Include="UI\PositionAnchor.cs" />
+    <Compile Include="UI\SkyAML\Elements\ContainerElement.cs" />
+    <Compile Include="UI\SkyAML\Elements\SkyAmlElement.cs" />
+    <Compile Include="UI\SkyAML\Elements\ISkyAmlElement.cs" />
+    <Compile Include="UI\SkyAML\Elements\NamedElement.cs" />
+    <Compile Include="UI\SkyAML\Elements\ScaleProperty.cs" />
+    <Compile Include="UI\SkyAML\Elements\PositionProperty.cs" />
+    <Compile Include="UI\SkyAML\Elements\Vector2Element.cs" />
+    <Compile Include="UI\SkyAML\Elements\WindowElement.cs" />
+    <Compile Include="UI\SkyAML\InterfaceBuilder.cs" />
+    <Compile Include="UI\SkyAML\SkyAmlAttribute.cs" />
+    <Compile Include="UI\SkyAML\SkyAmlBinding.cs" />
+    <Compile Include="UI\SkyAML\SkyAmlElement.cs" />
+    <Compile Include="UI\SkyAML\SkyAmlParser.cs" />
+    <Compile Include="UI\SkyAML\Elements\Vector3Element.cs" />
     <Compile Include="UI\SpriteFlipping.cs" />
     <Compile Include="UI\Styles\ColossalSprite.cs" />
     <Compile Include="UI\Window.cs" />
@@ -153,7 +172,11 @@
     <Compile Include="UI\TooltipEventHandler.cs" />
     <Compile Include="UI\UIComponentExtensions.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="UI\SkyAML\SkyAmlExample.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>mkdir "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)"

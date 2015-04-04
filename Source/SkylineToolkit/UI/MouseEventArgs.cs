@@ -37,5 +37,10 @@ namespace SkylineToolkit.UI
         public Ray Ray { get; set; }
 
         public float MousewheelDelta { get; set; }
+
+        public bool CheckButtonsPressed(MouseButtons mouseButtons)
+        {
+            return (this.Buttons & mouseButtons) == mouseButtons;
+        }
     }
 }

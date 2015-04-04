@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace SkylineToolkit
 {
-    public class SkylineToolkitMod : IUserMod
+    public sealed class SkylineToolkitMod : IUserMod
     {
         public const string SKYLINETOOLKIT_NAME = "___SkylineToolkit___";
 
@@ -17,8 +17,6 @@ namespace SkylineToolkit
         private static bool isInitialized = false;
 
         private static GameObject toolkitGameObject;
-
-        private static GameObject mainMenuModGameObject;
 
         public static GameObject ToolkitGameObject
         {
@@ -95,22 +93,46 @@ namespace SkylineToolkit
                 // The following method calls are hooks to initialize our permanent mod and main menu modification
                 if (!isInitialized)
                 {
-                    EnsureGameObject();
+                    Log.Info("SkylineToolkit", "Enabling SkylineToolkit...");
 
-                    InitializePermaMod();
-                    InitializeModOptionsController();
-                    InitializeMainMenuMod();
-
-                    isInitialized = true;
+                    Initialize();
                 }
 
                 return "SkylineToolkit";
             }
         }
 
+        private void Initialize()
+        {
+            if (isInitialized)
+            {
+                return;
+            }
+
+            try
+            {
+                EnsureGameObject();
+
+                InitializePermaMod();
+                InitializeModOptionsController();
+                InitializeMainMenuMod();
+
+                isInitialized = true;
+            }
+            catch (Exception ex)
+            {
+                Log.Error("SkylineToolkit", "Error while initializing SkylineToolkit. See the folowwing exception for more details:");
+                Log.Exception(ex);
+
+                isInitialized = false;
+            }
+        }
+
         private void EnsureGameObject()
         {
-            if (ToolkitGameObject != null)
+            Log.Debug("SkylineToolkit", "Ensure SkylineToolkit game object");
+
+            if (overwriteExistingMods && ToolkitGameObject != null)
             {
                 GameObject.DestroyImmediate(ToolkitGameObject);
                 ToolkitGameObject = null;
@@ -138,32 +160,47 @@ namespace SkylineToolkit
 
         private void InitializePermaMod()
         {
+            Log.Debug("SkylineToolkit", "Initialize PermaMod");
+
             if (ToolkitGameObject == null)
             {
                 EnsureGameObject();
             }
 
-            ToolkitGameObject.AddComponent<SkylineToolkitPermaMod>();
+            if (ToolkitGameObject.GetComponent<SkylineToolkitPermaMod>() == null)
+            {
+                ToolkitGameObject.AddComponent<SkylineToolkitPermaMod>();
+            }
         }
 
         private void InitializeModOptionsController()
         {
+            Log.Debug("SkylineToolkit", "Initialize mod options controller");
+
             if (ToolkitGameObject == null)
             {
                 EnsureGameObject();
             }
 
-            ToolkitGameObject.AddComponent<ModOptionsController>();
+            if (ToolkitGameObject.GetComponent<ModOptionsController>() == null)
+            {
+                ToolkitGameObject.AddComponent<ModOptionsController>();
+            }
         }
 
         private void InitializeMainMenuMod()
         {
+            Log.Debug("SkylineToolkit", "Initialize MainMenu modification");
+
             if (ToolkitGameObject == null)
             {
                 EnsureGameObject();
             }
 
-            ToolkitGameObject.AddComponent<MainMenuModification>();
+            if (ToolkitGameObject.GetComponent<MainMenuModification>() == null)
+            {
+                ToolkitGameObject.AddComponent<MainMenuModification>();
+            }
         }
     }
 }
