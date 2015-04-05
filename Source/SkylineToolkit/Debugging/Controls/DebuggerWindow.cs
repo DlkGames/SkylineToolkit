@@ -1,5 +1,6 @@
 ﻿using SkylineToolkit.UI;
 using SkylineToolkit.UI.CustomControls;
+using SkylineToolkit.UI.Styles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +15,35 @@ namespace SkylineToolkit.Debugging.Controls
 
         private Debugger debugger;
 
+        private UIDisposingManager disposingManager;
+
+        #region Controls
+
+        protected TabStrip tabStrip;
+        protected TabContainer tabContainer;
+
+        protected Panel tabPageConsole;
+        protected Panel tabPageLog;
+        protected Panel tabPageCode;
+        protected Panel tabPageWatch;
+        protected Panel tabPageInspector;
+
+        protected TextField txtCommand;
+
+        #endregion
+
         internal Debugger Debugger
         {
             get { return debugger; }
             set { debugger = value; }
         }
+
+        protected UIDisposingManager DisposingManager
+        {
+            get { return disposingManager; }
+            set { disposingManager = value; }
+        }
+
 
         #region Unity Engine callbacks
 
@@ -28,9 +53,17 @@ namespace SkylineToolkit.Debugging.Controls
 
             base.Awake();
 
-            this.WindowPanel.UIComponent.hideFlags = HideFlags.DontSave;
+            //this.WindowPanel.UIComponent.hideFlags = HideFlags.DontSave;
 
-            SetupGUI();
+            try
+            {
+                SetupGUI();
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Unable to setup debugger window GUI. See the following error for more information:");
+                Log.Exception(ex);
+            }
         }
 
         protected virtual void OnGUI()
@@ -45,26 +78,93 @@ namespace SkylineToolkit.Debugging.Controls
 
         #endregion
 
-        private void SetupGUI()
+        protected virtual void SetupGUI()
         {
-            TextField text = new TextField("test_textfield", "Initial content", new Vector3(100, 100, 3));
+            if (disposingManager == null)
+            {
+                disposingManager = new UIDisposingManager();
+            }
 
-            text.Width = 200;
+            this.Size = WindowPanel.MinimumSize = new Vector2(700, 400);
+            this.Position = new Vector3((WindowPanel.Size.x / 2) * -1, (WindowPanel.Size.y / 2) * -1);
+            this.IsResizable = true;
+            this.IsVisible = false;
 
-            this.WindowPanel.AttachControl(text);
+            SetupTabs();
+
+            SetupTabPages();
+
+            RefreshTabPage();
+        }
+
+        private void RefreshTabPage()
+        {
+            if (tabContainer == null || tabStrip == null)
+            {
+                return;
+            }
+
+            tabContainer.SelectedIndex = -1;
+            tabContainer.SelectedIndex = tabStrip.SelectedIndex;
+        }
+
+        protected virtual void SetupTabs()
+        {
+            tabStrip = new TabStrip("DebuggerTabStrip");
+            tabContainer = new TabContainer("DebuggerTabContainer");
+            tabStrip.Container = tabContainer;
+
+            InnerPanel.AttachControl(disposingManager.R(tabStrip));
+            InnerPanel.AttachControl(disposingManager.R(tabContainer));
+
+            tabStrip.Anchor = PositionAnchor.Top | PositionAnchor.CenterHorizontal;
+            tabStrip.Size = new Vector2(5 * 120 + 4, 37);
+            tabStrip.RelativePosition = Vector3.zero;
+
+            tabContainer.Anchor = PositionAnchor.All;
+            tabContainer.RelativePosition = new Vector3(0, tabStrip.Height + 2);
+            tabContainer.Size = new Vector2(InnerPanel.Width, InnerPanel.Height - (tabStrip.Height + 2));
+
+            tabStrip.AddTab("Console").Width = 120;
+            tabStrip.AddTab("Log");
+            tabStrip.AddTab("Code");
+            tabStrip.AddTab("Watch");
+            tabStrip.AddTab("Inspector");
+
+            tabStrip.InitiallySelectedIndex = 0;
+            tabStrip.SelectedIndex = 0;
+
+            tabPageConsole = new Panel(tabContainer.Children[0]);
+            tabPageLog = new Panel(tabContainer.Children[1]);
+            tabPageCode = new Panel(tabContainer.Children[2]);
+            tabPageWatch = new Panel(tabContainer.Children[3]);
+            tabPageInspector = new Panel(tabContainer.Children[4]);
+        }
+
+        private void SetupTabPages()
+        {
+            txtCommand = new TextField("CommandField", String.Empty);
+            tabPageConsole.AttachControl(disposingManager.R(txtCommand));
+            txtCommand.Anchor = PositionAnchor.Bottom | PositionAnchor.Left | PositionAnchor.Right;
+            txtCommand.Size = new Vector2(tabContainer.Width, txtCommand.Height);
+            txtCommand.Pivot = PivotPoint.BottomLeft;
+            txtCommand.RelativePosition = new Vector3(0, tabContainer.Height - (txtCommand.Height + 15));
 
             Button testButton = new Button("test_button", "Testbutton Label", new Vector3(310, 100, 3));
             testButton.Width = 140;
 
-            this.WindowPanel.AttachControl(testButton);
-
-            TabsControl tabs = Tabs.Create("DebuggerTabs", new Vector2(400, 200), new Vector3(100, 200));
-
-            tabs.Strip.AddTab("Tab 1");
-            tabs.Strip.AddTab("Tab 2");
-            tabs.Strip.AddTab("Tab 3");
-
-            tabs.AttachTo(WindowPanel);
+            tabContainer.Children[1].AttachControl(testButton);
         }
+
+        #region IDisposable
+
+        public override void Dispose()
+        {
+            disposingManager.Dispose();
+
+            base.Dispose();
+        }
+
+        #endregion
     }
 }

@@ -36,6 +36,11 @@ namespace SkylineToolkit.UI
         {
         }
 
+        public TextField(string name, string text)
+            : this(name, text, new Vector3(0f, 0f))
+        {
+        }
+
         public TextField(string name, string text, Vector3 position)
             : this(name, text, position, new Vector2(200, 29))
         {

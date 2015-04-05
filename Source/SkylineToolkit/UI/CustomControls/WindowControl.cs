@@ -15,6 +15,8 @@ namespace SkylineToolkit.UI.CustomControls
     {
         private Panel windowPanel;
 
+        private Panel innerPanel;
+
         private DragHandle dragHandle;
 
         private ColossalControl<UISlicedSprite> captionComponent;
@@ -129,7 +131,17 @@ namespace SkylineToolkit.UI.CustomControls
         public Panel WindowPanel
         {
             get { return windowPanel; }
-            set { windowPanel = value; }
+        }
+
+        public Panel InnerPanel
+        {
+            get { return innerPanel; }
+        }
+
+        public RectOffset Padding
+        {
+            get { return this.innerPanel.Padding; }
+            set { this.innerPanel.Padding = value; }
         }
 
         public bool IsVisible
@@ -252,6 +264,15 @@ namespace SkylineToolkit.UI.CustomControls
             windowPanel.BackgroundSprite = "MenuPanel";
             windowPanel.MinimumSize = new Vector2(300, 200);
             windowPanel.MaximumSize = new Vector2(8000, 8000);
+
+            innerPanel = new Panel("InnerPanel");
+            windowPanel.AttachControl(innerPanel);
+            innerPanel.Anchor = PositionAnchor.All;
+            innerPanel.ZOrder = 0;
+            innerPanel.IsActive = true;
+            innerPanel.RelativePosition = new Vector3(5, 45);
+            innerPanel.Size = new Vector2(windowPanel.Width - 10, windowPanel.Height - 50);
+            innerPanel.BackgroundSprite = String.Empty;
         }
 
         protected virtual void CreateTitlebar()
@@ -550,6 +571,7 @@ namespace SkylineToolkit.UI.CustomControls
         protected void DisposeComponents()
         {
             windowPanel.Dispose();
+            innerPanel.Dispose();
             dragHandle.Dispose();
             captionComponent.Dispose();
             labelComponent.Dispose();

@@ -160,14 +160,6 @@ namespace SkylineToolkit.Debugging
 
             DebuggerWindow window = go.AddComponent<DebuggerWindow>();
 
-            Vector2 size = new Vector2(800, 600);
-
-            window.Size = size;
-            window.Position = new Vector3((size.x / 2) * -1, (size.y / 2) * -1);
-            window.MinimumSize = new Vector2(500, 300);
-            window.IsResizable = true;
-            window.IsVisible = false;
-
             this.window = window;
             window.Debugger = this;
 

@@ -8,14 +8,7 @@ namespace SkylineToolkit.UI
     public class UIDisposingManager : IDisposable
     {
         private IList<IDisposableControl> controls = new List<IDisposableControl>();
-
-        public IDisposableControl RegisterControl(IDisposableControl control)
-        {
-            this.controls.Add(control);
-
-            return control;
-        }
-
+        
         public IDisposableControl R(IDisposableControl control)
         {
             return this.RegisterControl(control);
@@ -24,7 +17,9 @@ namespace SkylineToolkit.UI
         public T RegisterControl<T>(T control)
             where T : IDisposableControl
         {
-            return (T)this.RegisterControl(control);
+            this.controls.Add(control);
+
+            return control;
         }
 
         public T R<T>(T control)

@@ -363,6 +363,30 @@ namespace SkylineToolkit.UI
             }
         }
 
+        public Vector3 GlobalRotation
+        {
+            get
+            {
+                return this.UIComponent.gameObject.transform.eulerAngles;
+            }
+            set
+            {
+                this.UIComponent.gameObject.transform.eulerAngles = value;
+            }
+        }
+
+        public Vector3 LocalRotation
+        {
+            get
+            {
+                return this.UIComponent.gameObject.transform.localEulerAngles;
+            }
+            set
+            {
+                this.UIComponent.gameObject.transform.localEulerAngles = value;
+            }
+        }
+
         public bool IsClippedFromParent
         {
             get
@@ -946,6 +970,8 @@ namespace SkylineToolkit.UI
             this.GameObject.transform.parent = ColossalUIView.transform;
 
             this.UIComponent = (UIComponent)this.GameObject.GetComponent(componentType);
+
+            ColossalUIView.AttachUIComponent(this.UIComponent.gameObject);
         }
 
         public void SubscribeToEvents()
