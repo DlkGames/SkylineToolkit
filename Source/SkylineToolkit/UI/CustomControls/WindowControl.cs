@@ -300,7 +300,7 @@ namespace SkylineToolkit.UI.CustomControls
             captionComponent.AttachControl(labelComponent);
             labelComponent.Height = 40;
             labelComponent.Anchor = PositionAnchor.CenterHorizontal | PositionAnchor.CenterVertical;
-            labelComponent.IsAutoSize = true;
+            labelComponent.EnableAutoSize = true;
             labelComponent.Color = new Color32(254, 254, 254, 255);
             labelComponent.UIComponent.textColor = new Color32(254, 254, 254, 255);
             labelComponent.Pivot = PivotPoint.TopLeft;

@@ -19,6 +19,11 @@ namespace SkylineToolkit.UI
         {
         }
 
+        public Button(string name, string text)
+            : this(name, text, new Vector3(0f, 0f))
+        {
+        }
+
         public Button(string name, string label, Vector3 position)
             : this(name, label, position, new Vector2(120, 34))
         {

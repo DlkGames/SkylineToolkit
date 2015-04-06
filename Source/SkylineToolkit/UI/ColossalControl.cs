@@ -395,7 +395,7 @@ namespace SkylineToolkit.UI
             }
         }
 
-        public virtual bool IsAutoSize
+        public virtual bool EnableAutoSize
         {
             get
             {
@@ -1105,7 +1105,7 @@ namespace SkylineToolkit.UI
 
         protected virtual void SetDefaultStyle()
         {
-            this.IsAutoSize = false;
+            this.EnableAutoSize = false;
             this.IsTooltipOnTop = true;
             this.UseBuiltinKeyNavigation = true;
         }

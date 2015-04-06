@@ -150,7 +150,7 @@ namespace SkylineToolkit.UI
 
         bool IsClippedFromParent { get; }
 
-        bool IsAutoSize { get; set; }
+        bool EnableAutoSize { get; set; }
 
         Vector3 Center { get; }
 
@@ -459,6 +459,10 @@ namespace SkylineToolkit.UI
         void SendToBack();
 
         void SimulateClick();
+
+        void SubscribeToEvents();
+
+        void UnsubscribeFromEvents();
 
         #endregion
     }

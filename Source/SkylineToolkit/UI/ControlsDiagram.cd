@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="SkylineToolkit.UI.Button" Collapsed="true">
+    <Position X="13" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAA0EIAAAAAAIQIAgAAACgAAIAAAAAAAYEBAAmAAA=</HashCode>
+      <FileName>UI\Button.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SkylineToolkit.UI.BaseControl" Collapsed="true">
+    <Position X="10.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAgAAAAIAAAA=</HashCode>
+      <FileName>UI\BaseControl.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SkylineToolkit.UI.ColossalControl" Collapsed="true">
+    <Position X="10.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QrueN0l9fizp+8Xhc8nUZV5O+Ju1ezf1N+4Sl0jq1lQ=</HashCode>
+      <FileName>UI\ColossalControl.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SkylineToolkit.UI.ColossalTextControl" Collapsed="true">
+    <Position X="9.5" Y="5.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAACAAAAgSIIAAAAoACAAAACIBAEAEiDAIAAAA=</HashCode>
+      <FileName>UI\ColossalTextControl.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SkylineToolkit.UI.ColossalUserControl" Collapsed="true">
+    <Position X="10.75" Y="7" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAEgIEAoAAAAoAAAAAIEAAAAAAAAAIAAAAAAhAA=</HashCode>
+      <FileName>UI\ColossalUserControl.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SkylineToolkit.UI.Control" Collapsed="true">
+    <Position X="10.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>UI\Control.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SkylineToolkit.UI.Label" Collapsed="true">
+    <Position X="6.25" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAgAAQAQAQBogCQAAACAAAAACAAACIQBAACBAA=</HashCode>
+      <FileName>UI\Label.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SkylineToolkit.UI.Panel" Collapsed="true">
+    <Position X="19.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAABBAAMAgACQgAAAAACAAAAAYQAAACAAA=</HashCode>
+      <FileName>UI\Panel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SkylineToolkit.UI.TabStrip" Collapsed="true">
+    <Position X="4" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ggAAIQQCAAAAAAUAIAIAAAAAAAAACGAAApJQBGACAAA=</HashCode>
+      <FileName>UI\TabStrip.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SkylineToolkit.UI.TabContainer" Collapsed="true">
+    <Position X="1.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAASAQAAAAAAQAIAAAAAAAAAAACCAAAJZQBAACAAA=</HashCode>
+      <FileName>UI\TabContainer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SkylineToolkit.UI.TextArea" Collapsed="true">
+    <Position X="8.5" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BhYIQACCAKEcQxQUYBCBCwAHAAEAKAAAAgIQTEAS5yg=</HashCode>
+      <FileName>UI\TextArea.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SkylineToolkit.UI.TextField" Collapsed="true">
+    <Position X="10.75" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BjYIQACCAKEcQxQUYBCBCwAHAAEAKAAAAgIRTEAS5yg=</HashCode>
+      <FileName>UI\TextField.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SkylineToolkit.UI.Generic.ColossalControl&lt;T&gt;" Collapsed="true">
+    <Position X="17.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAEAAIAQAAIgAEQAACMABAAACEAAAAAAAAgAA=</HashCode>
+      <FileName>UI\Generic\ColossalControl.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SkylineToolkit.UI.Generic.ColossalTextControl&lt;T&gt;" Collapsed="true">
+    <Position X="17.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAAAgSIAAAAAoACAAAACIAAEAEgDAIAAAA=</HashCode>
+      <FileName>UI\Generic\ColossalTextControl.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SkylineToolkit.UI.Generic.ColossalUserControl&lt;T&gt;" Collapsed="true">
+    <Position X="17.5" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAEAIEAoAAAAAAAAAAIEAAAAAAAAAIAAAAAAhAA=</HashCode>
+      <FileName>UI\Generic\ColossalUserControl.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SkylineToolkit.UI.ActionContorls.DragHandle" Collapsed="true">
+    <Position X="15.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAAAAIAAAACAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>UI\ActionContorls\DragHandle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="SkylineToolkit.UI.IColossalControl" Collapsed="true">
+    <Position X="1" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ArmUNwF1XghomMUhcsmUZV5C6IklcCb0IcwSk0jIxkQ=</HashCode>
+      <FileName>UI\IColossalControl.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SkylineToolkit.UI.IControl" Collapsed="true">
+    <Position X="4" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAIAAAA=</HashCode>
+      <FileName>UI\IControl.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SkylineToolkit.UI.IDisposableControl" Collapsed="true">
+    <Position X="1" Y="7.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>UI\IDisposableControl.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SkylineToolkit.UI.Generic.IColossalControl&lt;T&gt;" Collapsed="true">
+    <Position X="1" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAIAQAAIAAAAAAAAAAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>UI\Generic\IColossalControl.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

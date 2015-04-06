@@ -28,7 +28,7 @@ namespace SkylineToolkit.Debugging.Controls
         protected Panel tabPageWatch;
         protected Panel tabPageInspector;
 
-        protected TextField txtCommand;
+        protected AutocompleteTextField txtCommand;
 
         #endregion
 
@@ -143,12 +143,12 @@ namespace SkylineToolkit.Debugging.Controls
 
         private void SetupTabPages()
         {
-            txtCommand = new TextField("CommandField", String.Empty);
+            txtCommand = new AutocompleteTextField("CommandField", String.Empty);
             tabPageConsole.AttachControl(disposingManager.R(txtCommand));
             txtCommand.Anchor = PositionAnchor.Bottom | PositionAnchor.Left | PositionAnchor.Right;
-            txtCommand.Size = new Vector2(tabContainer.Width, txtCommand.Height);
+            txtCommand.Size = new Vector2(tabContainer.Width - 50, txtCommand.Height);
             txtCommand.Pivot = PivotPoint.BottomLeft;
-            txtCommand.RelativePosition = new Vector3(0, tabContainer.Height - (txtCommand.Height + 15));
+            txtCommand.RelativePosition = new Vector3(25, tabContainer.Height - (txtCommand.Height + 15));
 
             Button testButton = new Button("test_button", "Testbutton Label", new Vector3(310, 100, 3));
             testButton.Width = 140;

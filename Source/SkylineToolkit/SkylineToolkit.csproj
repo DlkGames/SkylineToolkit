@@ -85,6 +85,7 @@
     <Compile Include="Events\PropChangedEventHandler.cs" />
     <Compile Include="Events\ItemAddedEventArgs.cs" />
     <Compile Include="Events\SkylineEventArgs.cs" />
+    <Compile Include="GarbageCollector.cs" />
     <Compile Include="PermaMod\ModOptionsController.cs" />
     <Compile Include="QuadraticBezierPath.cs" />
     <Compile Include="BezierPath.cs" />
@@ -125,6 +126,7 @@
     <Compile Include="UI\Button.cs" />
     <Compile Include="UI\ButtonState.cs" />
     <Compile Include="UI\ColossalControl.cs" />
+    <Compile Include="UI\CustomControls\AutocompleteTextField.cs" />
     <Compile Include="UI\CustomControls\IControlsContainer.cs" />
     <Compile Include="UI\CustomControls\TabsControl.cs" />
     <Compile Include="UI\DragDropEventHandler.cs" />
@@ -151,6 +153,7 @@
     <Compile Include="UI\IDisposableControl.cs" />
     <Compile Include="UI\KeyboardEventArgs.cs" />
     <Compile Include="UI\KeyboardEventHandler.cs" />
+    <Compile Include="UI\Label.cs" />
     <Compile Include="UI\LayoutDirection.cs" />
     <Compile Include="UI\LayoutOrigin.cs" />
     <Compile Include="UI\MouseButtons.cs" />
@@ -173,6 +176,8 @@
     <Compile Include="UI\SkyAML\SkyAmlElement.cs" />
     <Compile Include="UI\SkyAML\SkyAmlParser.cs" />
     <Compile Include="UI\SkyAML\Elements\Vector3Element.cs" />
+    <Compile Include="UI\SlicedSprite.cs" />
+    <Compile Include="UI\Sprite.cs" />
     <Compile Include="UI\SpriteFlipping.cs" />
     <Compile Include="UI\Styles\ColossalSprite.cs" />
     <Compile Include="UI\TabContainer.cs" />
@@ -193,6 +198,9 @@
     <EmbeddedResource Include="UI\SkyAML\SkyAmlExample.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="UI\ControlsDiagram.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

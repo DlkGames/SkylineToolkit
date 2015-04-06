@@ -238,5 +238,20 @@ namespace SkylineToolkit.UI
                 this.UIComponent.useOutline = value;
             }
         }
+
+        protected virtual float GetTextScaleMultiplier()
+        {
+            return CallUIComponentMethod<float>("GetTextScaleMultiplier");
+        }
+
+        protected virtual void RequestCharacterInfo()
+        {
+            CallUIComponentMethod<object>("RequestCharacterInfo");
+        }
+
+        public virtual void UpdateFontInfo()
+        {
+            this.UIComponent.UpdateFontInfo();
+        }
     }
 }

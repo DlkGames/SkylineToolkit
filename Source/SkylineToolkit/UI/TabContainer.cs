@@ -211,11 +211,6 @@ namespace SkylineToolkit.UI
             this.UIComponent.eventSelectedIndexChanged -= OnSelectedIndexChanged;
         }
 
-        protected override void SetDefaultStyle()
-        {
-            base.SetDefaultStyle();
-        }
-
         #endregion
 
         #region Event wrappers
