@@ -255,7 +255,7 @@ namespace SkylineToolkit.UI
 
         protected void ApplyDefaultTabStyles(Button result)
         {
-            result.Anchor = PositionAnchor.Top | PositionAnchor.Left;
+            result.Anchor = Anchor.Top | Anchor.Left;
             result.BottomColor = new Color32(73, 73, 73, 255);
             result.NormalBackgroundSprite = ColossalSprite.GenericTab;
             result.Color = new Color32(255, 255, 255, 255);
@@ -320,7 +320,7 @@ namespace SkylineToolkit.UI
         {
             base.SetDefaultStyle();
 
-            this.Anchor = PositionAnchor.Top | PositionAnchor.Left | PositionAnchor.Right;
+            this.Anchor = Anchor.Top | Anchor.Left | Anchor.Right;
 
         }
 

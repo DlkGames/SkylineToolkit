@@ -125,7 +125,43 @@ namespace SkylineToolkit.UI.CustomControls
             }
         }
 
+        public Anchor Anchor
+        {
+            get
+            {
+                return Control.Anchor;
+            }
+            set
+            {
+                Control.Anchor = value;
+            }
+        }
+
         public Vector3 Position
+        {
+            get
+            {
+                return Control.Position;
+            }
+            set
+            {
+                Control.Position = value;
+            }
+        }
+
+        public Vector3 AbsolutePosition
+        {
+            get
+            {
+                return Control.AbsolutePosition;
+            }
+            set
+            {
+                Control.AbsolutePosition = value;
+            }
+        }
+
+        public Vector3 RelativePosition
         {
             get
             {
@@ -149,6 +185,30 @@ namespace SkylineToolkit.UI.CustomControls
             }
         }
 
+        public float Width
+        {
+            get
+            {
+                return Control.Width;
+            }
+            set
+            {
+                Control.Width = value;
+            }
+        }
+
+        public float Height
+        {
+            get
+            {
+                return Control.Height;
+            }
+            set
+            {
+                Control.Height = value;
+            }
+        }
+
         #endregion
 
         #region Methods
@@ -164,8 +224,9 @@ namespace SkylineToolkit.UI.CustomControls
             Track.DisabledColor = new Color32(254, 254, 254, 255);
             Track.FillAmount = 1;
             Track.FillDirection = FillDirection.Horizontal;
-            Track.Anchor = PositionAnchor.All;
+            Track.Anchor = Anchor.All;
             Track.Size = Control.Size;
+            Track.RelativePosition = Vector3.zero;
             Control.TrackControl = Track;
 
             Thumb = new SlicedSprite("Thumb");
@@ -175,9 +236,9 @@ namespace SkylineToolkit.UI.CustomControls
             Thumb.DisabledColor = new Color32(254, 254, 254, 255);
             Thumb.FillAmount = 1;
             Thumb.FillDirection = FillDirection.Horizontal;
-            Thumb.Anchor = PositionAnchor.Top | PositionAnchor.Left | PositionAnchor.Right;
+            Thumb.Anchor = Anchor.Top | Anchor.Left | Anchor.Right;
             Thumb.Width = Track.Width - 6;
-            Thumb.Position = new Vector3(3, 0);
+            Thumb.RelativePosition = new Vector3(3, 0);
             Control.ThumbControl = Thumb;
         }
 

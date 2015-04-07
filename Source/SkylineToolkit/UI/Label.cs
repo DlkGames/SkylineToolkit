@@ -232,7 +232,7 @@ namespace SkylineToolkit.UI
         {
             base.SetDefaultStyle();
 
-            this.Anchor = PositionAnchor.CenterHorizontal | PositionAnchor.CenterVertical;
+            this.Anchor = Anchor.CenterHorizontal | Anchor.CenterVertical;
             this.EnableAutoSize = true;
             this.BottomColor = new Color32(255, 255, 255, 255);
             this.Color = new Color32(255, 255, 255, 255);

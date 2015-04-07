@@ -68,7 +68,7 @@ namespace SkylineToolkit.UI
 
         #region Positioning and Scaling
 
-        event PropChangedEventHandler<PositionAnchor> AnchorChanged;
+        event PropChangedEventHandler<Anchor> AnchorChanged;
 
         event FitChildrenEventHandler FitChildren;
 
@@ -132,7 +132,7 @@ namespace SkylineToolkit.UI
 
         #region Position and Scaling
 
-        PositionAnchor Anchor { get; set; }
+        Anchor Anchor { get; set; }
 
         Vector3 ArbitaryPivotOffset { get; set; }
 

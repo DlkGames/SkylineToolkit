@@ -167,7 +167,7 @@
     <Compile Include="UI\Orientation.cs" />
     <Compile Include="UI\Panel.cs" />
     <Compile Include="UI\PivotPoint.cs" />
-    <Compile Include="UI\PositionAnchor.cs" />
+    <Compile Include="UI\Anchor.cs" />
     <Compile Include="UI\ScrollablePanel.cs" />
     <Compile Include="UI\Scrollbar.cs" />
     <Compile Include="UI\SkyAML\Elements\ContainerElement.cs" />

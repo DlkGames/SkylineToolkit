@@ -35,7 +35,7 @@ namespace SkylineToolkit.UI.CustomControls
 
         private Vector3 cachedPosition;
         private Vector3 cachedLastPosition;
-        private PositionAnchor cachedAnchor;
+        private Anchor cachedAnchor;
 
         #region Events
 
@@ -122,7 +122,7 @@ namespace SkylineToolkit.UI.CustomControls
             set { this.windowPanel.MaxSize = value; }
         }
 
-        public PositionAnchor Anchor
+        public Anchor Anchor
         {
             get { return this.windowPanel.Anchor; }
             set { this.windowPanel.Anchor = value; }
@@ -257,7 +257,7 @@ namespace SkylineToolkit.UI.CustomControls
         protected virtual void CreateWindowPanel()
         {
             windowPanel = new Panel(this.gameObject.AddComponent<UIPanel>(), true);
-            windowPanel.Anchor = PositionAnchor.CenterHorizontal | PositionAnchor.CenterVertical;
+            windowPanel.Anchor = Anchor.CenterHorizontal | Anchor.CenterVertical;
             windowPanel.IsInteractive = true;
             windowPanel.CanGetFocus = true;
             windowPanel.Pivot = PivotPoint.TopLeft;
@@ -267,7 +267,7 @@ namespace SkylineToolkit.UI.CustomControls
 
             innerPanel = new Panel("InnerPanel");
             windowPanel.AttachControl(innerPanel);
-            innerPanel.Anchor = PositionAnchor.All;
+            innerPanel.Anchor = Anchor.All;
             innerPanel.ZOrder = 0;
             innerPanel.IsActive = true;
             innerPanel.RelativePosition = new Vector3(5, 45);
@@ -281,7 +281,7 @@ namespace SkylineToolkit.UI.CustomControls
             windowPanel.AttachControl(captionComponent);
             captionComponent.Width = windowPanel.Width;
             captionComponent.Height = 40;
-            captionComponent.Anchor = PositionAnchor.Top | PositionAnchor.Left | PositionAnchor.Right;
+            captionComponent.Anchor = Anchor.Top | Anchor.Left | Anchor.Right;
             captionComponent.ZOrder = 0;
             captionComponent.IsActive = true;
             captionComponent.RelativePosition = Vector3.zero;
@@ -291,7 +291,7 @@ namespace SkylineToolkit.UI.CustomControls
             dragHandle.Target = windowPanel;
             dragHandle.Width = windowPanel.Width;
             dragHandle.Height = 40;
-            dragHandle.Anchor = PositionAnchor.All;
+            dragHandle.Anchor = Anchor.All;
             dragHandle.ZOrder = 1;
             dragHandle.IsActive = true;
             dragHandle.RelativePosition = Vector3.zero;
@@ -299,7 +299,7 @@ namespace SkylineToolkit.UI.CustomControls
             labelComponent = new ColossalControl<UILabel>("Label");
             captionComponent.AttachControl(labelComponent);
             labelComponent.Height = 40;
-            labelComponent.Anchor = PositionAnchor.CenterHorizontal | PositionAnchor.CenterVertical;
+            labelComponent.Anchor = Anchor.CenterHorizontal | Anchor.CenterVertical;
             labelComponent.EnableAutoSize = true;
             labelComponent.Color = new Color32(254, 254, 254, 255);
             labelComponent.UIComponent.textColor = new Color32(254, 254, 254, 255);
@@ -324,7 +324,7 @@ namespace SkylineToolkit.UI.CustomControls
             closeButton.FocusedBackgroundSprite = "buttonclose";
             closeButton.OutlineColor = new Color32(0, 0, 0, 255);
             closeButton.Pivot = PivotPoint.TopLeft;
-            closeButton.Anchor = PositionAnchor.Top | PositionAnchor.Right;
+            closeButton.Anchor = Anchor.Top | Anchor.Right;
             closeButton.ZOrder = 2;
             closeButton.IsActive = true;
             closeButton.RelativePosition = new Vector3(this.windowPanel.Width - 36, 4);
@@ -349,7 +349,7 @@ namespace SkylineToolkit.UI.CustomControls
             resizeButton.FocusedBackgroundSprite = "buttonresize";
             resizeButton.OutlineColor = new Color32(0, 0, 0, 255);
             resizeButton.Pivot = PivotPoint.TopLeft;
-            resizeButton.Anchor = PositionAnchor.Bottom | PositionAnchor.Right;
+            resizeButton.Anchor = Anchor.Bottom | Anchor.Right;
             resizeButton.IsActive = true;
             resizeButton.IsEnabled = this.isResizable;
             resizeButton.RelativePosition = new Vector3(windowPanel.Width - 28, windowPanel.Height - 28);
@@ -412,7 +412,7 @@ namespace SkylineToolkit.UI.CustomControls
 
             this.cachedAnchor = this.windowPanel.Anchor;
             this.cachedPosition = this.windowPanel.AbsolutePosition;
-            this.windowPanel.Anchor = PositionAnchor.Top | PositionAnchor.Left;
+            this.windowPanel.Anchor = Anchor.Top | Anchor.Left;
 
 
             e.Handled = true;

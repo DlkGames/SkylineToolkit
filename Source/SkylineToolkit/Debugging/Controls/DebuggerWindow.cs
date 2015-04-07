@@ -19,6 +19,8 @@ namespace SkylineToolkit.Debugging.Controls
 
         #region Controls
 
+        #region Tabs
+
         protected TabStrip tabStrip;
         protected TabContainer tabContainer;
 
@@ -28,7 +30,15 @@ namespace SkylineToolkit.Debugging.Controls
         protected Panel tabPageWatch;
         protected Panel tabPageInspector;
 
+        #endregion
+
+        #region Console tab
+
         protected AutocompleteTextField txtCommand;
+        protected ScrollablePanel consoleLog;
+        protected ScrollbarControl consoleLogScrollbar;
+
+        #endregion
 
         #endregion
 
@@ -117,11 +127,11 @@ namespace SkylineToolkit.Debugging.Controls
             InnerPanel.AttachControl(disposingManager.R(tabStrip));
             InnerPanel.AttachControl(disposingManager.R(tabContainer));
 
-            tabStrip.Anchor = PositionAnchor.Top | PositionAnchor.CenterHorizontal;
+            tabStrip.Anchor = Anchor.Top | Anchor.CenterHorizontal;
             tabStrip.Size = new Vector2(5 * 120 + 4, 37);
             tabStrip.RelativePosition = Vector3.zero;
 
-            tabContainer.Anchor = PositionAnchor.All;
+            tabContainer.Anchor = Anchor.All;
             tabContainer.RelativePosition = new Vector3(0, tabStrip.Height + 2);
             tabContainer.Size = new Vector2(InnerPanel.Width, InnerPanel.Height - (tabStrip.Height + 2));
 
@@ -143,17 +153,42 @@ namespace SkylineToolkit.Debugging.Controls
 
         private void SetupTabPages()
         {
-            txtCommand = new AutocompleteTextField("CommandField", String.Empty);
-            tabPageConsole.AttachControl(disposingManager.R(txtCommand));
-            txtCommand.Anchor = PositionAnchor.Bottom | PositionAnchor.Left | PositionAnchor.Right;
-            txtCommand.Size = new Vector2(tabContainer.Width - 50, txtCommand.Height);
-            txtCommand.Pivot = PivotPoint.BottomLeft;
-            txtCommand.RelativePosition = new Vector3(25, tabContainer.Height - (txtCommand.Height + 15));
+            SetupConsoleTab();
 
             Button testButton = new Button("test_button", "Testbutton Label", new Vector3(310, 100, 3));
             testButton.Width = 140;
 
             tabContainer.Children[1].AttachControl(testButton);
+        }
+
+        private void SetupConsoleTab()
+        {
+            txtCommand = new AutocompleteTextField("CommandField", String.Empty);
+            tabPageConsole.AttachControl(disposingManager.R(txtCommand));
+            txtCommand.Anchor = Anchor.Bottom | Anchor.Left | Anchor.Right;
+            txtCommand.Size = new Vector2(tabContainer.Width - 50, txtCommand.Height);
+            txtCommand.Pivot = PivotPoint.BottomLeft;
+            txtCommand.RelativePosition = new Vector3(25, tabContainer.Height - (txtCommand.Height + 15));
+            
+            float consoleLogHeight = tabContainer.Height - (txtCommand.Height + 20);
+
+            consoleLogScrollbar = new ScrollbarControl("ConsoleLogScrollbar");
+            tabPageConsole.AttachControl(disposingManager.R(consoleLogScrollbar).Control);
+            consoleLogScrollbar.Anchor = Anchor.Top | Anchor.Bottom | Anchor.Right;
+            consoleLogScrollbar.Size = new Vector2(consoleLogScrollbar.Width, consoleLogHeight);
+            consoleLogScrollbar.RelativePosition = new Vector3(tabContainer.Width - (consoleLogScrollbar.Width + 13), 0);
+
+            consoleLog = new ScrollablePanel("ConsoleLog");
+            tabPageConsole.AttachControl(disposingManager.R(consoleLog));
+            consoleLog.Anchor = Anchor.All;
+            consoleLog.Size = new Vector2(tabContainer.Width - (26 + consoleLogScrollbar.Width), consoleLogHeight);
+            consoleLog.Pivot = PivotPoint.TopLeft;
+            consoleLog.RelativePosition = new Vector3(13, 0);
+            consoleLog.Color = new Color32(30, 30, 30, 150);
+            consoleLog.VerticalScrollbar = consoleLogScrollbar.Control;
+            
+            Button test = new Button("test", "testbutton", Vector3.one, new Vector2(100, 800));
+            consoleLog.AttachControl(test);
         }
 
         #region IDisposable

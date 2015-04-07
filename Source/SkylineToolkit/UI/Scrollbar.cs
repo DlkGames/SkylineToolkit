@@ -35,8 +35,8 @@ namespace SkylineToolkit.UI
             this.Size = size;
         }
 
-        public Scrollbar(UIScrollbar sprite, bool subschribeEvents = false)
-            : base(sprite, subschribeEvents)
+        public Scrollbar(UIScrollbar scrollbar, bool subschribeEvents = false)
+            : base(scrollbar, subschribeEvents)
         {
         }
 

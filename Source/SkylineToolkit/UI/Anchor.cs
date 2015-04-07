@@ -3,7 +3,7 @@
 namespace SkylineToolkit.UI
 {
     [Flags]
-    public enum PositionAnchor
+    public enum Anchor
     {
         Top = 1,
         Bottom = 2,

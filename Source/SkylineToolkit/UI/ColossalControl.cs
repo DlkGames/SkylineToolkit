@@ -99,7 +99,7 @@ namespace SkylineToolkit.UI
 
         #region Positioning and Scaling
 
-        public event PropChangedEventHandler<PositionAnchor> AnchorChanged;
+        public event PropChangedEventHandler<Anchor> AnchorChanged;
 
         public event FitChildrenEventHandler FitChildren;
 
@@ -244,11 +244,11 @@ namespace SkylineToolkit.UI
 
         #region Positioning and Scaling
 
-        public PositionAnchor Anchor
+        public Anchor Anchor
         {
             get
             {
-                return (PositionAnchor)this.UIComponent.anchor;
+                return (Anchor)this.UIComponent.anchor;
             }
             set
             {
@@ -1944,7 +1944,7 @@ namespace SkylineToolkit.UI
         {
             if (this.AnchorChanged != null)
             {
-                PropChangedEventArgs<PositionAnchor> args = new PropChangedEventArgs<PositionAnchor>("Anchor", (PositionAnchor)e);
+                PropChangedEventArgs<Anchor> args = new PropChangedEventArgs<Anchor>("Anchor", (Anchor)e);
 
                 this.AnchorChanged(this, args);
             }
