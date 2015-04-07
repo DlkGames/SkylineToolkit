@@ -227,7 +227,7 @@ namespace SkylineToolkit.UI
 
         #endregion
 
-        #region On events
+        #region Event triggers
 
         protected virtual void OnTabPageAdded(Panel addedPanel)
         {

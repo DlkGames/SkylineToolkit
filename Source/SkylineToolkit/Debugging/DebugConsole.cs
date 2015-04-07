@@ -654,7 +654,7 @@ namespace SkylineToolkit.Debugging
 
         #endregion
 
-        #region On Events
+        #region Event triggers
 
         private void OnConsoleContentChanged()
         {

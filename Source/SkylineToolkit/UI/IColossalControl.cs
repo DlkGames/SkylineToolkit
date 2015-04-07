@@ -138,9 +138,9 @@ namespace SkylineToolkit.UI
 
         Vector4 Area { get; set; }
 
-        Vector2 MaximumSize { get; set; }
+        Vector2 MaxSize { get; set; }
 
-        Vector2 MinimumSize { get; set; }
+        Vector2 MinSize { get; set; }
 
         Vector3 Position { get; set; }
 

@@ -85,7 +85,7 @@ namespace SkylineToolkit.Debugging.Controls
                 disposingManager = new UIDisposingManager();
             }
 
-            this.Size = WindowPanel.MinimumSize = new Vector2(700, 400);
+            this.Size = WindowPanel.MinSize = new Vector2(700, 400);
             this.Position = new Vector3((WindowPanel.Size.x / 2) * -1, (WindowPanel.Size.y / 2) * -1);
             this.IsResizable = true;
             this.IsVisible = false;

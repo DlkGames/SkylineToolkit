@@ -112,14 +112,14 @@ namespace SkylineToolkit.UI.CustomControls
 
         public Vector2 MinimumSize
         {
-            get { return this.windowPanel.MinimumSize; }
-            set { this.windowPanel.MinimumSize = value; }
+            get { return this.windowPanel.MinSize; }
+            set { this.windowPanel.MinSize = value; }
         }
 
         public Vector2 MaximumSize
         {
-            get { return this.windowPanel.MaximumSize; }
-            set { this.windowPanel.MaximumSize = value; }
+            get { return this.windowPanel.MaxSize; }
+            set { this.windowPanel.MaxSize = value; }
         }
 
         public PositionAnchor Anchor
@@ -181,7 +181,7 @@ namespace SkylineToolkit.UI.CustomControls
 
         protected virtual void Awake()
         {
-            InitializeWindow();
+            Initialize();
         }
 
         protected virtual void OnEnable()
@@ -241,7 +241,7 @@ namespace SkylineToolkit.UI.CustomControls
             this.OnOpened();
         }
 
-        protected virtual void InitializeWindow()
+        protected virtual void Initialize()
         {
             CreateWindowPanel();
 
@@ -256,14 +256,14 @@ namespace SkylineToolkit.UI.CustomControls
 
         protected virtual void CreateWindowPanel()
         {
-            windowPanel = new Panel(this.gameObject.AddComponent<UIPanel>());
+            windowPanel = new Panel(this.gameObject.AddComponent<UIPanel>(), true);
             windowPanel.Anchor = PositionAnchor.CenterHorizontal | PositionAnchor.CenterVertical;
             windowPanel.IsInteractive = true;
             windowPanel.CanGetFocus = true;
             windowPanel.Pivot = PivotPoint.TopLeft;
             windowPanel.BackgroundSprite = "MenuPanel";
-            windowPanel.MinimumSize = new Vector2(300, 200);
-            windowPanel.MaximumSize = new Vector2(8000, 8000);
+            windowPanel.MinSize = new Vector2(300, 200);
+            windowPanel.MaxSize = new Vector2(8000, 8000);
 
             innerPanel = new Panel("InnerPanel");
             windowPanel.AttachControl(innerPanel);
@@ -452,10 +452,10 @@ namespace SkylineToolkit.UI.CustomControls
                     Vector2 newSize = (mousePositionW - point1S) / windowPanel.PixelsToUnits();
                     newSize = new Vector2(newSize.x, -newSize.y);
 
-                    if (newSize.x < this.windowPanel.MinimumSize.x) newSize.x = this.windowPanel.MinimumSize.x;
-                    else if (newSize.x > this.windowPanel.MaximumSize.x) newSize.x = this.windowPanel.MaximumSize.x;
-                    if (newSize.y < this.windowPanel.MinimumSize.y) newSize.y = this.windowPanel.MinimumSize.y;
-                    else if (newSize.y > this.windowPanel.MaximumSize.y) newSize.y = this.windowPanel.MaximumSize.y;
+                    if (newSize.x < this.windowPanel.MinSize.x) newSize.x = this.windowPanel.MinSize.x;
+                    else if (newSize.x > this.windowPanel.MaxSize.x) newSize.x = this.windowPanel.MaxSize.x;
+                    if (newSize.y < this.windowPanel.MinSize.y) newSize.y = this.windowPanel.MinSize.y;
+                    else if (newSize.y > this.windowPanel.MaxSize.y) newSize.y = this.windowPanel.MaxSize.y;
 
                     windowPanel.Size = newSize;
 
@@ -492,7 +492,7 @@ namespace SkylineToolkit.UI.CustomControls
 
         #endregion
 
-        #region On events
+        #region Event triggers
 
         protected virtual void OnClose(CancellableEventArgs args)
         {

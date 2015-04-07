@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace SkylineToolkit.UI.CustomControls
 {
-    public class TabsControl : IControlsContainer
+    public class TabsControl : ControlsContainer
     {
         public TabsControl()
             : this("Tabs")
@@ -85,20 +85,21 @@ namespace SkylineToolkit.UI.CustomControls
             Strip.Container = Container;
         }
 
-        public void AttachTo(GameObject gameObject)
+        public override void AttachTo(GameObject gameObject)
         {
             Strip.GameObject.transform.parent = gameObject.transform;
             Container.GameObject.transform.parent = gameObject.transform;
         }
 
-        public void AttachTo(IColossalControl control)
+        public override void AttachTo(IColossalControl control)
         {
-            this.AttachTo(control.GameObject);
+            control.AttachControl(Strip);
+            control.AttachControl(Container);
         }
 
         #region IDisposable
 
-        public void Dispose()
+        public override void Dispose()
         {
             if (Strip != null)
             {

@@ -13,11 +13,11 @@ namespace SkylineToolkit.UI
         }
 
         public Panel(string name)
-            : this(name, name, new Vector3(0f, 0f), new Vector2(400, 200))
+            : this(name, new Vector3(0f, 0f), new Vector2(400, 200))
         {
         }
 
-        public Panel(string name, string label, Vector3 position, Vector2 size)
+        public Panel(string name, Vector3 position, Vector2 size)
             : base(name, typeof(UIPanel))
         {
             this.Position = position;

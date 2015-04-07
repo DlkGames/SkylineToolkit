@@ -1201,7 +1201,7 @@ namespace ColossalFramework.UI
 
         #endregion
 
-        #region On events
+        #region Event triggers
 
         protected virtual void OnTextChanged()
         {

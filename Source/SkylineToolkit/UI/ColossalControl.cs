@@ -1,5 +1,6 @@
 ﻿using ColossalFramework.UI;
 using SkylineToolkit.Events;
+using SkylineToolkit.UI.CustomControls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -291,7 +292,7 @@ namespace SkylineToolkit.UI
             }
         }
 
-        public Vector2 MaximumSize
+        public Vector2 MaxSize
         {
             get
             {
@@ -303,7 +304,7 @@ namespace SkylineToolkit.UI
             }
         }
 
-        public Vector2 MinimumSize
+        public Vector2 MinSize
         {
             get
             {
@@ -1266,6 +1267,13 @@ namespace SkylineToolkit.UI
             UIComponent component = this.UIComponent.AttachUIComponent(gameObject);
 
             return new ColossalControl(component);
+        }
+
+        public IControlsContainer AttachControl(IControlsContainer container)
+        {
+            container.AttachTo(this);
+
+            return container;
         }
 
         /// <summary>
