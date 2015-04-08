@@ -30,6 +30,8 @@ namespace SkylineToolkit.UI
 
         public void Dispose()
         {
+            Log.Debug("DisposingManager", "Triggered disposing. Calling Dispose() for {0} controls.", controls.Count);
+
             foreach (IDisposableControl control in controls)
             {
                 control.Dispose();

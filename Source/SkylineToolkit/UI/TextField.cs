@@ -32,7 +32,7 @@ namespace SkylineToolkit.UI
         }
 
         public TextField(string name)
-            : this(name, name, new Vector3(0f,0f))
+            : this(name, String.Empty, new Vector3(0f,0f))
         {
         }
 

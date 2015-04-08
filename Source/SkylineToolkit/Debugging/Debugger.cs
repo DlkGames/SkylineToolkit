@@ -168,6 +168,20 @@ namespace SkylineToolkit.Debugging
 
         #endregion
 
+        #region Code execution
+
+        internal void ExecuteCode(string code)
+        {
+            Log.Info("Debugger", "Starting code execution ...");
+            Log.Info("Debugger", "Code:\n{0}", code);
+
+            // Execute code
+
+            Log.Info("Debugger", "Finished code execution with result: {0}", (object)null);
+        }
+
+        #endregion
+
         #endregion
 
         #region ILogger implementation

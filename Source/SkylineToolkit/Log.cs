@@ -126,6 +126,11 @@ namespace SkylineToolkit
 
         public static void Verbose(string message, params object[] args)
         {
+            if (LogLevel < MessageType.Verbose)
+            {
+                return;
+            }
+
             Message(message, MessageType.Verbose, args);
         }
 
@@ -140,27 +145,27 @@ namespace SkylineToolkit
 
         public static void Message(object obj)
         {
-            Message(obj.ToString(), MessageType.Message);
+            Message(obj == null ? "<null>" : obj.ToString(), MessageType.Message);
         }
 
         public static void Message(object obj, MessageType type = MessageType.Message)
         {
-            OnLogMessage("Global", obj.ToString(), type);
+            OnLogMessage("Global", obj == null ? "<null>" : obj.ToString(), type);
         }
 
         public static void Critical(object obj)
         {
-            Message(obj.ToString(), MessageType.Critical);
+            Message(obj == null ? "<null>" : obj.ToString(), MessageType.Critical);
         }
 
         public static void Debug(object obj)
         {
-            Message(obj.ToString(), MessageType.Debug);
+            Message(obj == null ? "<null>" : obj.ToString(), MessageType.Debug);
         }
 
         public static void Error(object obj)
         {
-            Message(obj.ToString(), MessageType.Error);
+            Message(obj == null ? "<null>" : obj.ToString(), MessageType.Error);
         }
 
         public static void Exception(Exception ex)
@@ -175,22 +180,27 @@ namespace SkylineToolkit
 
         public static void Info(object obj)
         {
-            Message(obj.ToString(), MessageType.Info);
+            Message(obj == null ? "<null>" : obj.ToString(), MessageType.Info);
         }
 
         public static void Profile(object obj)
         {
-            Message(obj.ToString(), MessageType.Profile);
+            Message(obj == null ? "<null>" : obj.ToString(), MessageType.Profile);
         }
 
         public static void Verbose(object obj)
         {
-            Message(obj.ToString(), MessageType.Verbose);
+            if (LogLevel < MessageType.Verbose)
+            {
+                return;
+            }
+
+            Message(obj == null ? "<null>" : obj.ToString(), MessageType.Verbose);
         }
 
         public static void Warning(object obj)
         {
-            Message(obj.ToString(), MessageType.Warning);
+            Message(obj == null ? "<null>" : obj.ToString(), MessageType.Warning);
         }
 
         #endregion
@@ -238,6 +248,11 @@ namespace SkylineToolkit
 
         public static void Verbose(string module, string message, params object[] args)
         {
+            if (LogLevel < MessageType.Verbose)
+            {
+                return;
+            }
+
             Message(module, message, MessageType.Verbose, args);
         }
 
@@ -252,27 +267,27 @@ namespace SkylineToolkit
 
         public static void Message(string module, object obj)
         {
-            Message(module, obj.ToString(), MessageType.Message);
+            Message(module, obj == null ? "<null>" : obj.ToString(), MessageType.Message);
         }
 
         public static void Message(string module, object obj, MessageType type = MessageType.Message)
         {
-            OnLogMessage(module, obj.ToString(), type);
+            OnLogMessage(module, obj == null ? "<null>" : obj.ToString(), type);
         }
 
         public static void Critical(string module, object obj)
         {
-            Message(module, obj.ToString(), MessageType.Critical);
+            Message(module, obj == null ? "<null>" : obj.ToString(), MessageType.Critical);
         }
 
         public static void Debug(string module, object obj)
         {
-            Message(module, obj.ToString(), MessageType.Debug);
+            Message(module, obj == null ? "<null>" : obj.ToString(), MessageType.Debug);
         }
 
         public static void Error(string module, object obj)
         {
-            Message(module, obj.ToString(), MessageType.Error);
+            Message(module, obj == null ? "<null>" : obj.ToString(), MessageType.Error);
         }
 
         public static void Exception(string module, Exception ex)
@@ -287,22 +302,27 @@ namespace SkylineToolkit
 
         public static void Info(string module, object obj)
         {
-            Message(module, obj.ToString(), MessageType.Info);
+            Message(module, obj == null ? "<null>" : obj.ToString(), MessageType.Info);
         }
 
         public static void Profile(string module, object obj)
         {
-            Message(module, obj.ToString(), MessageType.Profile);
+            Message(module, obj == null ? "<null>" : obj.ToString(), MessageType.Profile);
         }
 
         public static void Verbose(string module, object obj)
         {
-            Message(module, obj.ToString(), MessageType.Verbose);
+            if (LogLevel < MessageType.Verbose)
+            {
+                return;
+            }
+
+            Message(module, obj == null ? "<null>" : obj.ToString(), MessageType.Verbose);
         }
 
         public static void Warning(string module, object obj)
         {
-            Message(module, obj.ToString(), MessageType.Warning);
+            Message(module, obj == null ? "<null>" : obj.ToString(), MessageType.Warning);
         }
 
         #endregion

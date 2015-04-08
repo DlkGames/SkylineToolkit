@@ -777,7 +777,6 @@ namespace SkylineToolkit.UI
             {
                 return this.UIComponent.components.Select(component =>
                 {
-                    
                     return new ColossalControl(component);
                 }).ToArray();
             }
@@ -787,9 +786,12 @@ namespace SkylineToolkit.UI
         {
             get
             {
-                UIComponent component = this.UIComponent.parent;
+                if (this.UIComponent.parent == null)
+                {
+                    return null;
+                }
 
-                return new ColossalControl(component);
+                return new ColossalControl(this.UIComponent.parent);
             }
         }
 
@@ -1269,7 +1271,7 @@ namespace SkylineToolkit.UI
             return new ColossalControl(component);
         }
 
-        public IControlsContainer AttachControl(IControlsContainer container)
+        public IControlsContainer AttachContainer(IControlsContainer container)
         {
             container.AttachTo(this);
 

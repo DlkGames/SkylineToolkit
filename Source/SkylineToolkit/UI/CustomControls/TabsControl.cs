@@ -73,9 +73,9 @@ namespace SkylineToolkit.UI.CustomControls
             }
         }
 
-        public TabStrip Strip { get; set; }
+        public TabStrip Strip { get; protected set; }
 
-        public TabContainer Container { get; set; }
+        public TabContainer Container { get; protected set; }
 
         protected void Initialize()
         {

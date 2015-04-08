@@ -34,7 +34,7 @@ namespace SkylineToolkit.UI.CustomControls
 
         public string Name { get; set; }
 
-        public Scrollbar Control { get; set; }
+        public Scrollbar Control { get; protected set; }
 
         public UIComponent UIComponent
         {
@@ -49,19 +49,30 @@ namespace SkylineToolkit.UI.CustomControls
             }
         }
 
-        public SlicedSprite Track { get; set; }
+        public SlicedSprite Track { get; protected set; }
 
-        public SlicedSprite Thumb { get; set; }
+        public SlicedSprite Thumb { get; protected set; }
 
         public Orientation Orientation
         {
-            get {
+            get
+            {
                 return Control.Orientation;
             }
-            set {
-                Control.Size = new Vector2(Control.Height, Control.Width);
-
+            set
+            {
                 Control.Orientation = value;
+
+                if (value == UI.Orientation.Horizontal)
+                {
+                    Thumb.Height = Track.Height - 6;
+                    Thumb.RelativePosition = new Vector3(0, 3);
+                }
+                else
+                {
+                    Thumb.Width = Track.Width - 6;
+                    Thumb.RelativePosition = new Vector3(3, 0);
+                }
             }
         }
 
@@ -230,13 +241,13 @@ namespace SkylineToolkit.UI.CustomControls
             Control.TrackControl = Track;
 
             Thumb = new SlicedSprite("Thumb");
-            Control.AttachControl(Thumb);
+            Track.AttachControl(Thumb);
             Thumb.SpriteName = ColossalSprite.ScrollbarThumb;
             Thumb.Color = new Color32(254, 254, 254, 255);
             Thumb.DisabledColor = new Color32(254, 254, 254, 255);
             Thumb.FillAmount = 1;
             Thumb.FillDirection = FillDirection.Horizontal;
-            Thumb.Anchor = Anchor.Top | Anchor.Left | Anchor.Right;
+            Thumb.Anchor = Anchor.All;//Anchor.Top | Anchor.Left | Anchor.Right;
             Thumb.Width = Track.Width - 6;
             Thumb.RelativePosition = new Vector3(3, 0);
             Control.ThumbControl = Thumb;

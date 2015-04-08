@@ -119,6 +119,7 @@
     <Compile Include="UI\AlignmentAnchor.cs" />
     <Compile Include="UI\ChildControlEventHandler.cs" />
     <Compile Include="UI\ColossalFramework.UI\UITextArea.cs" />
+    <Compile Include="UI\ColossalFramework.UI\UITreeView.cs" />
     <Compile Include="UI\ColossalFramework.UI\UndoData.cs" />
     <Compile Include="UI\ColossalTextControl.cs" />
     <Compile Include="UI\ColossalUserControl.cs" />

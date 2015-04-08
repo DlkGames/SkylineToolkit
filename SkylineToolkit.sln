@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkyT.TestMod01", "Source\St
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DlkGames.Unity.TestableUnity", "Source\DlkGames.Unity.TestableUnity\DlkGames.Unity.TestableUnity.csproj", "{BCB4B37D-3D4A-476E-B6A9-944FFC1C63A4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00 Unity", "00 Unity", "{48DD9F88-2038-47FA-A2F4-8F5C63CDA4C7}"
+EndProject
+Project("{7CF6DF6D-3B04-46F8-A40B-537D21BCA0B4}") = "SkylineToolkit.Documentation", "Source\SkylineToolkit.Documentation\SkylineToolkit.Documentation.shfbproj", "{3CD69019-BFC0-48BB-AAC1-25A336012536}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,11 +37,12 @@ Global
 		{B948AC40-E4D1-470A-A363-A7BF5B5FB8E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B948AC40-E4D1-470A-A363-A7BF5B5FB8E6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BCB4B37D-3D4A-476E-B6A9-944FFC1C63A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BCB4B37D-3D4A-476E-B6A9-944FFC1C63A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BCB4B37D-3D4A-476E-B6A9-944FFC1C63A4}.NoUnityBuild|Any CPU.ActiveCfg = NoUnityBuild|Any CPU
 		{BCB4B37D-3D4A-476E-B6A9-944FFC1C63A4}.NoUnityBuild|Any CPU.Build.0 = NoUnityBuild|Any CPU
 		{BCB4B37D-3D4A-476E-B6A9-944FFC1C63A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BCB4B37D-3D4A-476E-B6A9-944FFC1C63A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CD69019-BFC0-48BB-AAC1-25A336012536}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CD69019-BFC0-48BB-AAC1-25A336012536}.NoUnityBuild|Any CPU.ActiveCfg = Release|Any CPU
+		{3CD69019-BFC0-48BB-AAC1-25A336012536}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -45,6 +50,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{0265A965-E457-4835-A59D-2187041DA4A5} = {7CBEC7B5-EF69-4192-AEBD-E39123407599}
 		{B948AC40-E4D1-470A-A363-A7BF5B5FB8E6} = {2D6D97CD-D41D-4A9B-9D15-6FC9AE09C63F}
-		{BCB4B37D-3D4A-476E-B6A9-944FFC1C63A4} = {7CBEC7B5-EF69-4192-AEBD-E39123407599}
+		{BCB4B37D-3D4A-476E-B6A9-944FFC1C63A4} = {48DD9F88-2038-47FA-A2F4-8F5C63CDA4C7}
+		{3CD69019-BFC0-48BB-AAC1-25A336012536} = {7CBEC7B5-EF69-4192-AEBD-E39123407599}
 	EndGlobalSection
 EndGlobal
