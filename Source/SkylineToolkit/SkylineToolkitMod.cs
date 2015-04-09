@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace SkylineToolkit
 {
-    public sealed class SkylineToolkitMod : IUserMod
+    public sealed class SkylineToolkitMod : Mod
     {
         public const string SKYLINETOOLKIT_NAME = "___SkylineToolkit___";
 
@@ -78,16 +78,7 @@ namespace SkylineToolkit
             }
         }
 
-        public string Description
-        {
-            get
-            {
-                return "Toolkit for easier Cities: Skylines mod creation. NOTE: Some features of this mod will be enabled even when it's disabled here."
-                    + " If you enable this mod, achievements WON'T get disabled even for other mods.";
-            }
-        }
-
-        public string Name
+        public override string ModName
         {
             get
             {
@@ -100,6 +91,31 @@ namespace SkylineToolkit
                 }
 
                 return "SkylineToolkit";
+            }
+        }
+
+        public override string ModDescription
+        {
+            get
+            {
+                return "Toolkit for easier Cities: Skylines mod creation. NOTE: Some features of this mod will be enabled even when it's disabled here."
+                    + " If you enable this mod, achievements WON'T get disabled even for other mods.";
+            }
+        }
+
+        public override string Version
+        {
+            get
+            {
+                return "wip-custom-build";
+            }
+        }
+
+        public override string Author
+        {
+            get
+            {
+                return "DlkGames [https://github.com/DlkGames]";
             }
         }
 
