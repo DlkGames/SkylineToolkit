@@ -1,7 +1,5 @@
 ﻿using ColossalFramework.UI;
 using SkylineToolkit.UI;
-using SkylineToolkit.UI.CustomControls;
-using SkylineToolkit.UI.Styles;
 using System.Linq;
 using UnityEngine;
 

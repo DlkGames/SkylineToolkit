@@ -1,10 +1,6 @@
 ﻿using ColossalFramework.UI;
 using SkylineToolkit.Events;
 using SkylineToolkit.UI.Styles;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
 
 namespace SkylineToolkit.UI

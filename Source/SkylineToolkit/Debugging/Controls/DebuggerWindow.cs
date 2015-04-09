@@ -1,11 +1,8 @@
 ﻿using ColossalFramework.UI;
 using SkylineToolkit.UI;
 using SkylineToolkit.UI.CustomControls;
-using SkylineToolkit.UI.Styles;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
 
 namespace SkylineToolkit.Debugging.Controls
@@ -280,7 +277,7 @@ namespace SkylineToolkit.Debugging.Controls
             ct_text.Anchor = UI.Anchor.All;
             ct_text.RelativePosition = new Vector3(1, 1); // Small offset to prevent scrollbar flickering
             ct_text.Size = ct_container.Panel.Size - new Vector2(2, 2); // Small offset to prevent scrollbar flickering
-        } 
+        }
 
         #region Event handlers
 

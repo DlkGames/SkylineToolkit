@@ -1,6 +1,4 @@
 ﻿using ColossalFramework.UI;
-using SkylineToolkit.UI;
-using System;
 
 namespace SkylineToolkit.UI.Generic
 {

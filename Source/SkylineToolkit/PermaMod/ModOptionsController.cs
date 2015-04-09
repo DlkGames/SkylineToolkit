@@ -1,10 +1,6 @@
 ﻿using SkylineToolkit.Events;
 using SkylineToolkit.UI;
 using SkylineToolkit.UI.CustomControls;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
 
 namespace SkylineToolkit.PermaMod
@@ -78,7 +74,7 @@ namespace SkylineToolkit.PermaMod
             GameObject.DontDestroyOnLoad(optionsWindow);
         }
 
-        void optionsWindow_Close(object sender, CancellableEventArgs e)
+        private void optionsWindow_Close(object sender, CancellableEventArgs e)
         {
             SaveModOptions();
         }

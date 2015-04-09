@@ -1,12 +1,8 @@
-﻿using ColossalFramework.DataBinding;
-using ColossalFramework.UI;
+﻿using ColossalFramework.UI;
 using SkylineToolkit.Events;
 using SkylineToolkit.UI.ActionContorls;
 using SkylineToolkit.UI.Generic;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
 
 namespace SkylineToolkit.UI.CustomControls

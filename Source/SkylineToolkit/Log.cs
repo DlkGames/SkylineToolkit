@@ -340,6 +340,11 @@ namespace SkylineToolkit
 
             if (LogMessage != null)
             {
+                if (String.IsNullOrEmpty(module))
+                {
+                    module = "Global";
+                }
+
                 if (type <= LogLevel)
                 {
                     LogMessage(module, message, type);

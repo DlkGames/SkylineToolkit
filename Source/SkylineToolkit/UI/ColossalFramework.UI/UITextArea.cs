@@ -1,5 +1,4 @@
-﻿using ColossalFramework;
-using ColossalFramework.Globalization;
+﻿using ColossalFramework.Globalization;
 using SkylineToolkit.UI;
 using System.Collections;
 using System.Collections.Generic;

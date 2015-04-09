@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 namespace SkylineToolkit.Events
 {
     public class ItemAddedEventArgs<T> : SkylineEventArgs

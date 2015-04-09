@@ -54,6 +54,9 @@
   <ItemGroup>
     <Compile Include="Bezier2.cs" />
     <Compile Include="Bezier3.cs" />
+    <Compile Include="CitiesExtension\AreasExtension.cs" />
+    <Compile Include="CitiesExtension\ICitiesAreasExtension.cs" />
+    <Compile Include="CitiesExtension\ICitiesExtension.cs" />
     <Compile Include="Debugging\CodeRunner.cs" />
     <Compile Include="Debugging\Commands\AliasCommand.cs" />
     <Compile Include="Debugging\Commands\CommandContext.cs" />
@@ -86,6 +89,9 @@
     <Compile Include="Events\ItemAddedEventArgs.cs" />
     <Compile Include="Events\SkylineEventArgs.cs" />
     <Compile Include="GarbageCollector.cs" />
+    <Compile Include="CitiesExtension\LoadingExtension.cs" />
+    <Compile Include="IMod.cs" />
+    <Compile Include="Mod.cs" />
     <Compile Include="PermaMod\ModOptionsController.cs" />
     <Compile Include="QuadraticBezierPath.cs" />
     <Compile Include="BezierPath.cs" />
@@ -210,6 +216,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="UI\ControlsDiagram.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CitiesExtension\Base API.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
