@@ -1,4 +1,5 @@
 ﻿using ICities;
+using SkylineToolkit;
 using SkylineToolkit.UI;
 using System;
 using System.Collections.Generic;
@@ -7,29 +8,26 @@ using System.Text;
 
 namespace SkyT.TestMod01
 {
-    public class TestMod01 : IUserMod
+    public class TestMod01 : Mod
     {
-        
-        public string Description
+        public override string ModName
         {
-            get
-            {
-                return "TEST MOD, DO NOT ACTIVATE!";
-            }
+            get { return "Test Mod 01 - Don't enable!"; }
         }
 
-        public string Name
+        public override string ModDescription
         {
-            get
-            {
+            get { return "Test Mod 01 - Don't enable!"; }
+        }
 
+        protected override void OnApplicationStarted()
+        {
+            Log.Info("Game started from test mod.");
+        }
 
-                //Panel panel = new Panel("test_panel");
-
-                //panel.IsActive = true;
-
-                return "TEST MOD 01";
-            }
+        protected override void OnMainMenuLoaded()
+        {
+            Log.Info("Main menu loaded from test mod.");
         }
     }
 }

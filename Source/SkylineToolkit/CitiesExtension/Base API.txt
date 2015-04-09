@@ -1,0 +1,4 @@
+﻿For the basic Cities: Skylines API see:
+http://www.skylineswiki.com/Modding_API
+
+The API classes in this namespace are extending this base API.
