@@ -122,7 +122,7 @@ namespace SkylineToolkit
         {
             get
             {
-                string path = Path.Combine(AppData, MOD_OPTIONS_DIRNAME);
+                string path = Path.Combine(LocalAppData, MOD_OPTIONS_DIRNAME);
 
                 if (!Directory.Exists(path))
                 {

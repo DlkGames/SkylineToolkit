@@ -46,7 +46,6 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.XML" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="UnityEngine">
       <HintPath>..\..\External\UnityEngine.dll</HintPath>
     </Reference>
@@ -83,6 +82,7 @@
     <Compile Include="Debugging\Windows\LogWindow.cs" />
     <Compile Include="Debugging\Windows\RawLogWindow.cs" />
     <Compile Include="Debugging\Windows\WatchVarsWindow.cs" />
+    <Compile Include="EmbeddedAssembly.cs" />
     <Compile Include="Events\CancellableEventArgs.cs" />
     <Compile Include="Events\PropChangedEventArgs.cs" />
     <Compile Include="Events\ItemAddedEventHandler.cs" />
@@ -94,12 +94,16 @@
     <Compile Include="IMod.cs" />
     <Compile Include="Mod.cs" />
     <Compile Include="Options\BaseOptionsProvider.cs" />
+    <Compile Include="Options\IFileOptionsProvider.cs" />
     <Compile Include="Options\IModOptions.cs" />
     <Compile Include="Options\InvalidSerializedValueException.cs" />
     <Compile Include="Options\IOptionsProvider.cs" />
     <Compile Include="Options\ISettingSerializer.cs" />
     <Compile Include="Options\ModOptions.cs" />
     <Compile Include="Options\ModOptionsController.cs" />
+    <Compile Include="Options\Serializers\Vector2XmlSerializer.cs" />
+    <Compile Include="Options\Serializers\RectXmlSerializer.cs" />
+    <Compile Include="Options\Serializers\Vector3XmlSerializer.cs" />
     <Compile Include="Options\SettingAttribute.cs" />
     <Compile Include="Options\XmlOptionsProvider.cs" />
     <Compile Include="QuadraticBezierPath.cs" />
@@ -129,6 +133,10 @@
     <Compile Include="SkylinePath.cs" />
     <Compile Include="SkylineToolkitMod.cs" />
     <Compile Include="StLoadingExtension.cs" />
+    <Compile Include="Xml\Linq\XComponentModel.cs" />
+    <Compile Include="Xml\Linq\XLinq.cs" />
+    <Compile Include="Xml\Linq\XNodeNavigator.cs" />
+    <Compile Include="Xml\Linq\XNodeValidator.cs" />
     <Compile Include="Tuple.cs" />
     <Compile Include="UI\ActionContorls\DragHandle.cs" />
     <Compile Include="UI\AlignmentAnchor.cs" />
@@ -229,6 +237,16 @@
   <ItemGroup>
     <None Include="CitiesExtension\Base API.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\Readme.txt" />
+    <Content Include="Xml\Linq\LICENSE.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Xml\Linq\PATENTS.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>mkdir "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)"

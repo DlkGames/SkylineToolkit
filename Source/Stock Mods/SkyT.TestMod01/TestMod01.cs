@@ -29,7 +29,9 @@ namespace SkyT.TestMod01
         {
             Log.Info("Main menu loaded from test mod.");
 
-            Options myModOptions = new Options(this);
+            MyOptions myModOptions = new MyOptions(this);
+
+            Log.Info("Test 1");
 
             myModOptions.TestBool = true;
             myModOptions.TestBool2 = false;
@@ -37,7 +39,11 @@ namespace SkyT.TestMod01
             myModOptions.TestInt = 435;
             myModOptions.NameInClass = new TestCustomOption() { Test = "Teststring", Test2 = 542 };
 
+            Log.Info("Test 2");
+
             myModOptions.Save();
+
+            Log.Info("Test 3");
         }
 
         public override string Version

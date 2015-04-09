@@ -13,6 +13,8 @@ namespace SkylineToolkit.Options
 
         public ModOptions(IMod mod)
         {
+            this.mod = mod;
+
             if (this.provider == null)
             {
                 InitializeDefaultProvider();

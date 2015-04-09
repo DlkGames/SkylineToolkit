@@ -9,9 +9,19 @@ namespace SkylineToolkit.Options
     {
         public string Setting { get; set; }
 
-        public object Value { get; set; }
+        public object Value { get; protected set; }
 
-        public InvalidSerializedValueException(string setting, object value)
+        public InvalidSerializedValueException()
+        {
+        }
+
+        public InvalidSerializedValueException(string message, Exception inner)
+            : base(message, inner)
+        {
+        }
+
+        public InvalidSerializedValueException(string setting, object value, Exception inner = null)
+            : base("Unable to parse serialized setting " + setting, inner)
         {
             this.Setting = setting;
 

@@ -8,9 +8,10 @@ namespace SkylineToolkit.Options
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false)]
     public class SettingAttribute : Attribute
     {
+        private Type serializer = null;
+
         public SettingAttribute()
         {
-
         }
 
         public SettingAttribute(string key)
@@ -26,6 +27,22 @@ namespace SkylineToolkit.Options
 
         public string Key { get; set; }
 
-        public Type Serializer { get; set; }
+        public Type Serializer
+        {
+            get
+            {
+                return this.serializer;
+            }
+            set
+            {
+                if (!value.GetInterfaces().Any(t => t.IsGenericType && t.GetGenericTypeDefinition() == typeof(ISettingSerializer<,>)))
+                {
+                    Log.Error("The specified serializer {0} is not a setting serializer.", value.Name);
+                    throw new NotSupportedException(String.Format("The specified serializer {0} is not a setting serializer.", value.Name));
+                }
+
+                this.serializer = value;
+            }
+        }
     }
 }

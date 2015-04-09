@@ -43,7 +43,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Options.cs" />
+    <Compile Include="MyOptions.cs" />
     <Compile Include="TestCustomOption.cs" />
     <Compile Include="TestCustomOptionSerializer.cs" />
     <Compile Include="TestMod01.cs" />

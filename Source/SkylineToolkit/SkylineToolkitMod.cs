@@ -83,15 +83,7 @@ namespace SkylineToolkit
         {
             get
             {
-                // The following method calls are hooks to initialize our permanent mod and main menu modification
-                if (!isInitialized)
-                {
-                    Log.Info("SkylineToolkit", "Enabling SkylineToolkit...");
-
-                    Initialize();
-                }
-
-                return "SkylineToolkit";
+                return "SkylineToolkit m";
             }
         }
 
@@ -117,6 +109,19 @@ namespace SkylineToolkit
             get
             {
                 return "DlkGames [https://github.com/DlkGames]";
+            }
+        }
+
+        protected override void OnApplicationStarted()
+        {
+            base.OnApplicationStarted();
+
+            // The following method calls are hooks to initialize our permanent mod and main menu modification
+            if (!isInitialized)
+            {
+                Log.Info("SkylineToolkit", "Enabling SkylineToolkit...");
+
+                Initialize();
             }
         }
 

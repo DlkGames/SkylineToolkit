@@ -6,9 +6,9 @@ using System.Text;
 
 namespace SkyT.TestMod01
 {
-    public class Options : ModOptions
+    public class MyOptions : ModOptions
     {
-        public Options(TestMod01 mod)
+        public MyOptions(TestMod01 mod)
             : base(mod)
         {
         }

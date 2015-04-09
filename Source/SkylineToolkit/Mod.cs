@@ -11,6 +11,11 @@ namespace SkylineToolkit
 
         private bool inGame = false;
 
+        static Mod()
+        {
+            EmbeddedAssembly.RegisterResolver();
+        }
+
         public string Description
         {
             get
@@ -23,14 +28,16 @@ namespace SkylineToolkit
         {
             get
             {
+                Log.Info("test " + this.GetType().Name);
+
                 if (Application.loadedLevel == (int)Level.MainMenu)
                 {
-                    MyOnMainMenuLoaded();
+                    InternalOnMainMenuLoaded();
                 }
                 else if (!gameAlreadyStarted && !inGame)
                 {
-                    MyOnApplicationStarted();
-                    MyOnMainMenuLoaded();
+                    InternalOnApplicationStarted();
+                    InternalOnMainMenuLoaded();
 
                     gameAlreadyStarted = true;
                 }
@@ -59,12 +66,12 @@ namespace SkylineToolkit
             get;
         }
 
-        private void MyOnApplicationStarted()
+        private void InternalOnApplicationStarted()
         {
             OnApplicationStarted();
         }
 
-        private void MyOnMainMenuLoaded()
+        private void InternalOnMainMenuLoaded()
         {
             OnMainMenuLoaded();
         }
