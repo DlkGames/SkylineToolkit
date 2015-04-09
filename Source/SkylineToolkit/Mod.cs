@@ -1,5 +1,6 @@
 ﻿using ICities;
 using SkylineToolkit.CitiesExtension;
+using System;
 using UnityEngine;
 
 namespace SkylineToolkit
@@ -14,7 +15,7 @@ namespace SkylineToolkit
         {
             get
             {
-                return ModName;
+                return ModDescription;
             }
         }
 
@@ -34,7 +35,7 @@ namespace SkylineToolkit
                     gameAlreadyStarted = true;
                 }
 
-                return ModDescription;
+                return String.Format("{0} [{1}]", ModName, Version);
             }
         }
 
@@ -44,6 +45,16 @@ namespace SkylineToolkit
         }
 
         public abstract string ModDescription
+        {
+            get;
+        }
+
+        public abstract string Version
+        {
+            get;
+        }
+
+        public abstract string Author
         {
             get;
         }

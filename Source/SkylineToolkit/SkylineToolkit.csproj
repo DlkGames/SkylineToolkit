@@ -57,6 +57,7 @@
     <Compile Include="CitiesExtension\AreasExtension.cs" />
     <Compile Include="CitiesExtension\ICitiesAreasExtension.cs" />
     <Compile Include="CitiesExtension\ICitiesExtension.cs" />
+    <Compile Include="CitiesExtension\ICitiesLoadingExtension.cs" />
     <Compile Include="Debugging\CodeRunner.cs" />
     <Compile Include="Debugging\Commands\AliasCommand.cs" />
     <Compile Include="Debugging\Commands\CommandContext.cs" />

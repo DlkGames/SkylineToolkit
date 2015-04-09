@@ -29,5 +29,15 @@ namespace SkyT.TestMod01
         {
             Log.Info("Main menu loaded from test mod.");
         }
+
+        public override string Version
+        {
+            get { return "1.0"; }
+        }
+
+        public override string Author
+        {
+            get { return "SkylineToolkit"; }
+        }
     }
 }
