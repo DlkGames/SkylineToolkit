@@ -93,7 +93,15 @@
     <Compile Include="CitiesExtension\LoadingExtension.cs" />
     <Compile Include="IMod.cs" />
     <Compile Include="Mod.cs" />
-    <Compile Include="PermaMod\ModOptionsController.cs" />
+    <Compile Include="Options\BaseOptionsProvider.cs" />
+    <Compile Include="Options\IModOptions.cs" />
+    <Compile Include="Options\InvalidSerializedValueException.cs" />
+    <Compile Include="Options\IOptionsProvider.cs" />
+    <Compile Include="Options\ISettingSerializer.cs" />
+    <Compile Include="Options\ModOptions.cs" />
+    <Compile Include="Options\ModOptionsController.cs" />
+    <Compile Include="Options\SettingAttribute.cs" />
+    <Compile Include="Options\XmlOptionsProvider.cs" />
     <Compile Include="QuadraticBezierPath.cs" />
     <Compile Include="BezierPath.cs" />
     <Compile Include="ChirperMessage.cs" />

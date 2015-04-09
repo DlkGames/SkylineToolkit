@@ -3,7 +3,7 @@ using SkylineToolkit.UI;
 using SkylineToolkit.UI.CustomControls;
 using UnityEngine;
 
-namespace SkylineToolkit.PermaMod
+namespace SkylineToolkit.Options
 {
     public sealed class ModOptionsController : MonoBehaviour
     {

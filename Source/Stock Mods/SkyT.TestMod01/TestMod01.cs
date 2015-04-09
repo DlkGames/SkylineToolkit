@@ -28,6 +28,16 @@ namespace SkyT.TestMod01
         protected override void OnMainMenuLoaded()
         {
             Log.Info("Main menu loaded from test mod.");
+
+            Options myModOptions = new Options(this);
+
+            myModOptions.TestBool = true;
+            myModOptions.TestBool2 = false;
+            myModOptions.testInt = 123;
+            myModOptions.TestInt = 435;
+            myModOptions.NameInClass = new TestCustomOption() { Test = "Teststring", Test2 = 542 };
+
+            myModOptions.Save();
         }
 
         public override string Version
