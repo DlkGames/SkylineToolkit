@@ -23,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>bin\Debug\SkylineToolkit.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,6 +33,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>bin\Release\SkylineToolkit.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
@@ -133,6 +135,7 @@
     <Compile Include="SkylinePath.cs" />
     <Compile Include="SkylineToolkitMod.cs" />
     <Compile Include="StLoadingExtension.cs" />
+    <Compile Include="TypeExtensions.cs" />
     <Compile Include="Xml\Linq\XComponentModel.cs" />
     <Compile Include="Xml\Linq\XLinq.cs" />
     <Compile Include="Xml\Linq\XNodeNavigator.cs" />

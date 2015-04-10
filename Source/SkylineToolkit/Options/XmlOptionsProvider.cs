@@ -134,7 +134,7 @@ namespace SkylineToolkit.Options
                     }
                     else
                     {
-                        element = new XElement(info.Name);
+                        element = new XElement(info.Name, new XAttribute("Serializer", "None"));
 
                         element.Value = result.ToString();
                     }
@@ -197,7 +197,7 @@ namespace SkylineToolkit.Options
                     }
                     else
                     {
-                        element = new XElement(info.Name);
+                        element = new XElement(info.Name, new XAttribute("Serializer", "None"));
 
                         element.Value = result.ToString();
                     }
@@ -268,6 +268,142 @@ namespace SkylineToolkit.Options
             }
         }
 
+        public virtual void LoadFrom(Stream stream)
+        {
+            XDocument document = XDocument.Load(stream);
+            XElement root = document.Root;
+
+            PropertyInfo[] settingProperties = GetSettingProperties();
+
+            LoadSettingProperties(root, settingProperties);
+
+            FieldInfo[] settingFields = GetSettingFields();
+
+            LoadSettingFields(root, settingFields);
+        }
+
+        private void LoadSettingProperties(XElement root, PropertyInfo[] settingProperties)
+        {
+            foreach (PropertyInfo info in settingProperties)
+            {
+                XElement element = root.Element(info.Name);
+
+                if (element == null)
+                    continue;
+
+                SettingAttribute settingAttribute = (SettingAttribute)info.GetCustomAttributes(typeof(SettingAttribute), true).First();
+
+                if (settingAttribute.Serializer == null)
+                {
+                    object loadedValue;
+
+                    if (info.PropertyType.IsPrimitive)
+                    {
+                        XAttribute valueAttribute = element.Attribute("Value");
+
+                        if(valueAttribute == null)
+                            continue;
+
+                        loadedValue = Convert.ChangeType(valueAttribute.Value, info.PropertyType);
+                    }
+                    else
+                    {
+                        if (!TryDeserializeIntegratedType(info.PropertyType, element, out loadedValue))
+                            continue;
+                    }
+
+                    info.SetValue(this.ModOptions, loadedValue, null);
+                }
+                else
+                {
+                    Type serializerType = settingAttribute.Serializer;
+
+                    if (settingAttribute.Serializer.IsGenericType)
+                    {
+                        serializerType = settingAttribute.Serializer.MakeGenericType(info.PropertyType, typeof(XElement));
+                    }
+
+                    MethodInfo deserializeMethod = serializerType.GetMethod("Deserialize");
+
+                    object serializer = Activator.CreateInstance(serializerType);
+
+                    object loadedValue;
+
+                    if (element.Attribute("Serializer") != null && element.Attribute("Serializer").Value == "None")
+                    {
+                        loadedValue = deserializeMethod.Invoke(serializer, new object[] { this, element.Value });
+                    }
+                    else
+                    {
+                        loadedValue = deserializeMethod.Invoke(serializer, new object[] { this, element });
+                    }
+
+                    info.SetValue(this.ModOptions, loadedValue, null);
+                }
+            }
+        }
+
+        private void LoadSettingFields(XElement root, FieldInfo[] settingFields)
+        {
+            foreach (FieldInfo info in settingFields)
+            {
+                XElement element = root.Element(info.Name);
+
+                if (element == null)
+                    continue;
+
+                SettingAttribute settingAttribute = (SettingAttribute)info.GetCustomAttributes(typeof(SettingAttribute), true).First();
+
+                if (settingAttribute.Serializer == null)
+                {
+                    object loadedValue;
+
+                    if (info.FieldType.IsPrimitive)
+                    {
+                        XAttribute valueAttribute = element.Attribute("Value");
+
+                        if (valueAttribute == null)
+                            continue;
+
+                        loadedValue = Convert.ChangeType(valueAttribute.Value, info.FieldType);
+                    }
+                    else
+                    {
+                        if (!TryDeserializeIntegratedType(info.FieldType, element, out loadedValue))
+                            continue;
+                    }
+
+                    info.SetValue(this.ModOptions, loadedValue);
+                }
+                else
+                {
+                    Type serializerType = settingAttribute.Serializer;
+
+                    if (settingAttribute.Serializer.IsGenericType)
+                    {
+                        serializerType = settingAttribute.Serializer.MakeGenericType(info.FieldType, typeof(XElement));
+                    }
+
+                    MethodInfo deserializeMethod = serializerType.GetMethod("Deserialize");
+
+                    object serializer = Activator.CreateInstance(serializerType);
+
+                    object loadedValue;
+
+                    if (element.Attribute("Serializer") != null && element.Attribute("Serializer").Value == "None")
+                    {
+                        loadedValue = deserializeMethod.Invoke(serializer, new object[] { this, element.Value });
+                    }
+                    else
+                    {
+                        loadedValue = deserializeMethod.Invoke(serializer, new object[] { this, element });
+                    }
+
+                    info.SetValue(this.ModOptions, loadedValue);
+                }
+            }
+        }
+
         public virtual void LoadFrom(string file)
         {
             if (String.IsNullOrEmpty(file))
@@ -278,6 +414,11 @@ namespace SkylineToolkit.Options
             if (!File.Exists(file))
             {
                 throw new FileNotFoundException("Could not find settings file");
+            }
+
+            using (FileStream stream = File.Open(file, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                LoadFrom(stream);
             }
         }
 

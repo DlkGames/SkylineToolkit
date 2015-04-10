@@ -2137,7 +2137,6 @@ namespace SkylineToolkit.Xml.Linq
         {
             XmlReaderSettings rs = new XmlReaderSettings();
             if ((o & LoadOptions.PreserveWhitespace) == 0) rs.IgnoreWhitespace = true;
-            rs.MaxCharactersFromEntities = (long)1e7;
             rs.XmlResolver = null;
             return rs;
         }

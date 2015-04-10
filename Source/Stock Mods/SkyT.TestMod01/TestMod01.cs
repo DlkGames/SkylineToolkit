@@ -31,19 +31,16 @@ namespace SkyT.TestMod01
 
             MyOptions myModOptions = new MyOptions(this);
 
-            Log.Info("Test 1");
+            //myModOptions.TestBool = true;
+            //myModOptions.TestBool2 = false;
+            //myModOptions.testInt = 123;
+            //myModOptions.TestInt = 435;
+            //myModOptions.NameInClass = new TestCustomOption() { Test = "Teststring", Test2 = 542 };
 
-            myModOptions.TestBool = true;
-            myModOptions.TestBool2 = false;
-            myModOptions.testInt = 123;
-            myModOptions.TestInt = 435;
-            myModOptions.NameInClass = new TestCustomOption() { Test = "Teststring", Test2 = 542 };
+            //myModOptions.Save();
 
-            Log.Info("Test 2");
-
-            myModOptions.Save();
-
-            Log.Info("Test 3");
+            Log.Info(myModOptions.TestBool3);
+            Log.Info(myModOptions.NameInClass.Test2);
         }
 
         public override string Version

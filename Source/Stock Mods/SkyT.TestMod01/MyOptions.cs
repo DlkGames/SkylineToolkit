@@ -27,5 +27,13 @@ namespace SkyT.TestMod01
 
         // Won't be saved, no attribute
         public int TestInt { get; set; }
+
+        // This has a default value
+        [Setting]
+        public float TestFloat = 3.14f;
+
+        // Default value too
+        [Setting]
+        public bool TestBool3 = true;
     }
 }

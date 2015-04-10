@@ -1,11 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Topics>
-  <Topic id="1808de5e-069f-4f4b-acb5-d32dd16f0adf" visible="True" isDefault="true" isSelected="true" title="Welcome to the [TODO: Add project name]">
+  <Topic id="1808de5e-069f-4f4b-acb5-d32dd16f0adf" visible="True" isDefault="true" title="SkylineToolkit Documentation and Code Reference" tocTitle="Start">
     <HelpKeywords>
-      <HelpKeyword index="K" term="Welcome" />
+      <HelpKeyword index="K" term="Welcome, Start, Home, SkylineToolkit, Cities: Skylines, Skylines" />
     </HelpKeywords>
   </Topic>
-  <Topic id="bd4412c4-f083-40c8-9ddf-bcf17a9ad0a4" visible="True" isExpanded="true" title="Version History">
+  <Topic id="7b766e80-b8bb-47db-b75c-5e81b169aa68" visible="True" noFile="true" isExpanded="true" title="Cities: Skylines">
+    <HelpKeywords>
+      <HelpKeyword index="K" term="Cities, Cities: Skylines, Cities:Skylines, Skylines, Official, Colossal Order" />
+    </HelpKeywords>
+    <Topic id="61e9fcd1-73eb-4b32-858c-66bf59896338" visible="True" title="Official Modding API" />
+  </Topic>
+  <Topic id="bd4412c4-f083-40c8-9ddf-bcf17a9ad0a4" visible="True" isExpanded="true" isSelected="true" apiParentMode="InsertAfter" title="Version History">
     <HelpKeywords>
       <HelpKeyword index="K" term="version, history" />
     </HelpKeywords>
