@@ -16,7 +16,7 @@ namespace SkylineToolkit.Options
 
         public SettingAttribute(string key)
         {
-            this.Key = key;
+            this.Name = key;
         }
 
         public SettingAttribute(string key, Type serializer)
@@ -25,7 +25,7 @@ namespace SkylineToolkit.Options
             this.Serializer = serializer;
         }
 
-        public string Key { get; set; }
+        public string Name { get; set; }
 
         public Type Serializer
         {

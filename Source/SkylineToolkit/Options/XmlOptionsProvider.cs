@@ -53,14 +53,29 @@ namespace SkylineToolkit.Options
             SettingsFile = path;
         }
 
+        public override void Reload()
+        {
+            LoadFrom(SettingsFile);
+        }
+
         public override void Save()
         {
             SaveTo(SettingsFile);
         }
 
-        public override void Reload()
+        public virtual void SaveTo(string file)
         {
-            LoadFrom(SettingsFile);
+            FileInfo info = new FileInfo(file);
+
+            if (!info.Directory.Exists)
+            {
+                Directory.CreateDirectory(info.DirectoryName);
+            }
+
+            using (FileStream stream = File.Open(file, FileMode.Create, FileAccess.Write, FileShare.None))
+            {
+                SaveTo(stream);
+            }
         }
 
         public virtual void SaveTo(Stream stream)
@@ -71,138 +86,218 @@ namespace SkylineToolkit.Options
 
             PropertyInfo[] settingProperties = GetSettingProperties();
 
-            AppendSettingProperties(root, settingProperties);
+            AppendSettings(root, settingProperties);
 
             FieldInfo[] settingFields = GetSettingFields();
 
-            AppendSettingFields(root, settingFields);
+            AppendSettings(root, settingFields);
 
             document.Save(writer);
             stream.Flush();
         }
 
-        private void AppendSettingProperties(XElement parent, PropertyInfo[] settingProperties)
+        protected virtual void Load()
         {
-            foreach (PropertyInfo info in settingProperties)
+            LoadFrom(SettingsFile);
+        }
+
+        public virtual void LoadFrom(string file)
+        {
+            if (String.IsNullOrEmpty(file))
             {
-                SettingAttribute settingAttribute = (SettingAttribute)info.GetCustomAttributes(typeof(SettingAttribute), true).First();
-                object value = info.GetValue(this.ModOptions, null);
+                throw new ArgumentNullException("file");
+            }
 
-                if (settingAttribute.Serializer == null)
-                {
-                    XElement element;
+            if (!File.Exists(file))
+            {
+                throw new FileNotFoundException("Could not find settings file");
+            }
 
-                    if (info.PropertyType.IsPrimitive)
-                    {
-                        element = new XElement(info.Name,
-                            new XAttribute("Value", value.ToString()));
-                    }
-                    else
-                    {
-                        if (!TrySerializeIntegratedType(info.PropertyType, value, out element))
-                        {
-                            element = new XElement(info.Name);
-
-                            element.Value = value.ToString();
-                        }
-                    }
-
-                    parent.Add(element);
-                }
-                else
-                {
-                    Type serializerType = settingAttribute.Serializer;
-
-                    if (settingAttribute.Serializer.IsGenericType)
-                    {
-                        serializerType = settingAttribute.Serializer.MakeGenericType(info.PropertyType, typeof(XElement));
-                    }
-
-                    MethodInfo serializeMethod = serializerType.GetMethod("Serialize");
-
-                    object serializer = Activator.CreateInstance(serializerType);
-
-                    object result = serializeMethod.Invoke(serializer, new object[] { this, value });
-
-                    XElement element;
-
-                    if (result is XElement)
-                    {
-                        element = (XElement)result;
-
-                        element.Name = info.Name;
-                    }
-                    else
-                    {
-                        element = new XElement(info.Name, new XAttribute("Serializer", "None"));
-
-                        element.Value = result.ToString();
-                    }
-
-                    parent.Add(element);
-                }
+            using (FileStream stream = File.Open(file, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                LoadFrom(stream);
             }
         }
 
-        private void AppendSettingFields(XElement parent, FieldInfo[] settingFields)
+        public virtual void LoadFrom(Stream stream)
         {
-            foreach (FieldInfo info in settingFields)
+            XDocument document;
+
+            try
             {
+                document = XDocument.Load(stream);
+            }
+            catch(XmlException)
+            {
+                Log.Warning("ModOptions", "Corrupt settings file for mod {0}. Loading defaults...", this.ModOptions.Mod.Name);
+                
+                //File.Delete(SettingsFile);
+
+                return;
+            }
+
+            XElement root = document.Root;
+
+            PropertyInfo[] settingProperties = GetSettingProperties();
+
+            LoadSettings(root, settingProperties);
+
+            FieldInfo[] settingFields = GetSettingFields();
+
+            LoadSettings(root, settingFields);
+        }
+
+        private void AppendSettings(XElement parent, MemberInfo[] settingMembers)
+        {
+            foreach (MemberInfo info in settingMembers)
+            {
+                Type settingType = info is PropertyInfo ? ((PropertyInfo)info).PropertyType : ((FieldInfo)info).FieldType;
                 SettingAttribute settingAttribute = (SettingAttribute)info.GetCustomAttributes(typeof(SettingAttribute), true).First();
-                object value = info.GetValue(this.ModOptions);
+                string settingName = String.IsNullOrEmpty(settingAttribute.Name) ? info.Name : settingAttribute.Name;
 
-                if (settingAttribute.Serializer == null)
+                try
                 {
-                    XElement element;
+                    object value;
 
-                    if (info.FieldType.IsPrimitive)
+                    if (info is PropertyInfo)
                     {
-                        element = new XElement(info.Name,
-                            new XAttribute("Value", value.ToString()));
+                        value = ((PropertyInfo)info).GetValue(this.ModOptions, null);
                     }
                     else
                     {
-                        if (!TrySerializeIntegratedType(info.FieldType, value, out element))
-                        {
-                            element = new XElement(info.Name);
+                        value = ((FieldInfo)info).GetValue(this.ModOptions);
+                    }
 
-                            element.Value = value.ToString();
+                    XElement element;
+
+                    if (settingAttribute.Serializer == null)
+                    {
+
+                        if (settingType.IsPrimitive)
+                        {
+                            element = new XElement(settingName,
+                                new XAttribute("Value", value.ToString()));
+                        }
+                        else
+                        {
+                            if (!TrySerializeIntegratedType(settingType, value, out element))
+                            {
+                                element = new XElement(settingName);
+
+                                element.Value = value.ToString();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Type serializerType = settingAttribute.Serializer;
+
+                        if (settingAttribute.Serializer.IsGenericType)
+                        {
+                            serializerType = settingAttribute.Serializer.MakeGenericType(settingType, typeof(XElement));
+                        }
+
+                        MethodInfo serializeMethod = serializerType.GetMethod("Serialize");
+
+                        object serializer = Activator.CreateInstance(serializerType);
+
+                        object result = serializeMethod.Invoke(serializer, new object[] { this, value });
+
+                        if (result is XElement)
+                        {
+                            element = (XElement)result;
+
+                            element.Name = settingName;
+                        }
+                        else
+                        {
+                            element = new XElement(settingName, new XAttribute("Serializer", "NonXml"));
+
+                            element.Value = result.ToString();
                         }
                     }
 
                     parent.Add(element);
                 }
-                else
+                catch (Exception ex)
                 {
-                    Type serializerType = settingAttribute.Serializer;
+                    Log.Error("ModOptions", "Error saving the value for the setting {0} of mod {1}. See the following exception for more information.", settingName, this.ModOptions.Mod.Name);
+                    Log.Exception("ModOptions", ex);
+                }
+            }
+        }
+        
+        private void LoadSettings(XElement container, MemberInfo[] settingMembers)
+        {
+            foreach (MemberInfo info in settingMembers)
+            {
+                Type settingType = info is PropertyInfo ? ((PropertyInfo)info).PropertyType : ((FieldInfo)info).FieldType;
+                SettingAttribute settingAttribute = (SettingAttribute)info.GetCustomAttributes(typeof(SettingAttribute), true).First();
+                string settingName = String.IsNullOrEmpty(settingAttribute.Name) ? info.Name : settingAttribute.Name;
 
-                    if (settingAttribute.Serializer.IsGenericType)
+                try
+                {
+                    XElement element = container.Element(settingName);
+
+                    if (element == null)
+                        continue;
+
+                    object loadedValue;
+
+                    if (settingAttribute.Serializer == null)
                     {
-                        serializerType = settingAttribute.Serializer.MakeGenericType(info.FieldType, typeof(XElement));
-                    }
 
-                    MethodInfo serializeMethod = serializerType.GetMethod("Serialize");
+                        if (settingType.IsPrimitive)
+                        {
+                            XAttribute valueAttribute = element.Attribute("Value");
 
-                    object serializer = Activator.CreateInstance(serializerType);
+                            if (valueAttribute == null)
+                                continue;
 
-                    object result = serializeMethod.Invoke(serializer, new object[] { this, value });
-
-                    XElement element;
-
-                    if (result is XElement)
-                    {
-                        element = (XElement)result;
-
-                        element.Name = info.Name;
+                            loadedValue = Convert.ChangeType(valueAttribute.Value, settingType);
+                        }
+                        else
+                        {
+                            if (!TryDeserializeIntegratedType(settingType, element, out loadedValue))
+                                continue;
+                        }
                     }
                     else
                     {
-                        element = new XElement(info.Name, new XAttribute("Serializer", "None"));
+                        Type serializerType = settingAttribute.Serializer;
 
-                        element.Value = result.ToString();
+                        if (settingAttribute.Serializer.IsGenericType)
+                        {
+                            serializerType = settingAttribute.Serializer.MakeGenericType(settingType, typeof(XElement));
+                        }
+
+                        MethodInfo deserializeMethod = serializerType.GetMethod("Deserialize");
+
+                        object serializer = Activator.CreateInstance(serializerType);
+
+                        if (element.Attribute("Serializer") != null && element.Attribute("Serializer").Value == "NonXml")
+                        {
+                            loadedValue = deserializeMethod.Invoke(serializer, new object[] { this, element.Value });
+                        }
+                        else
+                        {
+                            loadedValue = deserializeMethod.Invoke(serializer, new object[] { this, element });
+                        }
                     }
 
-                    parent.Add(element);
+                    if (info is PropertyInfo)
+                    {
+                        ((PropertyInfo)info).SetValue(this.ModOptions, loadedValue, null);
+                    }
+                    else
+                    {
+                        ((FieldInfo)info).SetValue(this.ModOptions, loadedValue);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log.Error("ModOptions", "Error loading the saved value for the setting {0} of mod {1}. See the following exception for more information.", settingName, this.ModOptions.Mod.Name);
+                    Log.Exception("ModOptions", ex);
                 }
             }
         }
@@ -251,180 +346,6 @@ namespace SkylineToolkit.Options
             value = null;
 
             return false;
-        }
-
-        public virtual void SaveTo(string file)
-        {
-            FileInfo info = new FileInfo(file);
-
-            if (!info.Directory.Exists)
-            {
-                Directory.CreateDirectory(info.DirectoryName);
-            }
-
-            using (FileStream stream = File.Open(file, FileMode.Create, FileAccess.Write, FileShare.None))
-            {
-                SaveTo(stream);
-            }
-        }
-
-        public virtual void LoadFrom(Stream stream)
-        {
-            XDocument document = XDocument.Load(stream);
-            XElement root = document.Root;
-
-            PropertyInfo[] settingProperties = GetSettingProperties();
-
-            LoadSettingProperties(root, settingProperties);
-
-            FieldInfo[] settingFields = GetSettingFields();
-
-            LoadSettingFields(root, settingFields);
-        }
-
-        private void LoadSettingProperties(XElement root, PropertyInfo[] settingProperties)
-        {
-            foreach (PropertyInfo info in settingProperties)
-            {
-                XElement element = root.Element(info.Name);
-
-                if (element == null)
-                    continue;
-
-                SettingAttribute settingAttribute = (SettingAttribute)info.GetCustomAttributes(typeof(SettingAttribute), true).First();
-
-                if (settingAttribute.Serializer == null)
-                {
-                    object loadedValue;
-
-                    if (info.PropertyType.IsPrimitive)
-                    {
-                        XAttribute valueAttribute = element.Attribute("Value");
-
-                        if(valueAttribute == null)
-                            continue;
-
-                        loadedValue = Convert.ChangeType(valueAttribute.Value, info.PropertyType);
-                    }
-                    else
-                    {
-                        if (!TryDeserializeIntegratedType(info.PropertyType, element, out loadedValue))
-                            continue;
-                    }
-
-                    info.SetValue(this.ModOptions, loadedValue, null);
-                }
-                else
-                {
-                    Type serializerType = settingAttribute.Serializer;
-
-                    if (settingAttribute.Serializer.IsGenericType)
-                    {
-                        serializerType = settingAttribute.Serializer.MakeGenericType(info.PropertyType, typeof(XElement));
-                    }
-
-                    MethodInfo deserializeMethod = serializerType.GetMethod("Deserialize");
-
-                    object serializer = Activator.CreateInstance(serializerType);
-
-                    object loadedValue;
-
-                    if (element.Attribute("Serializer") != null && element.Attribute("Serializer").Value == "None")
-                    {
-                        loadedValue = deserializeMethod.Invoke(serializer, new object[] { this, element.Value });
-                    }
-                    else
-                    {
-                        loadedValue = deserializeMethod.Invoke(serializer, new object[] { this, element });
-                    }
-
-                    info.SetValue(this.ModOptions, loadedValue, null);
-                }
-            }
-        }
-
-        private void LoadSettingFields(XElement root, FieldInfo[] settingFields)
-        {
-            foreach (FieldInfo info in settingFields)
-            {
-                XElement element = root.Element(info.Name);
-
-                if (element == null)
-                    continue;
-
-                SettingAttribute settingAttribute = (SettingAttribute)info.GetCustomAttributes(typeof(SettingAttribute), true).First();
-
-                if (settingAttribute.Serializer == null)
-                {
-                    object loadedValue;
-
-                    if (info.FieldType.IsPrimitive)
-                    {
-                        XAttribute valueAttribute = element.Attribute("Value");
-
-                        if (valueAttribute == null)
-                            continue;
-
-                        loadedValue = Convert.ChangeType(valueAttribute.Value, info.FieldType);
-                    }
-                    else
-                    {
-                        if (!TryDeserializeIntegratedType(info.FieldType, element, out loadedValue))
-                            continue;
-                    }
-
-                    info.SetValue(this.ModOptions, loadedValue);
-                }
-                else
-                {
-                    Type serializerType = settingAttribute.Serializer;
-
-                    if (settingAttribute.Serializer.IsGenericType)
-                    {
-                        serializerType = settingAttribute.Serializer.MakeGenericType(info.FieldType, typeof(XElement));
-                    }
-
-                    MethodInfo deserializeMethod = serializerType.GetMethod("Deserialize");
-
-                    object serializer = Activator.CreateInstance(serializerType);
-
-                    object loadedValue;
-
-                    if (element.Attribute("Serializer") != null && element.Attribute("Serializer").Value == "None")
-                    {
-                        loadedValue = deserializeMethod.Invoke(serializer, new object[] { this, element.Value });
-                    }
-                    else
-                    {
-                        loadedValue = deserializeMethod.Invoke(serializer, new object[] { this, element });
-                    }
-
-                    info.SetValue(this.ModOptions, loadedValue);
-                }
-            }
-        }
-
-        public virtual void LoadFrom(string file)
-        {
-            if (String.IsNullOrEmpty(file))
-            {
-                throw new ArgumentNullException("file");
-            }
-
-            if (!File.Exists(file))
-            {
-                throw new FileNotFoundException("Could not find settings file");
-            }
-
-            using (FileStream stream = File.Open(file, FileMode.Open, FileAccess.Read, FileShare.Read))
-            {
-                LoadFrom(stream);
-            }
-        }
-
-        protected virtual void Load()
-        {
-            LoadFrom(SettingsFile);
         }
     }
 }

@@ -83,7 +83,7 @@ namespace SkylineToolkit
         {
             get
             {
-                return "SkylineToolkit m";
+                return "SkylineToolkit";
             }
         }
 

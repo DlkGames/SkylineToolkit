@@ -1,19 +1,42 @@
 ﻿using ICities;
 using SkylineToolkit.CitiesExtension;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace SkylineToolkit
 {
     public abstract class Mod : LoadingExtension, IMod
     {
-        private bool gameAlreadyStarted = false;
+        private static IDictionary<int, bool> firstRun = new Dictionary<int, bool>();
 
         private bool inGame = false;
 
         static Mod()
         {
             EmbeddedAssembly.RegisterResolver();
+        }
+
+        private bool IsFirstRun
+        {
+            get
+            {
+                if (!firstRun.ContainsKey(ModName.GetHashCode()))
+                {
+                    return true;
+                }
+
+                return firstRun[ModName.GetHashCode()];
+            }
+            set
+            {
+                if (!firstRun.ContainsKey(ModName.GetHashCode()))
+                {
+                    firstRun.Add(ModName.GetHashCode(), value);
+                }
+
+                firstRun[ModName.GetHashCode()] = value;
+            }
         }
 
         public string Description
@@ -28,18 +51,17 @@ namespace SkylineToolkit
         {
             get
             {
-                Log.Info("test " + this.GetType().Name);
+                if (IsFirstRun && !inGame)
+                {
+                    IsFirstRun = false;
 
-                if (Application.loadedLevel == (int)Level.MainMenu)
-                {
-                    InternalOnMainMenuLoaded();
-                }
-                else if (!gameAlreadyStarted && !inGame)
-                {
                     InternalOnApplicationStarted();
                     InternalOnMainMenuLoaded();
+                }
 
-                    gameAlreadyStarted = true;
+                if (!IsFirstRun && Application.loadedLevel == (int)Level.MainMenu)
+                {
+                    InternalOnMainMenuLoaded();
                 }
 
                 return String.Format("{0} [{1}]", ModName, Version);
